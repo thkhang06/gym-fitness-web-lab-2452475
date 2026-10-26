@@ -1,9 +1,7 @@
-# Authentication & Authorization Module
+# Authentication & Session Module (Tasks 4 & 5.1)
 
-This directory is reserved for Lab 2 user authentication and role-based access control (RBAC):
-- `register.php`: User registration handler and validation
-- `login.php`: User authentication and session creation
-- `logout.php`: Session destruction and redirect
-- `auth_check.php`: Middleware to verify active sessions and user roles (admin, trainer, member)
-
-Planned implementation: Tasks 4 - 6.
+This module implements user registration, credential verification, and PHP session state:
+- `register.php`: Server-side validated registration form with duplicate email check and bcrypt password hashing.
+- `login.php`: Credential authentication via PDO prepared statements, `password_verify()`, and `session_regenerate_id(true)`.
+- `logout.php`: Complete session variable clearing, cookie unsetting, and server session destruction.
+- `../config/session.php`: Centralized session bootstrap, authentication check (`isLoggedIn()`, `getCurrentUser()`), and protected route guard (`requireLogin()`).

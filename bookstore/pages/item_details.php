@@ -3,6 +3,7 @@
  * Apex Fitness & Performance Center - Class Item Details Page (Lab 2 Task 2)
  * Fetches dynamic entity details from MySQL using PDO Prepared Statements
  */
+require_once __DIR__ . '/../config/session.php';
 require_once __DIR__ . '/../config/database.php';
 
 $rawId = $_GET['id'] ?? null;

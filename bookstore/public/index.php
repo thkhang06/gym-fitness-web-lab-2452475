@@ -3,6 +3,7 @@
  * Apex Fitness & Performance Center - Homepage (Lab 2 Task 2)
  * Demonstrates dynamic MySQL integration via PDO prepared querying
  */
+require_once __DIR__ . '/../config/session.php';
 require_once __DIR__ . '/../config/database.php';
 
 try {
