@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Training Classes Catalog & Management - TIGER FITNESS</title>
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="" data-bs-theme="light">
+
+<script>
+  // Instant client-side theme application to prevent FOUC
+  (function() {
+    var theme = "light";
+    document.documentElement.setAttribute('data-bs-theme', theme);
+    if (document.body) {
+      if (theme === 'dark') {
+        document.body.classList.add('theme-dark');
+      } else {
+        document.body.classList.remove('theme-dark');
+      }
+    }
+  })();
+</script>
+<header>
+  <nav class="navbar navbar-expand-lg glass-navbar sticky-top shadow-sm py-3">
+    <div class="container">
+      <a class="navbar-brand fw-bold text-uppercase d-flex align-items-center gap-2" href="index.html">
+        <img src="images/tiger-logo.svg" alt="Tiger Logo" width="36" height="36" style="filter: drop-shadow(0 0 6px rgba(255, 107, 0, 0.5));">
+        <span class="font-headline" style="letter-spacing: 0.06em; font-size: 1.18rem;">TIGER <span style="color: var(--tiger-orange);">FITNESS</span></span>
+        <span class="live-beacon ms-1 d-none d-sm-inline-block" title="Tiger Core Systems Online"></span>
+      </a>
+      <button
+        class="navbar-toggler border-0 shadow-none"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#mainNavbar"
+        aria-controls="mainNavbar"
+        aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNavbar">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-lg-center">
+          <li class="nav-item">
+            <a class="nav-link fw-semibold px-3" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fw-semibold px-3" href="classes.html">Training Classes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fw-semibold px-3" href="index.html#trainers">Trainers</a>
+          </li>
+                            </ul>
+
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-2">
+          <!-- Theme Toggle (Task 5.2 Cookie: apex_theme) -->
+          <li class="nav-item">
+            <a href="javascript:void(0)" onclick="toggleNetlifyTheme()" 
+               class="btn btn-sm btn-outline-apex d-flex align-items-center gap-2 px-3 py-1"
+               title="Switch to Dark Gym Mode (Cookie-persisted for 30 days)">
+                              <span class="text-info">&#9790;</span> <span class="small font-headline">DARK MODE</span>
+                          </a>
+          </li>
+
+                      <li class="nav-item">
+              <a class="btn btn-outline-apex btn-sm px-3" href="login.html">
+                Log In
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="btn btn-danger btn-sm px-3 shadow-sm" href="register.html">
+                Register
+              </a>
+            </li>
+                  </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main class="container py-5">
+  <!-- Page Header -->
+  <div class="row align-items-center mb-4 g-3">
+    <div class="col-md-8">
+      <div class="d-flex align-items-center gap-2 mb-2">
+        <span class="hero-badge">Class Directory</span>
+              </div>
+      <h1 class="display-6 fw-bold font-headline mb-1 text-uppercase">Training Classes Catalog</h1>
+      <p class="text-secondary mb-0">Browse through our structured strength, cardio, and athletic conditioning sessions.</p>
+    </div>
+    <div class="col-md-4 text-md-end">
+              <a href="index.html" class="btn btn-outline-apex">
+          &larr; Back to Home
+        </a>
+          </div>
+  </div>
+
+  <!-- Flash Alerts -->
+  
+  
+  <!-- Search & Filter Controls (Glass Panel) -->
+  <div class="glass-panel p-4 mb-4">
+    <form action="classes.html" method="GET" class="row g-3 align-items-end">
+      <div class="col-12 col-md-5">
+        <label for="search" class="form-label fw-semibold small text-secondary">Search Keyword</label>
+        <input
+          type="text"
+          class="form-control"
+          id="search"
+          name="search"
+          placeholder="Search by class title, coach, or description..."
+          value="">
+      </div>
+
+      <div class="col-12 col-md-4">
+        <label for="category_id" class="form-label fw-semibold small text-secondary">Discipline Category (Saves Cookie)</label>
+        <select class="form-select" id="category_id" name="category_id">
+          <option value="">All Categories</option>
+                      <option
+              value="2"
+              >
+              Cardio &amp; Conditioning            </option>
+                      <option
+              value="4"
+              >
+              Combat &amp; Martial Arts            </option>
+                      <option
+              value="3"
+              >
+              Mobility &amp; Core            </option>
+                      <option
+              value="1"
+              >
+              Strength &amp; Hypertrophy            </option>
+                  </select>
+      </div>
+
+      <div class="col-12 col-md-3 d-flex gap-2">
+        <button type="submit" class="btn btn-apex-crimson w-100 fw-semibold">
+          Filter
+        </button>
+              </div>
+    </form>
+  </div>
+
+  <!-- Class Count Summary -->
+  <div class="d-flex justify-content-between align-items-center mb-3 text-secondary small">
+    <span>Showing <strong class="text-white">6</strong> programs</span>
+          <span>Guest / Member view mode</span>
+      </div>
+
+  <!-- Classes Listing Cards & Management Controls -->
+      <div class="row g-4">
+              <div class="col-12 col-md-6 col-lg-4 class-card-item" data-title="Boxing Fundamentals &amp;amp; Conditioning" data-category="4">
+          <div class="class-card h-100">
+            <!-- Media & Category Badge -->
+            <div class="class-card-img-wrap">
+              <img
+                src="images/item6.jpg"
+                alt="Boxing Fundamentals &amp; Conditioning">
+              <div class="class-card-overlay"></div>
+              <span class="class-discipline-badge">
+                Combat &amp; Martial Arts              </span>
+            </div>
+
+            <!-- Card Body -->
+            <div class="card-body d-flex flex-column p-4">
+              <h5 class="card-title fw-bold font-headline mb-2" style="font-size: 1.25rem;">
+                Boxing Fundamentals &amp; Conditioning              </h5>
+              <p class="card-text text-secondary small flex-grow-1 mb-3" style="line-height: 1.6;">
+                Authentic boxing footwork, combination punching on heavy bags, slip line drills, and explosive 3-minute round conditioning.              </p>
+
+              <div class="pt-3 border-top border-secondary border-opacity-25 mb-3">
+                <div class="d-flex align-items-center justify-content-between small text-secondary mb-1.5">
+                  <span class="fw-semibold">Lead Coach:</span>
+                  <span class="text-white fw-medium">Marcus Vance</span>
+                </div>
+                <div class="d-flex align-items-center justify-content-between small text-secondary">
+                  <span class="fw-semibold">Schedule:</span>
+                  <span class="opacity-90">Mon, Thu ??? 06:30 PM - 08:00 PM</span>
+                </div>
+              </div>
+
+              <!-- Price & Public Action -->
+              <div class="d-flex align-items-center justify-content-between pt-3 border-top border-secondary border-opacity-25">
+                <div>
+                  <span class="small text-secondary d-block font-headline text-uppercase" style="font-size: 0.7rem;">Session Pass</span>
+                  <span class="class-price-tag">$30.00</span>
+                </div>
+                <a href="item_details_6.html" class="btn btn-outline-apex btn-sm px-3 fw-semibold">
+                  View Details &rarr;
+                </a>
+              </div>
+
+              <!-- Staff Management Action Bar (CRUD: Update & Delete) -->
+                          </div>
+          </div>
+        </div>
+              <div class="col-12 col-md-6 col-lg-4 class-card-item" data-title="Dynamic Yoga &amp;amp; Core Flow" data-category="3">
+          <div class="class-card h-100">
+            <!-- Media & Category Badge -->
+            <div class="class-card-img-wrap">
+              <img
+                src="images/item5.jpg"
+                alt="Dynamic Yoga &amp; Core Flow">
+              <div class="class-card-overlay"></div>
+              <span class="class-discipline-badge">
+                Mobility &amp; Core              </span>
+            </div>
+
+            <!-- Card Body -->
+            <div class="card-body d-flex flex-column p-4">
+              <h5 class="card-title fw-bold font-headline mb-2" style="font-size: 1.25rem;">
+                Dynamic Yoga &amp; Core Flow              </h5>
+              <p class="card-text text-secondary small flex-grow-1 mb-3" style="line-height: 1.6;">
+                A dynamic vinyasa flow prioritizing active flexibility, hip capsule opening, and deep transverse abdominis engagement for postural health.              </p>
+
+              <div class="pt-3 border-top border-secondary border-opacity-25 mb-3">
+                <div class="d-flex align-items-center justify-content-between small text-secondary mb-1.5">
+                  <span class="fw-semibold">Lead Coach:</span>
+                  <span class="text-white fw-medium">Elena Rostova</span>
+                </div>
+                <div class="d-flex align-items-center justify-content-between small text-secondary">
+                  <span class="fw-semibold">Schedule:</span>
+                  <span class="opacity-90">Tue, Thu, Sun ??? 07:00 AM - 08:00 AM</span>
+                </div>
+              </div>
+
+              <!-- Price & Public Action -->
+              <div class="d-flex align-items-center justify-content-between pt-3 border-top border-secondary border-opacity-25">
+                <div>
+                  <span class="small text-secondary d-block font-headline text-uppercase" style="font-size: 0.7rem;">Session Pass</span>
+                  <span class="class-price-tag">$22.00</span>
+                </div>
+                <a href="item_details_5.html" class="btn btn-outline-apex btn-sm px-3 fw-semibold">
+                  View Details &rarr;
+                </a>
+              </div>
+
+              <!-- Staff Management Action Bar (CRUD: Update & Delete) -->
+                          </div>
+          </div>
+        </div>
+              <div class="col-12 col-md-6 col-lg-4 class-card-item" data-title="Athletic Stamina &amp;amp; Endurance Circuit" data-category="2">
+          <div class="class-card h-100">
+            <!-- Media & Category Badge -->
+            <div class="class-card-img-wrap">
+              <img
+                src="images/item4.jpg"
+                alt="Athletic Stamina &amp; Endurance Circuit">
+              <div class="class-card-overlay"></div>
+              <span class="class-discipline-badge">
+                Cardio &amp; Conditioning              </span>
+            </div>
+
+            <!-- Card Body -->
+            <div class="card-body d-flex flex-column p-4">
+              <h5 class="card-title fw-bold font-headline mb-2" style="font-size: 1.25rem;">
+                Athletic Stamina &amp; Endurance Circuit              </h5>
+              <p class="card-text text-secondary small flex-grow-1 mb-3" style="line-height: 1.6;">
+                Hybrid conditioning fusing sled pushes, battle ropes, ski-ergs, and lactate-threshold intervals. Built for members craving unbreakable st...              </p>
+
+              <div class="pt-3 border-top border-secondary border-opacity-25 mb-3">
+                <div class="d-flex align-items-center justify-content-between small text-secondary mb-1.5">
+                  <span class="fw-semibold">Lead Coach:</span>
+                  <span class="text-white fw-medium">Elena Rostova</span>
+                </div>
+                <div class="d-flex align-items-center justify-content-between small text-secondary">
+                  <span class="fw-semibold">Schedule:</span>
+                  <span class="opacity-90">Wed, Fri, Sun ??? 08:00 AM - 09:15 AM</span>
+                </div>
+              </div>
+
+              <!-- Price & Public Action -->
+              <div class="d-flex align-items-center justify-content-between pt-3 border-top border-secondary border-opacity-25">
+                <div>
+                  <span class="small text-secondary d-block font-headline text-uppercase" style="font-size: 0.7rem;">Session Pass</span>
+                  <span class="class-price-tag">$28.00</span>
+                </div>
+                <a href="item_details_4.html" class="btn btn-outline-apex btn-sm px-3 fw-semibold">
+                  View Details &rarr;
+                </a>
+              </div>
+
+              <!-- Staff Management Action Bar (CRUD: Update & Delete) -->
+                          </div>
+          </div>
+        </div>
+              <div class="col-12 col-md-6 col-lg-4 class-card-item" data-title="Olympic Weightlifting &amp;amp; Explosive Power" data-category="1">
+          <div class="class-card h-100">
+            <!-- Media & Category Badge -->
+            <div class="class-card-img-wrap">
+              <img
+                src="images/item3.jpg"
+                alt="Olympic Weightlifting &amp; Explosive Power">
+              <div class="class-card-overlay"></div>
+              <span class="class-discipline-badge">
+                Strength &amp; Hypertrophy              </span>
+            </div>
+
+            <!-- Card Body -->
+            <div class="card-body d-flex flex-column p-4">
+              <h5 class="card-title fw-bold font-headline mb-2" style="font-size: 1.25rem;">
+                Olympic Weightlifting &amp; Explosive Power              </h5>
+              <p class="card-text text-secondary small flex-grow-1 mb-3" style="line-height: 1.6;">
+                Dedicated technical coaching in the Snatch and Clean &amp; Jerk. Cultivate lightning-fast bar speed, triple extension force, and overhead sta...              </p>
+
+              <div class="pt-3 border-top border-secondary border-opacity-25 mb-3">
+                <div class="d-flex align-items-center justify-content-between small text-secondary mb-1.5">
+                  <span class="fw-semibold">Lead Coach:</span>
+                  <span class="text-white fw-medium">Marcus Vance</span>
+                </div>
+                <div class="d-flex align-items-center justify-content-between small text-secondary">
+                  <span class="fw-semibold">Schedule:</span>
+                  <span class="opacity-90">Mon, Wed ??? 07:00 PM - 08:30 PM</span>
+                </div>
+              </div>
+
+              <!-- Price & Public Action -->
+              <div class="d-flex align-items-center justify-content-between pt-3 border-top border-secondary border-opacity-25">
+                <div>
+                  <span class="small text-secondary d-block font-headline text-uppercase" style="font-size: 0.7rem;">Session Pass</span>
+                  <span class="class-price-tag">$40.00</span>
+                </div>
+                <a href="item_details_3.html" class="btn btn-outline-apex btn-sm px-3 fw-semibold">
+                  View Details &rarr;
+                </a>
+              </div>
+
+              <!-- Staff Management Action Bar (CRUD: Update & Delete) -->
+                          </div>
+          </div>
+        </div>
+              <div class="col-12 col-md-6 col-lg-4 class-card-item" data-title="HIIT Metabolic Inferno" data-category="2">
+          <div class="class-card h-100">
+            <!-- Media & Category Badge -->
+            <div class="class-card-img-wrap">
+              <img
+                src="images/item2.jpg"
+                alt="HIIT Metabolic Inferno">
+              <div class="class-card-overlay"></div>
+              <span class="class-discipline-badge">
+                Cardio &amp; Conditioning              </span>
+            </div>
+
+            <!-- Card Body -->
+            <div class="card-body d-flex flex-column p-4">
+              <h5 class="card-title fw-bold font-headline mb-2" style="font-size: 1.25rem;">
+                HIIT Metabolic Inferno              </h5>
+              <p class="card-text text-secondary small flex-grow-1 mb-3" style="line-height: 1.6;">
+                A high-octane interval workout designed to incinerate calories and expand your lung capacity using assault bikes, kettlebells, and rowing...              </p>
+
+              <div class="pt-3 border-top border-secondary border-opacity-25 mb-3">
+                <div class="d-flex align-items-center justify-content-between small text-secondary mb-1.5">
+                  <span class="fw-semibold">Lead Coach:</span>
+                  <span class="text-white fw-medium">Elena Rostova</span>
+                </div>
+                <div class="d-flex align-items-center justify-content-between small text-secondary">
+                  <span class="fw-semibold">Schedule:</span>
+                  <span class="opacity-90">Tue, Thu, Sat ??? 05:30 PM - 06:30 PM</span>
+                </div>
+              </div>
+
+              <!-- Price & Public Action -->
+              <div class="d-flex align-items-center justify-content-between pt-3 border-top border-secondary border-opacity-25">
+                <div>
+                  <span class="small text-secondary d-block font-headline text-uppercase" style="font-size: 0.7rem;">Session Pass</span>
+                  <span class="class-price-tag">$25.00</span>
+                </div>
+                <a href="item_details_2.html" class="btn btn-outline-apex btn-sm px-3 fw-semibold">
+                  View Details &rarr;
+                </a>
+              </div>
+
+              <!-- Staff Management Action Bar (CRUD: Update & Delete) -->
+                          </div>
+          </div>
+        </div>
+              <div class="col-12 col-md-6 col-lg-4 class-card-item" data-title="Power Barbell Mastery" data-category="1">
+          <div class="class-card h-100">
+            <!-- Media & Category Badge -->
+            <div class="class-card-img-wrap">
+              <img
+                src="images/item1.jpg"
+                alt="Power Barbell Mastery">
+              <div class="class-card-overlay"></div>
+              <span class="class-discipline-badge">
+                Strength &amp; Hypertrophy              </span>
+            </div>
+
+            <!-- Card Body -->
+            <div class="card-body d-flex flex-column p-4">
+              <h5 class="card-title fw-bold font-headline mb-2" style="font-size: 1.25rem;">
+                Power Barbell Mastery              </h5>
+              <p class="card-text text-secondary small flex-grow-1 mb-3" style="line-height: 1.6;">
+                Master the foundational compound lifts: Squat, Bench Press, and Deadlift. Includes video movement analysis, progressive overload planning...              </p>
+
+              <div class="pt-3 border-top border-secondary border-opacity-25 mb-3">
+                <div class="d-flex align-items-center justify-content-between small text-secondary mb-1.5">
+                  <span class="fw-semibold">Lead Coach:</span>
+                  <span class="text-white fw-medium">Marcus Vance</span>
+                </div>
+                <div class="d-flex align-items-center justify-content-between small text-secondary">
+                  <span class="fw-semibold">Schedule:</span>
+                  <span class="opacity-90">Mon, Wed, Fri ??? 06:00 AM - 07:30 AM</span>
+                </div>
+              </div>
+
+              <!-- Price & Public Action -->
+              <div class="d-flex align-items-center justify-content-between pt-3 border-top border-secondary border-opacity-25">
+                <div>
+                  <span class="small text-secondary d-block font-headline text-uppercase" style="font-size: 0.7rem;">Session Pass</span>
+                  <span class="class-price-tag">$35.00</span>
+                </div>
+                <a href="item_details_1.html" class="btn btn-outline-apex btn-sm px-3 fw-semibold">
+                  View Details &rarr;
+                </a>
+              </div>
+
+              <!-- Staff Management Action Bar (CRUD: Update & Delete) -->
+                          </div>
+          </div>
+        </div>
+          </div>
+  </main>
+
+<footer class="apex-footer mt-auto">
+  <div class="container py-4">
+    <div class="row g-4 align-items-center">
+      <div class="col-12 col-md-5">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <img src="images/tiger-logo.svg" alt="Tiger Logo" width="34" height="34" style="filter: drop-shadow(0 0 6px rgba(255, 107, 0, 0.4));">
+          <span class="font-headline fw-bold text-white fs-5" style="letter-spacing: 0.05em;">TIGER <span style="color: var(--tiger-orange);">FITNESS</span></span>
+        </div>
+        <p class="small text-secondary mb-2" style="max-width: 380px;">
+          High-performance training facility engineered for barbell mastery, explosive metabolic conditioning, and athletic recovery.
+        </p>
+        <span class="badge bg-dark border border-secondary text-light px-3 py-1 small">
+          Operating Hours: 05:00 AM – 11:00 PM (Mon - Sun)
+        </span>
+      </div>
+
+      <div class="col-6 col-md-3">
+        <h6 class="footer-title">Disciplines</h6>
+        <ul class="list-unstyled small mb-0 d-flex flex-column gap-2">
+          <li><a href="classes.html?category_id=1">Strength & Hypertrophy</a></li>
+          <li><a href="classes.html?category_id=2">Cardio & Conditioning</a></li>
+          <li><a href="classes.html?category_id=3">Mobility & Core</a></li>
+          <li><a href="classes.html?category_id=4">Combat & Martial Arts</a></li>
+        </ul>
+      </div>
+
+      <div class="col-6 col-md-4 text-md-end">
+        <h6 class="footer-title">Academic Attribution</h6>
+        <p class="small text-secondary mb-1">
+          Web Programming Lab 2 (Personal Topic T1)
+        </p>
+        <p class="small text-secondary mb-2">
+          Student: <strong class="text-white">Thái Khang</strong> | MSSV: <code class="text-warning">2452475</code> | Lớp: CC01
+        </p>
+        <span class="badge bg-success-subtle text-success border border-success small px-2 py-1">
+          Google Stitch MCP Integrated
+        </span>
+      </div>
+    </div>
+
+    <div class="pt-4 mt-4 border-top border-secondary border-opacity-25 text-center text-secondary small">
+      &copy; 2026 TIGER FITNESS Center. All rights reserved. Built with PHP, MySQL & Google Stitch Design System.
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/netlify-interactive.js"></script>
+</body>
+</html>

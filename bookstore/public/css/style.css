@@ -1,8 +1,9 @@
 /* =====================================================================
- * APEX FITNESS & PERFORMANCE CENTER - STITCH DESIGN SYSTEM
+ * TIGER FITNESS - STITCH DESIGN SYSTEM
  * Synthesized via Google Stitch MCP (Project ID: 6697286312568266889)
- * High-Octane Modern Performance Club Aesthetic (Nike Training / Equinox)
+ * High-Octane Modern Performance Club Aesthetic (Nike Training / Gymshark)
  * Dual-Mode Engine fully bound to PHP Cookie 'apex_theme' (30 Days)
+ * Primary Brand Palette: Tiger Orange (#FF6B00) & Amber Gold (#FF9E00)
  * ===================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
@@ -11,25 +12,32 @@
  * 1. CSS CUSTOM PROPERTIES & DESIGN TOKENS
  * --------------------------------------------------------------------- */
 :root {
-  /* Brand Energy Accents */
-  --apex-crimson: #F43F5E;
-  --apex-crimson-hover: #E11D48;
+  /* Brand Tiger Energy Accents */
+  --tiger-orange: #FF6B00;
+  --tiger-orange-hover: #FF8533;
+  --tiger-amber: #FF9E00;
+  --tiger-volt: #FF5500;
+  --tiger-emerald: #10B981;
+
+  /* Backward Compatibility Aliases */
+  --apex-crimson: #FF6B00;
+  --apex-crimson-hover: #FF8533;
   --apex-volt: #FF5500;
   --apex-emerald: #10B981;
 
-  /* Light Athletic Mode */
-  --apex-bg: #F8FAFC;
+  /* Light Athletic Mode (Athletic Ivory Canvas) */
+  --apex-bg: #FFFDFB;
   --apex-surface: #FFFFFF;
-  --apex-surface-subtle: #F1F5F9;
-  --apex-surface-container: #F8FAFC;
-  --apex-border: rgba(15, 23, 42, 0.08);
-  --apex-border-hover: rgba(244, 63, 94, 0.35);
-  --apex-text-primary: #0F172A;
-  --apex-text-muted: #64748B;
-  --apex-navbar-bg: rgba(255, 255, 255, 0.88);
-  --apex-glass-bg: rgba(255, 255, 255, 0.82);
-  --apex-card-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06);
-  --apex-glow: 0 10px 25px -3px rgba(244, 63, 94, 0.20);
+  --apex-surface-subtle: #F7F4EE;
+  --apex-surface-container: #FAF6F0;
+  --apex-border: rgba(17, 24, 39, 0.08);
+  --apex-border-hover: rgba(255, 107, 0, 0.40);
+  --apex-text-primary: #111827;
+  --apex-text-muted: #6B7280;
+  --apex-navbar-bg: rgba(255, 253, 251, 0.88);
+  --apex-glass-bg: rgba(255, 255, 255, 0.84);
+  --apex-card-shadow: 0 4px 20px -2px rgba(17, 24, 39, 0.06);
+  --apex-glow: 0 10px 25px -3px rgba(255, 107, 0, 0.22);
 
   /* Typography */
   --font-headline: 'Space Grotesk', -apple-system, sans-serif;
@@ -38,21 +46,22 @@
 
 /* ---------------------------------------------------------------------
  * Dark Gym Mode (Activated via Cookie apex_theme = 'dark')
+ * Deep Tiger Black (#0A0B0E) & Obsidian Card (#12151E)
  * --------------------------------------------------------------------- */
 body.theme-dark,
 [data-bs-theme="dark"] {
-  --apex-bg: #090D16;
-  --apex-surface: #111827;
-  --apex-surface-subtle: #1C1F29;
-  --apex-surface-container: #151B28;
+  --apex-bg: #0A0B0E;
+  --apex-surface: #12151E;
+  --apex-surface-subtle: #191D2A;
+  --apex-surface-container: #161A24;
   --apex-border: rgba(255, 255, 255, 0.08);
-  --apex-border-hover: rgba(255, 255, 255, 0.22);
+  --apex-border-hover: rgba(255, 107, 0, 0.45);
   --apex-text-primary: #F8FAFC;
   --apex-text-muted: #94A3B8;
-  --apex-navbar-bg: rgba(9, 13, 22, 0.85);
-  --apex-glass-bg: rgba(17, 24, 39, 0.80);
-  --apex-card-shadow: 0 12px 35px -5px rgba(0, 0, 0, 0.60);
-  --apex-glow: 0 0 24px -4px rgba(244, 63, 94, 0.35);
+  --apex-navbar-bg: rgba(10, 11, 14, 0.88);
+  --apex-glass-bg: rgba(18, 21, 30, 0.82);
+  --apex-card-shadow: 0 12px 35px -5px rgba(0, 0, 0, 0.70);
+  --apex-glow: 0 0 24px -4px rgba(255, 107, 0, 0.38);
 
   background-color: var(--apex-bg) !important;
   color: var(--apex-text-primary) !important;
@@ -122,28 +131,31 @@ h1, h2, h3, h4, h5, h6,
 }
 
 /* ---------------------------------------------------------------------
- * 4. BUTTONS & GLOW EFFECTS
+ * 4. BUTTONS & GLOW EFFECTS (TIGER ORANGE)
  * --------------------------------------------------------------------- */
+.btn-tiger-orange,
 .btn-apex-crimson,
 .btn-danger {
-  background: linear-gradient(135deg, #F43F5E 0%, #E11D48 100%);
+  background: linear-gradient(135deg, #FF6B00 0%, #FF5500 100%);
   border: none;
   color: #FFFFFF !important;
   font-weight: 600;
   letter-spacing: 0.04em;
   border-radius: 8px;
   transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 14px rgba(244, 63, 94, 0.30);
+  box-shadow: 0 4px 14px rgba(255, 107, 0, 0.32);
 }
 
+.btn-tiger-orange:hover,
 .btn-apex-crimson:hover,
 .btn-danger:hover {
-  background: linear-gradient(135deg, #FF5500 0%, #F43F5E 100%);
+  background: linear-gradient(135deg, #FF9E00 0%, #FF6B00 100%);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(244, 63, 94, 0.45);
+  box-shadow: 0 6px 20px rgba(255, 107, 0, 0.48);
 }
 
-.btn-outline-apex {
+.btn-outline-apex,
+.btn-outline-tiger {
   background: transparent;
   border: 1px solid var(--apex-border);
   color: var(--apex-text-primary);
@@ -153,15 +165,20 @@ h1, h2, h3, h4, h5, h6,
   transition: all 0.2s ease;
 }
 
-.btn-outline-apex:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: var(--apex-crimson);
-  color: var(--apex-crimson);
+.btn-outline-apex:hover,
+.btn-outline-tiger:hover {
+  background: rgba(255, 107, 0, 0.10);
+  border-color: var(--tiger-orange);
+  color: var(--tiger-orange);
   transform: translateY(-2px);
 }
 
+.glow-tiger {
+  box-shadow: 0 0 24px -4px rgba(255, 107, 0, 0.42);
+}
+
 .glow-crimson {
-  box-shadow: 0 0 24px -4px rgba(244, 63, 94, 0.40);
+  box-shadow: 0 0 24px -4px rgba(255, 107, 0, 0.40);
 }
 
 .glow-emerald {
@@ -173,7 +190,7 @@ h1, h2, h3, h4, h5, h6,
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: var(--apex-emerald);
+  background-color: var(--tiger-emerald);
   animation: beacon-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
@@ -196,8 +213,8 @@ h1, h2, h3, h4, h5, h6,
 .hero-section {
   position: relative;
   padding: 85px 0 60px 0;
-  background: radial-gradient(circle at 50% 10%, rgba(244, 63, 94, 0.12) 0%, rgba(9, 13, 22, 0) 70%),
-              linear-gradient(180deg, rgba(9, 13, 22, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%);
+  background: radial-gradient(circle at 50% 10%, rgba(255, 107, 0, 0.16) 0%, rgba(10, 11, 14, 0) 70%),
+              linear-gradient(180deg, rgba(10, 11, 14, 0.96) 0%, rgba(18, 21, 30, 0.98) 100%);
   overflow: hidden;
   border-bottom: 1px solid var(--apex-border);
 }
@@ -207,15 +224,21 @@ h1, h2, h3, h4, h5, h6,
   align-items: center;
   gap: 8px;
   padding: 6px 14px;
-  background: rgba(244, 63, 94, 0.12);
-  border: 1px solid rgba(244, 63, 94, 0.30);
+  background: rgba(255, 107, 0, 0.14);
+  border: 1px solid rgba(255, 107, 0, 0.38);
   border-radius: 9999px;
-  color: #FFA4B2;
+  color: #FFB366;
   font-family: var(--font-headline);
   font-size: 0.75rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   font-weight: 700;
+}
+
+.hero-gradient-text {
+  background: linear-gradient(135deg, #FF9E00 0%, #FF6B00 50%, #FF5500 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .stats-card {
@@ -229,7 +252,7 @@ h1, h2, h3, h4, h5, h6,
 
 .stats-card:hover {
   transform: translateY(-2px);
-  border-color: rgba(244, 63, 94, 0.35);
+  border-color: rgba(255, 107, 0, 0.40);
 }
 
 .stats-value {
@@ -280,7 +303,7 @@ h1, h2, h3, h4, h5, h6,
 .class-card-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(9, 13, 22, 0.1) 0%, rgba(9, 13, 22, 0.75) 100%);
+  background: linear-gradient(180deg, rgba(10, 11, 14, 0.1) 0%, rgba(10, 11, 14, 0.75) 100%);
 }
 
 .class-discipline-badge {
@@ -288,7 +311,7 @@ h1, h2, h3, h4, h5, h6,
   top: 14px;
   right: 14px;
   padding: 5px 12px;
-  background: rgba(9, 13, 22, 0.85);
+  background: rgba(10, 11, 14, 0.85);
   backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 9999px;
@@ -304,7 +327,7 @@ h1, h2, h3, h4, h5, h6,
   font-family: var(--font-headline);
   font-size: 1.45rem;
   font-weight: 700;
-  color: var(--apex-crimson);
+  color: var(--tiger-orange);
 }
 
 /* ---------------------------------------------------------------------
@@ -343,9 +366,9 @@ h1, h2, h3, h4, h5, h6,
 }
 
 .vip-role-admin {
-  background: rgba(255, 178, 183, 0.15);
-  border: 1px solid rgba(244, 63, 94, 0.4);
-  color: #FFA4B2;
+  background: rgba(255, 107, 0, 0.18);
+  border: 1px solid rgba(255, 107, 0, 0.5);
+  color: #FFB366;
 }
 
 .vip-role-trainer {
@@ -376,16 +399,16 @@ h1, h2, h3, h4, h5, h6,
 .form-control:focus,
 .form-select:focus {
   background-color: var(--apex-surface-subtle);
-  border-color: var(--apex-crimson);
+  border-color: var(--tiger-orange);
   color: var(--apex-text-primary);
-  box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.20);
+  box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.22);
 }
 
 body.theme-dark .form-control,
 body.theme-dark .form-select,
 [data-bs-theme="dark"] .form-control,
 [data-bs-theme="dark"] .form-select {
-  background-color: #161D2B !important;
+  background-color: #171B26 !important;
   color: #F8FAFC !important;
   border-color: rgba(255, 255, 255, 0.12) !important;
 }
@@ -473,7 +496,7 @@ body.theme-dark .text-muted,
  * 10. FOOTER STYLING
  * --------------------------------------------------------------------- */
 footer.apex-footer {
-  background-color: #060910;
+  background-color: #08090C;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   color: #94A3B8;
   padding: 50px 0 30px 0;
@@ -496,5 +519,5 @@ footer.apex-footer a {
 }
 
 footer.apex-footer a:hover {
-  color: var(--apex-crimson);
+  color: var(--tiger-orange);
 }

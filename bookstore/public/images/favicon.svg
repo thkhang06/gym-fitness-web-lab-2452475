@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="100%" height="100%">
+  <defs>
+    <linearGradient id="favTiger" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFAE19" />
+      <stop offset="60%" stop-color="#FF6B00" />
+      <stop offset="100%" stop-color="#E05300" />
+    </linearGradient>
+  </defs>
+  <!-- Dark Rounded Square / Shield Backdrop for tab contrast -->
+  <rect x="1" y="1" width="30" height="30" rx="7" fill="#0A0B0E" stroke="#FF6B00" stroke-width="1.5" />
+  
+  <!-- Outer Ears -->
+  <polygon points="6,12 11,6 13,12" fill="url(#favTiger)" />
+  <polygon points="26,12 21,6 19,12" fill="url(#favTiger)" />
+  <polygon points="8,11 11,8 11,11" fill="#0A0B0E" />
+  <polygon points="24,11 21,8 21,11" fill="#0A0B0E" />
+
+  <!-- Tiger Face Shape -->
+  <polygon points="16,8 22,9 26,15 24,21 21,24 16,27 11,24 8,21 6,15 10,9" fill="url(#favTiger)" />
+
+  <!-- Forehead Markings -->
+  <polygon points="16,9 17,14 16,15 15,14" fill="#0A0B0E" />
+  <polygon points="12,11 20,11 18,13 14,13" fill="#0A0B0E" />
+
+  <!-- Fierce Eyes -->
+  <polygon points="10,16 14,17 12,19" fill="#FFFFFF" />
+  <polygon points="22,16 18,17 20,19" fill="#FFFFFF" />
+  <polygon points="12,17 13,17 12,18" fill="#0A0B0E" />
+  <polygon points="20,17 19,17 20,18" fill="#0A0B0E" />
+
+  <!-- Nose & Muzzle -->
+  <polygon points="15,20 17,20 16,22" fill="#0A0B0E" />
+  <polygon points="13,22 19,22 17,24 15,24" fill="#FFFFFF" />
+
+  <!-- White Fangs -->
+  <polygon points="14,24 15,24 14.5,26" fill="#FFFFFF" />
+  <polygon points="18,24 17,24 17.5,26" fill="#FFFFFF" />
+  <polygon points="15,25 17,25 16,26.5" fill="#0A0B0E" />
+</svg>

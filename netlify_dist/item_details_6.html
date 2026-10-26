@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boxing Fundamentals &amp; Conditioning - TIGER FITNESS</title>
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="" data-bs-theme="light">
+
+<script>
+  // Instant client-side theme application to prevent FOUC
+  (function() {
+    var theme = "light";
+    document.documentElement.setAttribute('data-bs-theme', theme);
+    if (document.body) {
+      if (theme === 'dark') {
+        document.body.classList.add('theme-dark');
+      } else {
+        document.body.classList.remove('theme-dark');
+      }
+    }
+  })();
+</script>
+<header>
+  <nav class="navbar navbar-expand-lg glass-navbar sticky-top shadow-sm py-3">
+    <div class="container">
+      <a class="navbar-brand fw-bold text-uppercase d-flex align-items-center gap-2" href="index.html">
+        <img src="images/tiger-logo.svg" alt="Tiger Logo" width="36" height="36" style="filter: drop-shadow(0 0 6px rgba(255, 107, 0, 0.5));">
+        <span class="font-headline" style="letter-spacing: 0.06em; font-size: 1.18rem;">TIGER <span style="color: var(--tiger-orange);">FITNESS</span></span>
+        <span class="live-beacon ms-1 d-none d-sm-inline-block" title="Tiger Core Systems Online"></span>
+      </a>
+      <button
+        class="navbar-toggler border-0 shadow-none"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#mainNavbar"
+        aria-controls="mainNavbar"
+        aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNavbar">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-lg-center">
+          <li class="nav-item">
+            <a class="nav-link fw-semibold px-3" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fw-semibold px-3" href="classes.html">Training Classes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fw-semibold px-3" href="index.html#trainers">Trainers</a>
+          </li>
+                            </ul>
+
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-2">
+          <!-- Theme Toggle (Task 5.2 Cookie: apex_theme) -->
+          <li class="nav-item">
+            <a href="javascript:void(0)" onclick="toggleNetlifyTheme()" 
+               class="btn btn-sm btn-outline-apex d-flex align-items-center gap-2 px-3 py-1"
+               title="Switch to Dark Gym Mode (Cookie-persisted for 30 days)">
+                              <span class="text-info">&#9790;</span> <span class="small font-headline">DARK MODE</span>
+                          </a>
+          </li>
+
+                      <li class="nav-item">
+              <a class="btn btn-outline-apex btn-sm px-3" href="login.html">
+                Log In
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="btn btn-danger btn-sm px-3 shadow-sm" href="register.html">
+                Register
+              </a>
+            </li>
+                  </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main class="container py-5">
+      <!-- Breadcrumb navigation -->
+    <nav aria-label="breadcrumb" class="mb-4">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html" class="text-decoration-none">Home</a></li>
+        <li class="breadcrumb-item"><a href="classes.html" class="text-decoration-none">Training Classes</a></li>
+        <li class="breadcrumb-item active text-white" aria-current="page">Boxing Fundamentals &amp; Conditioning</li>
+      </ol>
+    </nav>
+
+    <div class="row g-5 align-items-center">
+      <!-- Media column -->
+      <div class="col-12 col-lg-6">
+        <div class="class-card-img-wrap rounded-4 shadow-lg overflow-hidden border border-secondary border-opacity-25" style="height: 480px;">
+          <img
+            src="images/item6.jpg"
+            class="w-100 h-100 object-fit-cover"
+            alt="Boxing Fundamentals &amp; Conditioning">
+          <div class="class-card-overlay"></div>
+          <span class="class-discipline-badge">
+            Combat &amp; Martial Arts          </span>
+        </div>
+      </div>
+
+      <!-- Details column -->
+      <div class="col-12 col-lg-6">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <span class="hero-badge">Course Specification</span>
+          <span class="badge bg-secondary-subtle text-secondary border small">Cookie Tracked (7d)</span>
+        </div>
+
+        <h1 class="display-6 fw-bold font-headline text-uppercase mb-2">Boxing Fundamentals &amp; Conditioning</h1>
+        
+        <div class="d-flex align-items-baseline gap-2 mb-4">
+          <span class="display-6 fw-bold text-danger font-headline">$30.00</span>
+          <span class="text-secondary">/ drop-in session pass</span>
+        </div>
+
+        <!-- Coach & Schedule Info Box (Glass Panel) -->
+        <div class="glass-panel p-4 mb-4">
+          <div class="row g-3">
+            <div class="col-sm-6">
+              <strong class="d-block text-secondary small text-uppercase fw-bold font-headline">Assigned Lead Coach</strong>
+              <span class="fs-6 fw-semibold text-white">Marcus Vance</span>
+            </div>
+            <div class="col-sm-6">
+              <strong class="d-block text-secondary small text-uppercase fw-bold font-headline">Training Schedule</strong>
+              <span class="fs-6 fw-semibold text-white">Mon, Thu ??? 06:30 PM - 08:00 PM</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="mb-4">
+          <h5 class="fw-bold font-headline text-uppercase mb-2">Program Overview & Biomechanics Syllabus</h5>
+          <p class="text-secondary leading-relaxed mb-3" style="line-height: 1.7;">
+            Authentic boxing footwork, combination punching on heavy bags, slip line drills, and explosive 3-minute round conditioning.          </p>
+          <p class="small text-secondary fst-italic">
+            Discipline Focus: Pugilistic fundamentals, heavy bag conditioning, and tactical combat athletic training.          </p>
+        </div>
+
+        <!-- Action CTA -->
+        <div class="d-flex flex-wrap gap-3 pt-2">
+          <button
+            type="button"
+            class="btn btn-apex-crimson btn-lg px-4 py-2.5 fw-semibold shadow-sm"
+            onclick="showMessage()">
+            Book This Session
+          </button>
+          <a href="classes.html" class="btn btn-outline-apex btn-lg px-4 py-2.5">
+            &larr; All Classes
+          </a>
+        </div>
+
+              </div>
+    </div>
+  </main>
+
+<footer class="apex-footer mt-auto">
+  <div class="container py-4">
+    <div class="row g-4 align-items-center">
+      <div class="col-12 col-md-5">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <img src="images/tiger-logo.svg" alt="Tiger Logo" width="34" height="34" style="filter: drop-shadow(0 0 6px rgba(255, 107, 0, 0.4));">
+          <span class="font-headline fw-bold text-white fs-5" style="letter-spacing: 0.05em;">TIGER <span style="color: var(--tiger-orange);">FITNESS</span></span>
+        </div>
+        <p class="small text-secondary mb-2" style="max-width: 380px;">
+          High-performance training facility engineered for barbell mastery, explosive metabolic conditioning, and athletic recovery.
+        </p>
+        <span class="badge bg-dark border border-secondary text-light px-3 py-1 small">
+          Operating Hours: 05:00 AM – 11:00 PM (Mon - Sun)
+        </span>
+      </div>
+
+      <div class="col-6 col-md-3">
+        <h6 class="footer-title">Disciplines</h6>
+        <ul class="list-unstyled small mb-0 d-flex flex-column gap-2">
+          <li><a href="classes.html?category_id=1">Strength & Hypertrophy</a></li>
+          <li><a href="classes.html?category_id=2">Cardio & Conditioning</a></li>
+          <li><a href="classes.html?category_id=3">Mobility & Core</a></li>
+          <li><a href="classes.html?category_id=4">Combat & Martial Arts</a></li>
+        </ul>
+      </div>
+
+      <div class="col-6 col-md-4 text-md-end">
+        <h6 class="footer-title">Academic Attribution</h6>
+        <p class="small text-secondary mb-1">
+          Web Programming Lab 2 (Personal Topic T1)
+        </p>
+        <p class="small text-secondary mb-2">
+          Student: <strong class="text-white">Thái Khang</strong> | MSSV: <code class="text-warning">2452475</code> | Lớp: CC01
+        </p>
+        <span class="badge bg-success-subtle text-success border border-success small px-2 py-1">
+          Google Stitch MCP Integrated
+        </span>
+      </div>
+    </div>
+
+    <div class="pt-4 mt-4 border-top border-secondary border-opacity-25 text-center text-secondary small">
+      &copy; 2026 TIGER FITNESS Center. All rights reserved. Built with PHP, MySQL & Google Stitch Design System.
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function showMessage() {
+  alert("Booking reservation requested for Boxing Fundamentals & Conditioning! Our front desk staff will confirm your slot via email.");
+}
+</script>
+<script src="js/netlify-interactive.js"></script>
+</body>
+</html>

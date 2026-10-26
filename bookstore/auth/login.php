@@ -84,7 +84,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Member Login - Apex Fitness Club</title>
+  <title>Athlete Login - TIGER FITNESS</title>
+  <link rel="icon" type="image/svg+xml" href="../public/images/favicon.svg">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../public/css/style.css">
 </head>
@@ -96,9 +97,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <div class="row justify-content-center">
     <div class="col-12 col-md-8 col-lg-5">
       <div class="glass-panel overflow-hidden mb-4 shadow-lg">
-        <div class="p-4 text-center border-bottom border-secondary border-opacity-25" style="background: rgba(9, 13, 22, 0.6);">
-          <span class="hero-badge mb-2">Member Portal</span>
-          <h3 class="fw-bold font-headline text-uppercase text-white mb-1">Welcome Back</h3>
+        <div class="p-4 text-center border-bottom border-secondary border-opacity-25" style="background: rgba(10, 11, 14, 0.7);">
+          <div class="mb-2">
+            <img src="../public/images/tiger-logo.svg" alt="Tiger Fitness Mascot" width="54" height="54" style="filter: drop-shadow(0 0 10px rgba(255, 107, 0, 0.5));">
+          </div>
+          <span class="hero-badge mb-2">Athlete Portal</span>
+          <h3 class="fw-bold font-headline text-uppercase text-white mb-1">TIGER <span style="color: var(--tiger-orange);">FITNESS</span></h3>
           <p class="text-secondary small mb-0">Log in to manage your training sessions</p>
         </div>
 

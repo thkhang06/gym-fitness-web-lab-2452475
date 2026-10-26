@@ -7,7 +7,7 @@
 ## THÔNG TIN CHUNG (PROJECT GENERAL INFORMATION)
 
 - **Chủ đề cá nhân (Personal Assignment Topic):** **T1 — Gym & Fitness Center Website**
-- **Tên dự án:** Apex Fitness & Performance Center
+- **Tên dự án:** TIGER FITNESS Center
 - **Sinh viên thực hiện:** Thái Khang
 - **Mã số sinh viên (Student ID):** 2452475
 - **Lớp / Khóa:** CC01 - K2024
@@ -22,7 +22,7 @@
 *(Tổng quan đề tài & Kiến trúc ứng dụng)*
 
 ### 1.1. Giới thiệu đề tài (Topic Introduction)
-Dự án **Apex Fitness & Performance Center** (Chủ đề T1) là nền tảng quản lý và giới thiệu trung tâm thể hình thể thao hiệu năng cao. Hệ thống kết nối giữa hội viên và đội ngũ huấn luyện viên chuyên nghiệp thông qua việc tra cứu lịch học, đăng ký tham gia các khóa huấn luyện (Powerlifting, HIIT, Thể dục dụng cụ, Boxing, Yoga phục hồi) và quản lý tiến trình tập luyện.
+Dự án **TIGER FITNESS Center** (Chủ đề T1) là nền tảng quản lý và giới thiệu trung tâm thể hình thể thao hiệu năng cao mang phong cách mãnh hổ uy lực. Hệ thống kết nối giữa hội viên và đội ngũ huấn luyện viên chuyên nghiệp thông qua việc tra cứu lịch học, đăng ký tham gia các khóa huấn luyện (Powerlifting, HIIT, Thể dục dụng cụ, Boxing, Yoga phục hồi) và quản lý tiến trình tập luyện.
 
 ### 1.2. Cấu trúc thư mục chuẩn hóa (Project Structure)
 Dự án được cấu trúc phân tầng rõ ràng theo chuẩn ứng dụng web PHP hiện đại:
@@ -64,15 +64,21 @@ LAB1.3_CC01_2452475/
         └── index.php               # Trang chủ động hiển thị danh mục và banner chào mừng tùy biến
 ```
 
-### 1.3. Hệ thống Thiết kế Giao diện Đỉnh cao (Google Stitch MCP Design System - Phase 6)
-Nhằm nâng tầm trải nghiệm thị giác lên tiêu chuẩn các câu lạc bộ thể thao hàng đầu thế giới (Equinox, Nike Training Club, Gymshark), dự án đã tích hợp và vận dụng **Google Stitch MCP** cùng bộ kỹ năng `stitch-skills` (`enhance-prompt`, `design-md`, `taste-design`):
+### 1.3. Hệ thống Thiết kế Giao diện Đỉnh cao (Google Stitch MCP & Tiger Fitness Rebranding - Phase 6)
+Nhằm nâng tầm trải nghiệm thị giác lên tiêu chuẩn các câu lạc bộ thể thao hàng đầu thế giới (Gymshark, Nike Training Club, Predator Esport aesthetics), dự án đã tích hợp và vận dụng **Google Stitch MCP** cùng bộ kỹ năng `stitch-skills` (`enhance-prompt`, `design-md`, `taste-design`):
 - **Stitch Project ID:** `6697286312568266889`
 - **Stitch Screen ID:** `a3307e60ed3c44aebd698ef7d9b6dc21`
+- **Bộ nhận diện thương hiệu TIGER FITNESS:**
+  - **Logo Hổ 2D Geometric Mascot:** Vector SVG sắc nét (`tiger-logo.svg`) hiển thị nổi bật trên thanh điều hướng (`navbar-brand`), chân trang (`footer.php`) và cổng đăng nhập/đăng ký.
+  - **Mini Favicon Đầu Hổ 2D:** Icon vector tối giản `32x32` (`favicon.svg`) hiển thị trên tab trình duyệt của tất cả các trang.
 - **Hệ thống Design Tokens ([`bookstore/DESIGN.md`](file:///C:/xampp/htdocs/LAB1.3_CC01_2452475/bookstore/DESIGN.md)):**
-  - **Bảng màu chủ đạo:** Nền Obsidian `#090D16`, bề mặt kính mờ Midnight Charcoal `#111827` (`backdrop-filter: blur(14px)`), viền tinh tế `rgba(255, 255, 255, 0.08)`, sắc đỏ năng lượng **Electric Crimson `#F43F5E`** kết hợp **Volt Orange `#FF5500`** và huy hiệu xanh **Emerald `#10B981`**.
+  - **Bảng màu Cam Hổ (Tiger Orange Palette):** Sắc cam rực lửa **Primary Tiger Orange `#FF6B00`** kết hợp gradient **Amber Gold `#FF9E00`** và **Deep Flame `#FF5500`**.
+  - **Dark Gym Mode:** Nền đen vằn hổ sâu thẳm `#0A0B0E`, bề mặt kính mờ `#12151E` (`backdrop-filter: blur(14px)`), viền phát sáng màu cam khi hover (`rgba(255, 107, 0, 0.45)`).
+  - **Light Athletic Mode:** Nền trắng kem thể thao `#FFFDFB`, Card `#FFFFFF`, chữ than `#111827` giữ trọn tinh thần thể thao mạnh mẽ.
   - **Typography:** Bộ đôi thể thao mạnh mẽ `Space Grotesk` (tiêu đề, chỉ số kỹ thuật) và `Plus Jakarta Sans` (nội dung chi tiết).
   - **Bố cục Bento Grid:** Áp dụng trên Bảng điều khiển (`dashboard.php`) phân tách module thông tin mạch lạc, hiện đại.
-  - **Tương thích toàn diện với Cookie `apex_theme`:** Duy trì chuyển đổi 2 chế độ Sáng / Tối mượt mà không bị chớp trắng.
+  - **Tương thích toàn diện với Cookie `apex_theme`:** Duy trì chuyển đổi 2 chế độ Sáng / Tối mượt mà không bị chớp trắng (Zero FOUC).
+  - **Sẵn sàng triển khai Netlify (`netlify_dist/` + `netlify.toml`):** Xuất bản bản tĩnh HTML/CSS/JS độc lập kết hợp dữ liệu MySQL để deploy tức thì lên Netlify.
 
 ---
 

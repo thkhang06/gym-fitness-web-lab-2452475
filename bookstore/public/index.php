@@ -38,7 +38,8 @@ try {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Apex Fitness & Performance Center - Transform Your Potential</title>
+  <title>TIGER FITNESS - Transform Your Potential</title>
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -50,12 +51,13 @@ try {
 <section class="hero-section text-white">
   <div class="container text-center py-4">
     <div class="hero-badge mb-3 shadow-sm">
+      <img src="images/favicon.svg" alt="Tiger Icon" width="16" height="16">
       <span class="live-beacon"></span>
-      <span>Apex High-Performance Gym</span>
+      <span>Tiger High-Performance Club</span>
     </div>
     
     <h1 class="display-4 fw-bold mb-3 text-uppercase font-headline" style="letter-spacing: 0.05em; max-width: 980px; margin: 0 auto;">
-      Forge Your Ultimate Strength & Endurance
+      Forge Your <span class="hero-gradient-text">Ultimate Strength</span> & Endurance
     </h1>
     
     <p class="lead opacity-75 mb-4 mx-auto" style="max-width: 720px; font-size: 1.15rem;">
@@ -75,7 +77,7 @@ try {
     <div class="row g-3 justify-content-center max-w-4xl mx-auto pt-2" style="max-width: 900px;">
       <div class="col-12 col-md-4">
         <div class="stats-card text-center h-100">
-          <div class="stats-value text-danger mb-1">1,200+</div>
+          <div class="stats-value mb-1" style="color: var(--tiger-orange);">1,200+</div>
           <span class="small opacity-75 font-headline text-uppercase">Active Athletes</span>
         </div>
       </div>
@@ -100,14 +102,14 @@ try {
   <div class="container">
     <!-- Personalized 'Welcome Back' Cookie Banner (Task 5.2) -->
     <?php if ($recentClass || $favCategory): ?>
-      <div class="glass-panel p-3 mb-5 border-start border-4 border-danger shadow-sm d-flex align-items-center justify-content-between flex-wrap gap-3">
+      <div class="glass-panel p-3 mb-5 border-start border-4 shadow-sm d-flex align-items-center justify-content-between flex-wrap gap-3" style="border-color: var(--tiger-orange) !important;">
         <div class="d-flex align-items-center gap-3">
-          <div class="p-2 rounded-circle bg-danger bg-opacity-10 text-danger d-flex align-items-center justify-content-center">
+          <div class="p-2 rounded-circle d-flex align-items-center justify-content-center" style="background: rgba(255, 107, 0, 0.15); color: var(--tiger-orange);">
             <span class="live-beacon"></span>
           </div>
           <div>
             <div class="d-flex align-items-center gap-2">
-              <span class="badge bg-danger rounded-pill px-2 py-0.5 small">Welcome Back</span>
+              <span class="badge rounded-pill px-2 py-0.5 small" style="background: var(--tiger-orange);">Welcome Back</span>
               <strong class="font-headline text-uppercase small">Personalized Preference Active</strong>
             </div>
             <div class="small text-secondary mt-0.5">

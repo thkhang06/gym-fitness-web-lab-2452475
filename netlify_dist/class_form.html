@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Athlete Login - TIGER FITNESS</title>
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="" data-bs-theme="light">
+
+<script>
+  // Instant client-side theme application to prevent FOUC
+  (function() {
+    var theme = "light";
+    document.documentElement.setAttribute('data-bs-theme', theme);
+    if (document.body) {
+      if (theme === 'dark') {
+        document.body.classList.add('theme-dark');
+      } else {
+        document.body.classList.remove('theme-dark');
+      }
+    }
+  })();
+</script>
+<header>
+  <nav class="navbar navbar-expand-lg glass-navbar sticky-top shadow-sm py-3">
+    <div class="container">
+      <a class="navbar-brand fw-bold text-uppercase d-flex align-items-center gap-2" href="index.html">
+        <img src="images/tiger-logo.svg" alt="Tiger Logo" width="36" height="36" style="filter: drop-shadow(0 0 6px rgba(255, 107, 0, 0.5));">
+        <span class="font-headline" style="letter-spacing: 0.06em; font-size: 1.18rem;">TIGER <span style="color: var(--tiger-orange);">FITNESS</span></span>
+        <span class="live-beacon ms-1 d-none d-sm-inline-block" title="Tiger Core Systems Online"></span>
+      </a>
+      <button
+        class="navbar-toggler border-0 shadow-none"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#mainNavbar"
+        aria-controls="mainNavbar"
+        aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNavbar">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-lg-center">
+          <li class="nav-item">
+            <a class="nav-link fw-semibold px-3" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fw-semibold px-3" href="classes.html">Training Classes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fw-semibold px-3" href="index.html#trainers">Trainers</a>
+          </li>
+                            </ul>
+
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-2">
+          <!-- Theme Toggle (Task 5.2 Cookie: apex_theme) -->
+          <li class="nav-item">
+            <a href="javascript:void(0)" onclick="toggleNetlifyTheme()" 
+               class="btn btn-sm btn-outline-apex d-flex align-items-center gap-2 px-3 py-1"
+               title="Switch to Dark Gym Mode (Cookie-persisted for 30 days)">
+                              <span class="text-info">&#9790;</span> <span class="small font-headline">DARK MODE</span>
+                          </a>
+          </li>
+
+                      <li class="nav-item">
+              <a class="btn btn-outline-apex btn-sm px-3" href="login.html">
+                Log In
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="btn btn-danger btn-sm px-3 shadow-sm" href="register.html">
+                Register
+              </a>
+            </li>
+                  </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-5">
+      <div class="glass-panel overflow-hidden mb-4 shadow-lg">
+        <div class="p-4 text-center border-bottom border-secondary border-opacity-25" style="background: rgba(10, 11, 14, 0.7);">
+          <div class="mb-2">
+            <img src="images/tiger-logo.svg" alt="Tiger Fitness Mascot" width="54" height="54" style="filter: drop-shadow(0 0 10px rgba(255, 107, 0, 0.5));">
+          </div>
+          <span class="hero-badge mb-2">Athlete Portal</span>
+          <h3 class="fw-bold font-headline text-uppercase text-white mb-1">TIGER <span style="color: var(--tiger-orange);">FITNESS</span></h3>
+          <p class="text-secondary small mb-0">Log in to manage your training sessions</p>
+        </div>
+
+        <div class="card-body p-4 p-md-5">
+          <!-- Flash Notifications -->
+          
+                      <div class="alert alert-warning alert-dismissible fade show py-2 mb-4" role="alert">
+              You must be logged in to perform this administrative action.              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          
+          
+          
+          <!-- Login Form -->
+          <form action="login.html" method="POST" novalidate>
+            <div class="mb-3">
+              <label for="email" class="form-label fw-semibold">Email Address</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                name="email"
+                placeholder="name@example.com"
+                value=""
+                required
+                autofocus>
+            </div>
+
+            <div class="mb-4">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <label for="password" class="form-label fw-semibold mb-0">Password</label>
+                <span class="text-muted small">Default: Password123!</span>
+              </div>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                required>
+            </div>
+
+            <div class="d-grid mb-3">
+              <button type="submit" class="btn btn-apex-crimson btn-lg fw-semibold shadow-sm">
+                Log In
+              </button>
+            </div>
+
+            <div class="text-center pt-2 border-top border-secondary border-opacity-25">
+              <span class="text-secondary small">Don't have an account yet?</span>
+              <a href="register.html" class="text-danger fw-semibold small text-decoration-none ms-1">Register now &rarr;</a>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Quick Demo Credentials Card (Task Evaluation Helper) -->
+      <div class="glass-panel p-3">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="hero-badge" style="padding: 2px 8px; font-size: 0.68rem;">Demo Helper</span>
+          <span class="fw-semibold small text-white">Quick-fill (Password: <code>Password123!</code>):</span>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+          <button
+            type="button"
+            class="btn btn-sm btn-outline-apex"
+            onclick="fillLogin('admin@gymfitness.local', 'Password123!')">
+            Admin Account
+          </button>
+          <button
+            type="button"
+            class="btn btn-sm btn-outline-apex"
+            onclick="fillLogin('trainer@gymfitness.local', 'Password123!')">
+            Trainer Account
+          </button>
+          <button
+            type="button"
+            class="btn btn-sm btn-outline-apex"
+            onclick="fillLogin('member@gymfitness.local', 'Password123!')">
+            Member Account
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="apex-footer mt-auto">
+  <div class="container py-4">
+    <div class="row g-4 align-items-center">
+      <div class="col-12 col-md-5">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <img src="images/tiger-logo.svg" alt="Tiger Logo" width="34" height="34" style="filter: drop-shadow(0 0 6px rgba(255, 107, 0, 0.4));">
+          <span class="font-headline fw-bold text-white fs-5" style="letter-spacing: 0.05em;">TIGER <span style="color: var(--tiger-orange);">FITNESS</span></span>
+        </div>
+        <p class="small text-secondary mb-2" style="max-width: 380px;">
+          High-performance training facility engineered for barbell mastery, explosive metabolic conditioning, and athletic recovery.
+        </p>
+        <span class="badge bg-dark border border-secondary text-light px-3 py-1 small">
+          Operating Hours: 05:00 AM – 11:00 PM (Mon - Sun)
+        </span>
+      </div>
+
+      <div class="col-6 col-md-3">
+        <h6 class="footer-title">Disciplines</h6>
+        <ul class="list-unstyled small mb-0 d-flex flex-column gap-2">
+          <li><a href="classes.html?category_id=1">Strength & Hypertrophy</a></li>
+          <li><a href="classes.html?category_id=2">Cardio & Conditioning</a></li>
+          <li><a href="classes.html?category_id=3">Mobility & Core</a></li>
+          <li><a href="classes.html?category_id=4">Combat & Martial Arts</a></li>
+        </ul>
+      </div>
+
+      <div class="col-6 col-md-4 text-md-end">
+        <h6 class="footer-title">Academic Attribution</h6>
+        <p class="small text-secondary mb-1">
+          Web Programming Lab 2 (Personal Topic T1)
+        </p>
+        <p class="small text-secondary mb-2">
+          Student: <strong class="text-white">Thái Khang</strong> | MSSV: <code class="text-warning">2452475</code> | Lớp: CC01
+        </p>
+        <span class="badge bg-success-subtle text-success border border-success small px-2 py-1">
+          Google Stitch MCP Integrated
+        </span>
+      </div>
+    </div>
+
+    <div class="pt-4 mt-4 border-top border-secondary border-opacity-25 text-center text-secondary small">
+      &copy; 2026 TIGER FITNESS Center. All rights reserved. Built with PHP, MySQL & Google Stitch Design System.
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function fillLogin(email, password) {
+  document.getElementById('email').value = email;
+  document.getElementById('password').value = password;
+}
+</script>
+<script src="js/netlify-interactive.js"></script>
+</body>
+</html>

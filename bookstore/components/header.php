@@ -40,9 +40,9 @@ $themeToggleUrl = "../pages/set_theme.php?theme=" . urlencode($targetTheme) . "&
   <nav class="navbar navbar-expand-lg glass-navbar sticky-top shadow-sm py-3">
     <div class="container">
       <a class="navbar-brand fw-bold text-uppercase d-flex align-items-center gap-2" href="../public/index.php">
-        <span class="badge rounded-pill px-2 py-1" style="background: var(--apex-crimson); font-size: 0.72rem; letter-spacing: 0.1em;">FIT</span>
-        <span class="font-headline" style="letter-spacing: 0.06em; font-size: 1.15rem;">Apex Fitness Club</span>
-        <span class="live-beacon ms-1 d-none d-sm-inline-block" title="Apex Core Systems Online"></span>
+        <img src="../public/images/tiger-logo.svg" alt="Tiger Logo" width="36" height="36" style="filter: drop-shadow(0 0 6px rgba(255, 107, 0, 0.5));">
+        <span class="font-headline" style="letter-spacing: 0.06em; font-size: 1.18rem;">TIGER <span style="color: var(--tiger-orange);">FITNESS</span></span>
+        <span class="live-beacon ms-1 d-none d-sm-inline-block" title="Tiger Core Systems Online"></span>
       </a>
       <button
         class="navbar-toggler border-0 shadow-none"
