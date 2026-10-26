@@ -6,6 +6,7 @@
  */
 require_once __DIR__ . '/../config/session.php';
 require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../config/preferences.php';
 
 // Enforce strict staff authorization (HTTP 403 Forbidden for members/guests)
 requireRole(['admin', 'trainer']);
@@ -197,6 +198,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+<?php $activeTheme = getActiveTheme(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -206,7 +208,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../public/css/style.css">
 </head>
-<body class="bg-light">
+<body class="<?php echo ($activeTheme === 'dark') ? 'theme-dark' : ''; ?>" data-bs-theme="<?php echo $activeTheme; ?>">
 
 <?php require_once __DIR__ . '/../components/header.php'; ?>
 
@@ -218,19 +220,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="../public/index.php" class="text-decoration-none">Home</a></li>
           <li class="breadcrumb-item"><a href="classes.php" class="text-decoration-none">Classes</a></li>
-          <li class="breadcrumb-item active" aria-current="page"><?php echo $isEdit ? 'Edit Class #' . $editId : 'New Class'; ?></li>
+          <li class="breadcrumb-item active text-white" aria-current="page"><?php echo $isEdit ? 'Edit Class #' . $editId : 'New Class'; ?></li>
         </ol>
       </nav>
 
-      <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white mb-5">
-        <div class="card-header bg-dark text-white p-4 border-0">
-          <div class="d-flex align-items-center justify-content-between">
+      <div class="glass-panel overflow-hidden mb-5">
+        <div class="p-4 border-bottom border-secondary border-opacity-25" style="background: rgba(9, 13, 22, 0.6);">
+          <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
             <div>
-              <span class="badge bg-danger text-uppercase px-3 py-1 mb-2">Staff Portal (Task 3 & 6)</span>
-              <h3 class="fw-bold mb-1"><?php echo $isEdit ? 'Edit Fitness Class' : 'Create New Fitness Class'; ?></h3>
+              <span class="hero-badge mb-2">Staff Portal (Task 3 & 6)</span>
+              <h3 class="fw-bold font-headline text-uppercase mb-1"><?php echo $isEdit ? 'Edit Fitness Class' : 'Create New Fitness Class'; ?></h3>
               <p class="text-secondary small mb-0">Authorized as: <strong><?php echo htmlspecialchars($currentUser['full_name']); ?></strong> (<?php echo htmlspecialchars(strtoupper($currentUser['role'])); ?>)</p>
             </div>
-            <a href="classes.php" class="btn btn-outline-light btn-sm px-3">
+            <a href="classes.php" class="btn btn-outline-apex btn-sm px-3">
               &larr; Cancel
             </a>
           </div>

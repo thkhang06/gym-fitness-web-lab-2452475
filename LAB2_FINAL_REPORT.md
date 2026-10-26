@@ -8,7 +8,7 @@
 
 - **Chủ đề cá nhân (Personal Assignment Topic):** **T1 — Gym & Fitness Center Website**
 - **Tên dự án:** Apex Fitness & Performance Center
-- **Sinh viên thực hiện:** Trương Hoàng Khang
+- **Sinh viên thực hiện:** Thái Khang
 - **Mã số sinh viên (Student ID):** 2452475
 - **Lớp / Khóa:** CC01 - K2024
 - **Thư mục làm việc:** `C:\xampp\htdocs\LAB1.3_CC01_2452475`
@@ -34,6 +34,7 @@ LAB1.3_CC01_2452475/
 ├── LAB2_FINAL_REPORT.md            # Báo cáo tổng kết chính thức nộp bài Lab 2 (Deliverable 4)
 ├── .gitignore                      # Cấu hình bỏ qua tệp nhị phân, cache và cấu hình IDE
 └── bookstore/                      # Mã nguồn hoàn chỉnh ứng dụng web
+    ├── DESIGN.md                   # Hệ thống Design Tokens tổng hợp từ Google Stitch MCP
     ├── auth/                       # Phân hệ Xác thực người dùng (Task 4)
     │   ├── login.php               # Đăng nhập & thiết lập Session
     │   ├── logout.php              # Đăng xuất, hủy Session và Cookie
@@ -62,6 +63,16 @@ LAB1.3_CC01_2452475/
         ├── images/                 # Bộ ảnh mẫu chất lượng cao cho các lớp tập (item1.jpg -> item6.jpg)
         └── index.php               # Trang chủ động hiển thị danh mục và banner chào mừng tùy biến
 ```
+
+### 1.3. Hệ thống Thiết kế Giao diện Đỉnh cao (Google Stitch MCP Design System - Phase 6)
+Nhằm nâng tầm trải nghiệm thị giác lên tiêu chuẩn các câu lạc bộ thể thao hàng đầu thế giới (Equinox, Nike Training Club, Gymshark), dự án đã tích hợp và vận dụng **Google Stitch MCP** cùng bộ kỹ năng `stitch-skills` (`enhance-prompt`, `design-md`, `taste-design`):
+- **Stitch Project ID:** `6697286312568266889`
+- **Stitch Screen ID:** `a3307e60ed3c44aebd698ef7d9b6dc21`
+- **Hệ thống Design Tokens ([`bookstore/DESIGN.md`](file:///C:/xampp/htdocs/LAB1.3_CC01_2452475/bookstore/DESIGN.md)):**
+  - **Bảng màu chủ đạo:** Nền Obsidian `#090D16`, bề mặt kính mờ Midnight Charcoal `#111827` (`backdrop-filter: blur(14px)`), viền tinh tế `rgba(255, 255, 255, 0.08)`, sắc đỏ năng lượng **Electric Crimson `#F43F5E`** kết hợp **Volt Orange `#FF5500`** và huy hiệu xanh **Emerald `#10B981`**.
+  - **Typography:** Bộ đôi thể thao mạnh mẽ `Space Grotesk` (tiêu đề, chỉ số kỹ thuật) và `Plus Jakarta Sans` (nội dung chi tiết).
+  - **Bố cục Bento Grid:** Áp dụng trên Bảng điều khiển (`dashboard.php`) phân tách module thông tin mạch lạc, hiện đại.
+  - **Tương thích toàn diện với Cookie `apex_theme`:** Duy trì chuyển đổi 2 chế độ Sáng / Tối mượt mà không bị chớp trắng.
 
 ---
 

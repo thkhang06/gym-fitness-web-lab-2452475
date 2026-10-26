@@ -1,170 +1,500 @@
-/* Apex Fitness & Performance Center - Theme Stylesheet */
+/* =====================================================================
+ * APEX FITNESS & PERFORMANCE CENTER - STITCH DESIGN SYSTEM
+ * Synthesized via Google Stitch MCP (Project ID: 6697286312568266889)
+ * High-Octane Modern Performance Club Aesthetic (Nike Training / Equinox)
+ * Dual-Mode Engine fully bound to PHP Cookie 'apex_theme' (30 Days)
+ * ===================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+/* ---------------------------------------------------------------------
+ * 1. CSS CUSTOM PROPERTIES & DESIGN TOKENS
+ * --------------------------------------------------------------------- */
 :root {
-  --primary-brand: #e63946;
-  --dark-brand: #111827;
-  --accent-brand: #f87171;
-  --surface-bg: #f8fafc;
+  /* Brand Energy Accents */
+  --apex-crimson: #F43F5E;
+  --apex-crimson-hover: #E11D48;
+  --apex-volt: #FF5500;
+  --apex-emerald: #10B981;
+
+  /* Light Athletic Mode */
+  --apex-bg: #F8FAFC;
+  --apex-surface: #FFFFFF;
+  --apex-surface-subtle: #F1F5F9;
+  --apex-surface-container: #F8FAFC;
+  --apex-border: rgba(15, 23, 42, 0.08);
+  --apex-border-hover: rgba(244, 63, 94, 0.35);
+  --apex-text-primary: #0F172A;
+  --apex-text-muted: #64748B;
+  --apex-navbar-bg: rgba(255, 255, 255, 0.88);
+  --apex-glass-bg: rgba(255, 255, 255, 0.82);
+  --apex-card-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06);
+  --apex-glow: 0 10px 25px -3px rgba(244, 63, 94, 0.20);
+
+  /* Typography */
+  --font-headline: 'Space Grotesk', -apple-system, sans-serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
+/* ---------------------------------------------------------------------
+ * Dark Gym Mode (Activated via Cookie apex_theme = 'dark')
+ * --------------------------------------------------------------------- */
+body.theme-dark,
+[data-bs-theme="dark"] {
+  --apex-bg: #090D16;
+  --apex-surface: #111827;
+  --apex-surface-subtle: #1C1F29;
+  --apex-surface-container: #151B28;
+  --apex-border: rgba(255, 255, 255, 0.08);
+  --apex-border-hover: rgba(255, 255, 255, 0.22);
+  --apex-text-primary: #F8FAFC;
+  --apex-text-muted: #94A3B8;
+  --apex-navbar-bg: rgba(9, 13, 22, 0.85);
+  --apex-glass-bg: rgba(17, 24, 39, 0.80);
+  --apex-card-shadow: 0 12px 35px -5px rgba(0, 0, 0, 0.60);
+  --apex-glow: 0 0 24px -4px rgba(244, 63, 94, 0.35);
+
+  background-color: var(--apex-bg) !important;
+  color: var(--apex-text-primary) !important;
+}
+
+/* ---------------------------------------------------------------------
+ * 2. BASE STYLING & TYPOGRAPHY
+ * --------------------------------------------------------------------- */
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  color: #1f2937;
-  background-color: var(--surface-bg);
-  transition: background-color 0.2s ease, color 0.2s ease;
+  font-family: var(--font-body);
+  background-color: var(--apex-bg);
+  color: var(--apex-text-primary);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.25s ease, color 0.25s ease;
+  -webkit-font-smoothing: antialiased;
 }
 
+main {
+  flex: 1 0 auto;
+}
+
+h1, h2, h3, h4, h5, h6,
+.font-headline,
+.display-4, .display-5, .display-6 {
+  font-family: var(--font-headline);
+  letter-spacing: 0.03em;
+}
+
+/* ---------------------------------------------------------------------
+ * 3. GLASSMORPHISM & ELEVATION COMPONENTS
+ * --------------------------------------------------------------------- */
+.glass-navbar {
+  background-color: var(--apex-navbar-bg) !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--apex-border);
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.glass-panel {
+  background-color: var(--apex-glass-bg);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--apex-border);
+  box-shadow: var(--apex-card-shadow);
+  border-radius: 14px;
+}
+
+.glass-panel-interactive {
+  background-color: var(--apex-glass-bg);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--apex-border);
+  box-shadow: var(--apex-card-shadow);
+  border-radius: 14px;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.25s ease, 
+              box-shadow 0.25s ease;
+}
+
+.glass-panel-interactive:hover {
+  transform: translateY(-4px);
+  border-color: var(--apex-border-hover);
+  box-shadow: var(--apex-glow) !important;
+}
+
+/* ---------------------------------------------------------------------
+ * 4. BUTTONS & GLOW EFFECTS
+ * --------------------------------------------------------------------- */
+.btn-apex-crimson,
+.btn-danger {
+  background: linear-gradient(135deg, #F43F5E 0%, #E11D48 100%);
+  border: none;
+  color: #FFFFFF !important;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  border-radius: 8px;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 14px rgba(244, 63, 94, 0.30);
+}
+
+.btn-apex-crimson:hover,
+.btn-danger:hover {
+  background: linear-gradient(135deg, #FF5500 0%, #F43F5E 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(244, 63, 94, 0.45);
+}
+
+.btn-outline-apex {
+  background: transparent;
+  border: 1px solid var(--apex-border);
+  color: var(--apex-text-primary);
+  font-weight: 600;
+  border-radius: 8px;
+  backdrop-filter: blur(8px);
+  transition: all 0.2s ease;
+}
+
+.btn-outline-apex:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--apex-crimson);
+  color: var(--apex-crimson);
+  transform: translateY(-2px);
+}
+
+.glow-crimson {
+  box-shadow: 0 0 24px -4px rgba(244, 63, 94, 0.40);
+}
+
+.glow-emerald {
+  box-shadow: 0 0 20px -3px rgba(16, 185, 129, 0.40);
+}
+
+.live-beacon {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--apex-emerald);
+  animation: beacon-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes beacon-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.15);
+    box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+  }
+}
+
+/* ---------------------------------------------------------------------
+ * 5. HERO SECTION & STATS BAR
+ * --------------------------------------------------------------------- */
 .hero-section {
-  padding: 90px 0;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
   position: relative;
+  padding: 85px 0 60px 0;
+  background: radial-gradient(circle at 50% 10%, rgba(244, 63, 94, 0.12) 0%, rgba(9, 13, 22, 0) 70%),
+              linear-gradient(180deg, rgba(9, 13, 22, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%);
   overflow: hidden;
+  border-bottom: 1px solid var(--apex-border);
 }
 
-.hero-section h1 {
-  letter-spacing: -0.5px;
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: rgba(244, 63, 94, 0.12);
+  border: 1px solid rgba(244, 63, 94, 0.30);
+  border-radius: 9999px;
+  color: #FFA4B2;
+  font-family: var(--font-headline);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
 }
 
-.hero-section .lead {
-  max-width: 680px;
-  margin: 0 auto;
-}
-
-.class-card {
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+.stats-card {
+  background: var(--apex-glass-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--apex-border);
   border-radius: 12px;
+  padding: 18px 24px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.stats-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(244, 63, 94, 0.35);
+}
+
+.stats-value {
+  font-family: var(--font-headline);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1;
+}
+
+/* ---------------------------------------------------------------------
+ * 6. CLASS CARDS (CATALOG & HOMEPAGE)
+ * --------------------------------------------------------------------- */
+.class-card {
+  background-color: var(--apex-surface);
+  border: 1px solid var(--apex-border);
+  border-radius: 14px;
   overflow: hidden;
-  background-color: #ffffff;
+  box-shadow: var(--apex-card-shadow);
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
 }
 
 .class-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.12) !important;
+  border-color: var(--apex-border-hover);
+  box-shadow: var(--apex-glow) !important;
 }
 
-.card-img-top {
-  height: 240px;
+.class-card-img-wrap {
+  position: relative;
+  overflow: hidden;
+  height: 220px;
+}
+
+.class-card-img-wrap img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.class-card:hover .card-img-top {
-  transform: scale(1.03);
+.class-card:hover .class-card-img-wrap img {
+  transform: scale(1.06);
 }
 
-.badge.bg-danger {
-  background-color: var(--primary-brand) !important;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
+.class-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(9, 13, 22, 0.1) 0%, rgba(9, 13, 22, 0.75) 100%);
+}
+
+.class-discipline-badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  padding: 5px 12px;
+  background: rgba(9, 13, 22, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
+  color: #FFFFFF;
+  font-family: var(--font-headline);
   font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
 }
 
-.btn-danger {
-  background-color: var(--primary-brand);
-  border-color: var(--primary-brand);
+.class-price-tag {
+  font-family: var(--font-headline);
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--apex-crimson);
 }
 
-.btn-danger:hover {
-  background-color: #dc2626;
-  border-color: #dc2626;
+/* ---------------------------------------------------------------------
+ * 7. BENTO GRID (DASHBOARD & TELEMETRY)
+ * --------------------------------------------------------------------- */
+.bento-card {
+  background-color: var(--apex-surface);
+  border: 1px solid var(--apex-border);
+  border-radius: 16px;
+  box-shadow: var(--apex-card-shadow);
+  padding: 24px;
+  height: 100%;
+  transition: all 0.22s ease;
 }
 
-.class-image-wrapper {
-  border-radius: 12px;
+.bento-card-header {
+  border-bottom: 1px solid var(--apex-border);
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-footer {
-  padding: 35px 0;
+.vip-role-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-family: var(--font-headline);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
 }
 
-/* =====================================================================
- * Dark Gym Mode (Task 5.2 - Cookie: apex_theme = 'dark')
- * ===================================================================== */
-body.theme-dark,
-[data-bs-theme="dark"] {
-  --surface-bg: #090d16;
-  background-color: #090d16 !important;
-  color: #e2e8f0 !important;
+.vip-role-admin {
+  background: rgba(255, 178, 183, 0.15);
+  border: 1px solid rgba(244, 63, 94, 0.4);
+  color: #FFA4B2;
 }
 
-body.theme-dark .bg-light,
-[data-bs-theme="dark"] .bg-light {
-  background-color: #0f172a !important;
+.vip-role-trainer {
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  color: #93C5FD;
 }
 
-body.theme-dark .bg-white,
-[data-bs-theme="dark"] .bg-white {
-  background-color: #131c2e !important;
-  color: #e2e8f0 !important;
+.vip-role-member {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: #6EE7B7;
 }
 
-body.theme-dark .card,
-[data-bs-theme="dark"] .card {
-  background-color: #131c2e !important;
-  border-color: #1e293b !important;
-  color: #e2e8f0 !important;
+/* ---------------------------------------------------------------------
+ * 8. FORM CONTROLS & INPUT REFINEMENT
+ * --------------------------------------------------------------------- */
+.form-control,
+.form-select {
+  background-color: var(--apex-surface-subtle);
+  border: 1px solid var(--apex-border);
+  color: var(--apex-text-primary);
+  border-radius: 8px;
+  padding: 10px 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-body.theme-dark .card-title,
-[data-bs-theme="dark"] .card-title {
-  color: #ffffff !important;
-}
-
-body.theme-dark .card-header,
-[data-bs-theme="dark"] .card-header {
-  background-color: #0f172a !important;
-  border-color: #1e293b !important;
-  color: #ffffff !important;
-}
-
-body.theme-dark .table,
-[data-bs-theme="dark"] .table {
-  color: #e2e8f0 !important;
-  border-color: #1e293b !important;
-}
-
-body.theme-dark .table-light,
-[data-bs-theme="dark"] .table-light {
-  background-color: #1e293b !important;
-  color: #ffffff !important;
-}
-
-body.theme-dark .text-dark,
-[data-bs-theme="dark"] .text-dark {
-  color: #f1f5f9 !important;
-}
-
-body.theme-dark .text-muted,
-body.theme-dark .text-secondary,
-[data-bs-theme="dark"] .text-muted,
-[data-bs-theme="dark"] .text-secondary {
-  color: #94a3b8 !important;
+.form-control:focus,
+.form-select:focus {
+  background-color: var(--apex-surface-subtle);
+  border-color: var(--apex-crimson);
+  color: var(--apex-text-primary);
+  box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.20);
 }
 
 body.theme-dark .form-control,
 body.theme-dark .form-select,
 [data-bs-theme="dark"] .form-control,
 [data-bs-theme="dark"] .form-select {
-  background-color: #1e293b !important;
-  border-color: #334155 !important;
-  color: #f8fafc !important;
+  background-color: #161D2B !important;
+  color: #F8FAFC !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+body.theme-dark .form-control::placeholder,
+[data-bs-theme="dark"] .form-control::placeholder {
+  color: #64748B !important;
+}
+
+/* ---------------------------------------------------------------------
+ * 9. BOOTSTRAP OVERRIDES FOR THEME CONSISTENCY
+ * --------------------------------------------------------------------- */
+body.theme-dark .card,
+[data-bs-theme="dark"] .card {
+  background-color: var(--apex-surface) !important;
+  border-color: var(--apex-border) !important;
+  color: var(--apex-text-primary) !important;
+}
+
+body.theme-dark .card-header,
+[data-bs-theme="dark"] .card-header {
+  background-color: var(--apex-surface-subtle) !important;
+  border-color: var(--apex-border) !important;
+  color: var(--apex-text-primary) !important;
+}
+
+body.theme-dark .bg-light,
+[data-bs-theme="dark"] .bg-light {
+  background-color: var(--apex-bg) !important;
+}
+
+body.theme-dark .bg-white,
+[data-bs-theme="dark"] .bg-white {
+  background-color: var(--apex-surface) !important;
+  color: var(--apex-text-primary) !important;
+}
+
+body.theme-dark .border,
+body.theme-dark .border-top,
+body.theme-dark .border-bottom,
+[data-bs-theme="dark"] .border,
+[data-bs-theme="dark"] .border-top,
+[data-bs-theme="dark"] .border-bottom {
+  border-color: var(--apex-border) !important;
+}
+
+body.theme-dark .table,
+[data-bs-theme="dark"] .table {
+  color: var(--apex-text-primary) !important;
+  border-color: var(--apex-border) !important;
+}
+
+body.theme-dark .table > :not(caption) > * > *,
+[data-bs-theme="dark"] .table > :not(caption) > * > * {
+  background-color: transparent !important;
+  border-color: var(--apex-border) !important;
+}
+
+body.theme-dark .table-light,
+[data-bs-theme="dark"] .table-light {
+  background-color: var(--apex-surface-subtle) !important;
+  color: var(--apex-text-primary) !important;
 }
 
 body.theme-dark .list-group-item,
 [data-bs-theme="dark"] .list-group-item {
   background-color: transparent !important;
-  border-color: #1e293b !important;
-  color: #e2e8f0 !important;
+  border-color: var(--apex-border) !important;
+  color: var(--apex-text-primary) !important;
 }
 
-body.theme-dark .btn-outline-dark,
-[data-bs-theme="dark"] .btn-outline-dark {
-  color: #f8fafc !important;
-  border-color: #475569 !important;
+body.theme-dark .text-dark,
+[data-bs-theme="dark"] .text-dark {
+  color: #F8FAFC !important;
 }
 
-body.theme-dark .btn-outline-dark:hover,
-[data-bs-theme="dark"] .btn-outline-dark:hover {
-  background-color: #334155 !important;
-  border-color: #64748b !important;
+body.theme-dark .text-secondary,
+body.theme-dark .text-muted,
+[data-bs-theme="dark"] .text-secondary,
+[data-bs-theme="dark"] .text-muted {
+  color: #94A3B8 !important;
+}
+
+/* ---------------------------------------------------------------------
+ * 10. FOOTER STYLING
+ * --------------------------------------------------------------------- */
+footer.apex-footer {
+  background-color: #060910;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  color: #94A3B8;
+  padding: 50px 0 30px 0;
+}
+
+footer.apex-footer .footer-title {
+  font-family: var(--font-headline);
+  color: #F8FAFC;
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  font-weight: 700;
+}
+
+footer.apex-footer a {
+  color: #94A3B8;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+footer.apex-footer a:hover {
+  color: var(--apex-crimson);
 }

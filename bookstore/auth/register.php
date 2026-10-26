@@ -5,6 +5,9 @@
  */
 require_once __DIR__ . '/../config/session.php';
 require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../config/preferences.php';
+
+$activeTheme = getActiveTheme();
 
 // If user is already authenticated, redirect to member dashboard
 if (isLoggedIn()) {
@@ -105,17 +108,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../public/css/style.css">
 </head>
-<body class="bg-light">
+<body class="<?php echo ($activeTheme === 'dark') ? 'theme-dark' : ''; ?>" data-bs-theme="<?php echo $activeTheme; ?>">
 
 <?php require_once __DIR__ . '/../components/header.php'; ?>
 
 <main class="container py-5">
   <div class="row justify-content-center">
     <div class="col-12 col-md-8 col-lg-6">
-      <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-        <div class="card-header bg-dark text-white text-center py-4 border-0">
-          <span class="badge bg-danger text-uppercase px-3 py-1 mb-2">Join Apex Fitness</span>
-          <h3 class="fw-bold mb-1">Create Account</h3>
+      <div class="glass-panel overflow-hidden shadow-lg">
+        <div class="p-4 text-center border-bottom border-secondary border-opacity-25" style="background: rgba(9, 13, 22, 0.6);">
+          <span class="hero-badge mb-2">Join Apex Fitness</span>
+          <h3 class="fw-bold font-headline text-uppercase text-white mb-1">Create Account</h3>
           <p class="text-secondary small mb-0">Begin your high-performance training journey today</p>
         </div>
 
@@ -203,13 +206,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <!-- Submit -->
             <div class="d-grid mb-3">
-              <button type="submit" class="btn btn-danger btn-lg fw-semibold shadow-sm">
+              <button type="submit" class="btn btn-apex-crimson btn-lg fw-semibold shadow-sm">
                 Register Account
               </button>
             </div>
 
-            <div class="text-center pt-2 border-top">
-              <span class="text-muted small">Already have an account?</span>
+            <div class="text-center pt-2 border-top border-secondary border-opacity-25">
+              <span class="text-secondary small">Already have an account?</span>
               <a href="login.php" class="text-danger fw-semibold small text-decoration-none ms-1">Log in here &rarr;</a>
             </div>
           </form>
