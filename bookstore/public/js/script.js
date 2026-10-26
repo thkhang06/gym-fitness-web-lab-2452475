@@ -1,3 +1,6 @@
+/**
+ * Apex Fitness & Performance Center - Client Interaction Script
+ */
 function showMessage() {
- alert("Item added to your selection.");
+  alert("Thank you! Your fitness class session booking request has been submitted to Apex Fitness.");
 }
