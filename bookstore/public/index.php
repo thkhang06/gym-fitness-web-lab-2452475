@@ -125,6 +125,11 @@ require_once __DIR__ . '/../components/header.php';
           </div>
         <?php endforeach; ?>
       </div>
+      <div class="text-center mt-5">
+        <a href="../pages/classes.php" class="btn btn-dark btn-lg px-5 fw-semibold shadow-sm">
+          View All Training Programs & Category Filters &rarr;
+        </a>
+      </div>
     <?php endif; ?>
   </div>
 </section>

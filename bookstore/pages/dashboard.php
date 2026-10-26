@@ -1,7 +1,8 @@
 <?php
 /**
- * Protected Member & Coach Dashboard (Lab 2 Tasks 4.4 & 5.1)
- * Enforces authentication via requireLogin(), displays session information and user role
+ * Protected Member & Coach Dashboard (Lab 2 Tasks 4.4, 5.1 & 6)
+ * Enforces authentication via requireLogin()
+ * Role-Based Access Control: Displays staff management tools or member privileges
  */
 require_once __DIR__ . '/../config/session.php';
 require_once __DIR__ . '/../config/database.php';
@@ -17,6 +18,11 @@ requireLogin("Access Denied: You must be logged in to view the Member Dashboard.
 // Retrieve current authenticated user details from session
 $user = getCurrentUser();
 $sessionId = session_id();
+$isStaff = hasRole(['admin', 'trainer']);
+
+// Flash messaging
+$flashSuccess = getFlash('success');
+$flashError   = getFlash('error');
 
 // Fetch summary metrics & training classes from database for display
 try {
@@ -24,7 +30,7 @@ try {
         SELECT fc.id, fc.title, fc.trainer_name, fc.schedule_info, fc.price, c.name AS category_name
         FROM fitness_classes fc
         INNER JOIN categories c ON fc.category_id = c.id
-        ORDER BY fc.id ASC
+        ORDER BY fc.id DESC
     ");
     $classes = $stmtClasses->fetchAll();
 
@@ -63,9 +69,24 @@ $badgeClass = $roleBadges[$user['role']] ?? 'bg-secondary text-white';
 <?php require_once __DIR__ . '/../components/header.php'; ?>
 
 <main class="container py-5">
+  <!-- Flash Alerts -->
+  <?php if ($flashSuccess): ?>
+    <div class="alert alert-success alert-dismissible fade show shadow-sm py-3 mb-4" role="alert">
+      <strong>Success!</strong> <?php echo htmlspecialchars($flashSuccess); ?>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <?php endif; ?>
+
+  <?php if ($flashError): ?>
+    <div class="alert alert-danger alert-dismissible fade show shadow-sm py-3 mb-4" role="alert">
+      <strong>Notice:</strong> <?php echo htmlspecialchars($flashError); ?>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <?php endif; ?>
+
   <!-- Welcome Header -->
   <div class="row align-items-center mb-4">
-    <div class="col-md-8">
+    <div class="col-md-7">
       <div class="d-flex align-items-center gap-2 mb-1">
         <span class="badge <?php echo $badgeClass; ?> px-3 py-2 text-uppercase fs-6">
           <?php echo htmlspecialchars(strtoupper($user['role'])); ?> ACCOUNT
@@ -77,9 +98,12 @@ $badgeClass = $roleBadges[$user['role']] ?? 'bg-secondary text-white';
       <h1 class="display-6 fw-bold mb-1">Welcome, <?php echo htmlspecialchars($user['full_name']); ?>!</h1>
       <p class="text-secondary mb-0">Here is your training hub and personalized membership overview.</p>
     </div>
-    <div class="col-md-4 text-md-end mt-3 mt-md-0">
-      <a href="../public/index.php#items" class="btn btn-outline-dark me-2">Browse Classes</a>
-      <a href="../auth/logout.php" class="btn btn-danger">Log Out</a>
+    <div class="col-md-5 text-md-end mt-3 mt-md-0 d-flex justify-content-md-end gap-2 flex-wrap">
+      <?php if ($isStaff): ?>
+        <a href="class_form.php" class="btn btn-danger fw-semibold shadow-sm">+ Create Class</a>
+      <?php endif; ?>
+      <a href="classes.php" class="btn btn-outline-dark">Browse Catalog</a>
+      <a href="../auth/logout.php" class="btn btn-outline-danger">Log Out</a>
     </div>
   </div>
 
@@ -114,15 +138,15 @@ $badgeClass = $roleBadges[$user['role']] ?? 'bg-secondary text-white';
     </div>
   </div>
 
-  <!-- User Profile & Session Persistence Evidence (Task 5.1 Verification) -->
   <div class="row g-4 mb-4">
+    <!-- Left Column: Authenticated Profile & RBAC Info -->
     <div class="col-12 col-lg-5">
       <div class="card border-0 shadow-sm rounded-4 h-100 bg-white">
         <div class="card-header bg-white border-bottom py-3">
           <h5 class="fw-bold mb-0">Authenticated Profile</h5>
         </div>
         <div class="card-body p-4">
-          <ul class="list-group list-group-flush">
+          <ul class="list-group list-group-flush mb-3">
             <li class="list-group-item px-0 d-flex justify-content-between">
               <span class="text-muted">Account ID:</span>
               <span class="fw-semibold">#<?php echo htmlspecialchars($user['id']); ?></span>
@@ -137,31 +161,56 @@ $badgeClass = $roleBadges[$user['role']] ?? 'bg-secondary text-white';
             </li>
             <li class="list-group-item px-0 d-flex justify-content-between">
               <span class="text-muted">Assigned Role:</span>
-              <span class="badge <?php echo $badgeClass; ?>"><?php echo htmlspecialchars($user['role']); ?></span>
+              <span class="badge <?php echo $badgeClass; ?> text-uppercase"><?php echo htmlspecialchars($user['role']); ?></span>
             </li>
           </ul>
 
+          <!-- RBAC Privilege Notice -->
+          <?php if ($isStaff): ?>
+            <div class="alert alert-success border-0 bg-success-subtle p-3 rounded-3 mb-3">
+              <h6 class="fw-bold text-success mb-1">Staff Clearance Active (Task 6)</h6>
+              <p class="small text-secondary mb-0">
+                You have administrative authority to <strong>Create, Update, and Delete</strong> fitness classes across the platform.
+              </p>
+            </div>
+          <?php else: ?>
+            <div class="alert alert-secondary border-0 bg-light p-3 rounded-3 mb-3 border">
+              <h6 class="fw-bold text-dark mb-1">Member Privilege Notice (Task 6)</h6>
+              <p class="small text-muted mb-2">
+                Your role is <strong>Member</strong> (Read-Only access). You can browse training classes and book sessions, but cannot create or edit records.
+              </p>
+              <a href="class_form.php" class="btn btn-outline-danger btn-sm w-100 fw-semibold">
+                &rarr; Test RBAC Security (Attempt class_form.php access)
+              </a>
+            </div>
+          <?php endif; ?>
+
           <!-- Technical Evidence box for Lab 2 Task 5.1 -->
-          <div class="bg-light p-3 rounded-3 mt-4 border">
+          <div class="bg-light p-3 rounded-3 border">
             <div class="d-flex align-items-center justify-content-between mb-1">
               <strong class="small text-secondary">Session ID (Task 5.1 Evidence):</strong>
               <span class="badge bg-success small">Verified</span>
             </div>
-            <code class="small text-break d-block mb-2"><?php echo htmlspecialchars($sessionId); ?></code>
+            <code class="small text-break d-block mb-1"><?php echo htmlspecialchars($sessionId); ?></code>
             <small class="text-muted d-block">
-              This unique session identifier is securely tracked in PHP session memory, keeping your login active across all pages.
+              Session state actively stored and verified across requests.
             </small>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Available Classes Table -->
+    <!-- Right Column: Training Classes Management / Overview -->
     <div class="col-12 col-lg-7">
       <div class="card border-0 shadow-sm rounded-4 h-100 bg-white">
-        <div class="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center">
-          <h5 class="fw-bold mb-0">Available Training Programs</h5>
-          <a href="../public/index.php#items" class="small text-danger fw-semibold text-decoration-none">View Catalog &rarr;</a>
+        <div class="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center flex-wrap gap-2">
+          <h5 class="fw-bold mb-0">Training Programs Management</h5>
+          <div class="d-flex gap-2">
+            <?php if ($isStaff): ?>
+              <a href="class_form.php" class="btn btn-sm btn-danger fw-semibold">+ New Class</a>
+            <?php endif; ?>
+            <a href="classes.php" class="small text-danger fw-semibold text-decoration-none align-self-center">All Classes &rarr;</a>
+          </div>
         </div>
         <div class="card-body p-0">
           <div class="table-responsive">
@@ -169,20 +218,19 @@ $badgeClass = $roleBadges[$user['role']] ?? 'bg-secondary text-white';
               <thead class="table-light">
                 <tr>
                   <th class="ps-4">Program Title</th>
-                  <th>Discipline</th>
-                  <th>Head Coach</th>
-                  <th>Pass Price</th>
-                  <th class="text-end pe-4">Action</th>
+                  <th>Coach</th>
+                  <th>Price</th>
+                  <th class="text-end pe-4">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 <?php foreach ($classes as $c): ?>
                   <tr>
                     <td class="ps-4 fw-semibold text-dark">
-                      <?php echo htmlspecialchars($c['title']); ?>
-                    </td>
-                    <td>
-                      <span class="badge bg-secondary-subtle text-dark border small">
+                      <a href="item_details.php?id=<?php echo urlencode($c['id']); ?>" class="text-decoration-none text-dark">
+                        <?php echo htmlspecialchars($c['title']); ?>
+                      </a>
+                      <span class="d-block small text-muted">
                         <?php echo htmlspecialchars($c['category_name']); ?>
                       </span>
                     </td>
@@ -193,9 +241,22 @@ $badgeClass = $roleBadges[$user['role']] ?? 'bg-secondary text-white';
                       $<?php echo number_format((float)$c['price'], 2); ?>
                     </td>
                     <td class="text-end pe-4">
-                      <a href="item_details.php?id=<?php echo urlencode($c['id']); ?>" class="btn btn-sm btn-outline-dark">
-                        Details
-                      </a>
+                      <div class="d-inline-flex gap-1">
+                        <a href="item_details.php?id=<?php echo urlencode($c['id']); ?>" class="btn btn-sm btn-outline-secondary" title="View details">
+                          View
+                        </a>
+                        <?php if ($isStaff): ?>
+                          <a href="class_form.php?id=<?php echo urlencode($c['id']); ?>" class="btn btn-sm btn-outline-primary" title="Edit class">
+                            Edit
+                          </a>
+                          <form action="delete_class.php" method="POST" class="d-inline" onsubmit="return confirm('Permanently delete this class?');">
+                            <input type="hidden" name="class_id" value="<?php echo (int)$c['id']; ?>">
+                            <button type="submit" class="btn btn-sm btn-outline-danger" title="Delete class">
+                              &times;
+                            </button>
+                          </form>
+                        <?php endif; ?>
+                      </div>
                     </td>
                   </tr>
                 <?php endforeach; ?>

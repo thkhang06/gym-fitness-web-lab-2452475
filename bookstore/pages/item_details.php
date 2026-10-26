@@ -152,10 +152,32 @@ require_once __DIR__ . '/../components/header.php';
             onclick="showMessage()">
             Book This Session
           </button>
-          <a href="../public/index.php#items" class="btn btn-outline-dark btn-lg px-4">
+          <a href="classes.php" class="btn btn-outline-dark btn-lg px-4">
             &larr; All Classes
           </a>
         </div>
+
+        <?php if (hasRole(['admin', 'trainer'])): ?>
+          <div class="card border-0 bg-light p-3 mt-4 rounded-3 border-start border-danger border-4">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+              <div>
+                <strong class="text-dark d-block">Staff Administrative Actions</strong>
+                <span class="small text-muted">You have management clearance to edit or delete this class.</span>
+              </div>
+              <div class="d-flex gap-2">
+                <a href="class_form.php?id=<?php echo urlencode($fitnessClass['id']); ?>" class="btn btn-primary btn-sm px-3 fw-semibold">
+                  Edit Class
+                </a>
+                <form action="delete_class.php" method="POST" class="d-inline" onsubmit="return confirm('Permanently delete this class?');">
+                  <input type="hidden" name="class_id" value="<?php echo (int)$fitnessClass['id']; ?>">
+                  <button type="submit" class="btn btn-outline-danger btn-sm px-3 fw-semibold">
+                    Delete Class
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        <?php endif; ?>
       </div>
     </div>
   <?php endif; ?>

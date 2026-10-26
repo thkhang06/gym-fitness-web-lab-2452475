@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../config/session.php';
 $isAuth = isLoggedIn();
 $currentUser = getCurrentUser();
+$isStaff = hasRole(['admin', 'trainer']);
 ?>
 <header>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
@@ -21,12 +22,12 @@ $currentUser = getCurrentUser();
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="mainNavbar">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-lg-center">
           <li class="nav-item">
             <a class="nav-link" href="../public/index.php">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../public/index.php#items">Training Classes</a>
+            <a class="nav-link" href="../pages/classes.php">Training Classes</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="../public/index.php#trainers">Trainers</a>
@@ -34,6 +35,13 @@ $currentUser = getCurrentUser();
           <?php if ($isAuth): ?>
             <li class="nav-item">
               <a class="nav-link text-warning fw-semibold" href="../pages/dashboard.php">Dashboard</a>
+            </li>
+          <?php endif; ?>
+          <?php if ($isStaff): ?>
+            <li class="nav-item">
+              <a class="btn btn-sm btn-outline-danger ms-lg-2 my-2 my-lg-0 fw-semibold px-2" href="../pages/class_form.php">
+                + Add Class
+              </a>
             </li>
           <?php endif; ?>
         </ul>
