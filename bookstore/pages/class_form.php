@@ -11,7 +11,7 @@ require_once __DIR__ . '/../config/database.php';
 requireRole(['admin', 'trainer']);
 
 $currentUser = getCurrentUser();
-$editId = filter_var($_GET['id'] ?? null, FILTER_VALIDATE_INT);
+$editId = filter_var($_POST['class_id'] ?? $_POST['id'] ?? $_GET['id'] ?? null, FILTER_VALIDATE_INT);
 $isEdit = !empty($editId);
 $errors = [];
 

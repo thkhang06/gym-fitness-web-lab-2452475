@@ -5,6 +5,11 @@
  */
 require_once __DIR__ . '/../config/session.php';
 require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../config/preferences.php';
+
+$activeTheme = getActiveTheme();
+$recentClass = getRecentlyViewedClass();
+$favCategory = getFavoriteCategory();
 
 try {
     $stmt = $pdo->query("
@@ -38,7 +43,7 @@ try {
     rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="<?php echo ($activeTheme === 'dark') ? 'theme-dark' : ''; ?>" data-bs-theme="<?php echo $activeTheme; ?>">
 
 <?php
 require_once __DIR__ . '/../components/header.php';
@@ -66,6 +71,32 @@ require_once __DIR__ . '/../components/header.php';
 <!-- Item Catalog (Dynamic MySQL Database Integration) -->
 <section class="py-5" id="items">
   <div class="container">
+    <?php if ($recentClass || $favCategory): ?>
+      <div class="alert alert-light border shadow-sm p-3 mb-4 rounded-3 d-flex align-items-center justify-content-between flex-wrap gap-2">
+        <div class="d-flex align-items-center gap-2">
+          <span class="badge bg-danger">Welcome Back</span>
+          <span class="small text-secondary">
+            <?php if ($recentClass): ?>
+              Recently viewed: <strong><?php echo htmlspecialchars($recentClass['title']); ?></strong>
+            <?php elseif ($favCategory): ?>
+              Favorite discipline: <strong><?php echo htmlspecialchars($favCategory['name']); ?></strong>
+            <?php endif; ?>
+          </span>
+        </div>
+        <div>
+          <?php if ($recentClass): ?>
+            <a href="../pages/item_details.php?id=<?php echo urlencode($recentClass['id']); ?>" class="btn btn-sm btn-outline-danger">
+              Resume Class Details &rarr;
+            </a>
+          <?php elseif ($favCategory): ?>
+            <a href="../pages/classes.php?category_id=<?php echo urlencode($favCategory['id']); ?>" class="btn btn-sm btn-outline-dark">
+              Filter By Discipline &rarr;
+            </a>
+          <?php endif; ?>
+        </div>
+      </div>
+    <?php endif; ?>
+
     <div class="text-center mb-5">
       <span class="text-danger fw-semibold text-uppercase small">Our Offerings</span>
       <h2 class="display-6 fw-bold mt-1">Featured Training Programs</h2>

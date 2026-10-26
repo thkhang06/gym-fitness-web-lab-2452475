@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-$classId = filter_var($_POST['class_id'] ?? null, FILTER_VALIDATE_INT);
+$classId = filter_var($_POST['class_id'] ?? $_POST['id'] ?? null, FILTER_VALIDATE_INT);
 
 if (!$classId) {
     setFlash('error', 'Invalid or missing fitness class identifier.');

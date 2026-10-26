@@ -6,6 +6,7 @@
  */
 require_once __DIR__ . '/../config/session.php';
 require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../config/preferences.php';
 
 $isStaff = hasRole(['admin', 'trainer']);
 $currentUser = getCurrentUser();
@@ -25,6 +26,16 @@ try {
 } catch (PDOException $e) {
     error_log("Failed to load categories: " . $e->getMessage());
     $allCategories = [];
+}
+
+// Task 5.2: Track favorite category preference in client cookie when filtering
+if ($categoryId) {
+    foreach ($allCategories as $cat) {
+        if ((int)$cat['id'] === $categoryId) {
+            trackFavoriteCategory($categoryId, $cat['name']);
+            break;
+        }
+    }
 }
 
 // Build dynamic filtered query

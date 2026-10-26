@@ -1,11 +1,13 @@
 <?php
 /**
- * Protected Member & Coach Dashboard (Lab 2 Tasks 4.4, 5.1 & 6)
+ * Protected Member & Coach Dashboard (Lab 2 Tasks 4.4, 5.1, 5.2 & 6)
  * Enforces authentication via requireLogin()
  * Role-Based Access Control: Displays staff management tools or member privileges
+ * Task 5 Technical Evaluation: Live Session & Client Cookie Inspector
  */
 require_once __DIR__ . '/../config/session.php';
 require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../config/preferences.php';
 
 // Security: Prevent browser caching of protected content
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
@@ -19,10 +21,16 @@ requireLogin("Access Denied: You must be logged in to view the Member Dashboard.
 $user = getCurrentUser();
 $sessionId = session_id();
 $isStaff = hasRole(['admin', 'trainer']);
+$activeTheme = getActiveTheme();
 
 // Flash messaging
 $flashSuccess = getFlash('success');
 $flashError   = getFlash('error');
+
+// Cookie inspector data for Task 5.2 evaluation
+$cookiesInspector = getCookiesInspectorData();
+$recentClass      = getRecentlyViewedClass();
+$favCategory      = getFavoriteCategory();
 
 // Fetch summary metrics & training classes from database for display
 try {
@@ -64,7 +72,7 @@ $badgeClass = $roleBadges[$user['role']] ?? 'bg-secondary text-white';
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../public/css/style.css">
 </head>
-<body class="bg-light">
+<body class="bg-light <?php echo ($activeTheme === 'dark') ? 'theme-dark' : ''; ?>" data-bs-theme="<?php echo $activeTheme; ?>">
 
 <?php require_once __DIR__ . '/../components/header.php'; ?>
 
@@ -96,7 +104,7 @@ $badgeClass = $roleBadges[$user['role']] ?? 'bg-secondary text-white';
         </span>
       </div>
       <h1 class="display-6 fw-bold mb-1">Welcome, <?php echo htmlspecialchars($user['full_name']); ?>!</h1>
-      <p class="text-secondary mb-0">Here is your training hub and personalized membership overview.</p>
+      <p class="text-secondary mb-0">Here is your training hub, personalized membership overview, and system controls.</p>
     </div>
     <div class="col-md-5 text-md-end mt-3 mt-md-0 d-flex justify-content-md-end gap-2 flex-wrap">
       <?php if ($isStaff): ?>
@@ -193,7 +201,7 @@ $badgeClass = $roleBadges[$user['role']] ?? 'bg-secondary text-white';
             </div>
             <code class="small text-break d-block mb-1"><?php echo htmlspecialchars($sessionId); ?></code>
             <small class="text-muted d-block">
-              Session state actively stored and verified across requests.
+              Session state actively stored on server and verified on every HTTP request.
             </small>
           </div>
         </div>
@@ -264,6 +272,104 @@ $badgeClass = $roleBadges[$user['role']] ?? 'bg-secondary text-white';
             </table>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Task 5 Technical Evaluation: PHP Sessions & Client Cookies Inspector -->
+  <div class="card border-0 shadow-sm rounded-4 bg-white mt-4 overflow-hidden">
+    <div class="card-header bg-dark text-white py-3 px-4 d-flex justify-content-between align-items-center flex-wrap gap-2 border-0">
+      <div>
+        <span class="badge bg-danger text-uppercase px-2 py-1 small me-2">Task 5 Deliverable</span>
+        <strong class="fs-6">Client-Side Cookies & Session Inspector</strong>
+      </div>
+      <div class="d-flex gap-2">
+        <a href="clear_cookies.php?return=dashboard.php" class="btn btn-sm btn-outline-danger fw-semibold" onclick="return confirm('Reset all tracking cookies and preferences?');">
+          Reset Preferences (Clear Cookies)
+        </a>
+      </div>
+    </div>
+    <div class="card-body p-4">
+      <div class="row g-3 mb-4">
+        <!-- Quick Preference Badges -->
+        <div class="col-12 col-md-4">
+          <div class="p-3 bg-light rounded-3 border h-100">
+            <strong class="d-block small text-secondary">Active UI Theme (Cookie 1)</strong>
+            <div class="d-flex align-items-center justify-content-between mt-1">
+              <span class="fw-bold text-dark text-uppercase"><?php echo htmlspecialchars($activeTheme); ?> Mode</span>
+              <a href="set_theme.php?theme=<?php echo ($activeTheme === 'dark') ? 'light' : 'dark'; ?>&return=dashboard.php" class="btn btn-sm btn-outline-dark">
+                Toggle Theme
+              </a>
+            </div>
+            <small class="text-muted d-block mt-2">Cookie <code>apex_theme</code> (30-day lifespan).</small>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <div class="p-3 bg-light rounded-3 border h-100">
+            <strong class="d-block small text-secondary">Recently Viewed Class (Cookie 2)</strong>
+            <?php if ($recentClass): ?>
+              <div class="d-flex align-items-center justify-content-between mt-1">
+                <span class="fw-bold text-danger text-truncate me-2"><?php echo htmlspecialchars($recentClass['title']); ?></span>
+                <a href="item_details.php?id=<?php echo urlencode($recentClass['id']); ?>" class="btn btn-sm btn-outline-secondary">
+                  Revisit
+                </a>
+              </div>
+              <small class="text-muted d-block mt-2">Cookie <code>apex_recent_class</code> (7-day lifespan).</small>
+            <?php else: ?>
+              <span class="text-muted small d-block mt-1">No class visited recently yet.</span>
+              <small class="text-muted d-block mt-2">Visit any class in catalog to activate.</small>
+            <?php endif; ?>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <div class="p-3 bg-light rounded-3 border h-100">
+            <strong class="d-block small text-secondary">Favorite Discipline (Cookie 3)</strong>
+            <?php if ($favCategory): ?>
+              <div class="d-flex align-items-center justify-content-between mt-1">
+                <span class="fw-bold text-dark"><?php echo htmlspecialchars($favCategory['name']); ?></span>
+                <a href="classes.php?category_id=<?php echo urlencode($favCategory['id']); ?>" class="btn btn-sm btn-outline-secondary">
+                  Filter
+                </a>
+              </div>
+              <small class="text-muted d-block mt-2">Cookie <code>apex_fav_category</code> (7-day lifespan).</small>
+            <?php else: ?>
+              <span class="text-muted small d-block mt-1">No category filtered yet.</span>
+              <small class="text-muted d-block mt-2">Filter classes by category to activate.</small>
+            <?php endif; ?>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Inspection Table for Evaluator -->
+      <h6 class="fw-bold text-dark mb-2">Technical Cookies & Session Inspector Table</h6>
+      <div class="table-responsive">
+        <table class="table table-bordered table-sm align-middle small mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Cookie Name</th>
+              <th>Current Stored Value</th>
+              <th>System Purpose</th>
+              <th>Lifespan & Expiration</th>
+              <th>Security Level</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach ($cookiesInspector as $c): ?>
+              <tr>
+                <td class="fw-semibold text-primary"><code><?php echo htmlspecialchars($c['name']); ?></code></td>
+                <td><code class="text-dark"><?php echo htmlspecialchars($c['value']); ?></code></td>
+                <td><?php echo htmlspecialchars($c['purpose']); ?></td>
+                <td><span class="badge bg-secondary-subtle text-dark border"><?php echo htmlspecialchars($c['lifespan']); ?></span></td>
+                <td><span class="badge bg-success-subtle text-success border border-success"><?php echo htmlspecialchars($c['security']); ?></span></td>
+              </tr>
+            <?php endforeach; ?>
+          </tbody>
+        </table>
+      </div>
+      <div class="mt-3 text-muted small">
+        <strong>Task 5.2 Security Guarantee:</strong> All persistent cookies above store strictly non-sensitive user preferences. Under no circumstances are passwords, secret keys, or authentication tokens stored in client cookies.
       </div>
     </div>
   </div>

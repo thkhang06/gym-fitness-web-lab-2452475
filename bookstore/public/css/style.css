@@ -10,6 +10,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   color: #1f2937;
   background-color: var(--surface-bg);
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .hero-section {
@@ -74,4 +75,96 @@ body {
 
 footer {
   padding: 35px 0;
+}
+
+/* =====================================================================
+ * Dark Gym Mode (Task 5.2 - Cookie: apex_theme = 'dark')
+ * ===================================================================== */
+body.theme-dark,
+[data-bs-theme="dark"] {
+  --surface-bg: #090d16;
+  background-color: #090d16 !important;
+  color: #e2e8f0 !important;
+}
+
+body.theme-dark .bg-light,
+[data-bs-theme="dark"] .bg-light {
+  background-color: #0f172a !important;
+}
+
+body.theme-dark .bg-white,
+[data-bs-theme="dark"] .bg-white {
+  background-color: #131c2e !important;
+  color: #e2e8f0 !important;
+}
+
+body.theme-dark .card,
+[data-bs-theme="dark"] .card {
+  background-color: #131c2e !important;
+  border-color: #1e293b !important;
+  color: #e2e8f0 !important;
+}
+
+body.theme-dark .card-title,
+[data-bs-theme="dark"] .card-title {
+  color: #ffffff !important;
+}
+
+body.theme-dark .card-header,
+[data-bs-theme="dark"] .card-header {
+  background-color: #0f172a !important;
+  border-color: #1e293b !important;
+  color: #ffffff !important;
+}
+
+body.theme-dark .table,
+[data-bs-theme="dark"] .table {
+  color: #e2e8f0 !important;
+  border-color: #1e293b !important;
+}
+
+body.theme-dark .table-light,
+[data-bs-theme="dark"] .table-light {
+  background-color: #1e293b !important;
+  color: #ffffff !important;
+}
+
+body.theme-dark .text-dark,
+[data-bs-theme="dark"] .text-dark {
+  color: #f1f5f9 !important;
+}
+
+body.theme-dark .text-muted,
+body.theme-dark .text-secondary,
+[data-bs-theme="dark"] .text-muted,
+[data-bs-theme="dark"] .text-secondary {
+  color: #94a3b8 !important;
+}
+
+body.theme-dark .form-control,
+body.theme-dark .form-select,
+[data-bs-theme="dark"] .form-control,
+[data-bs-theme="dark"] .form-select {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+body.theme-dark .list-group-item,
+[data-bs-theme="dark"] .list-group-item {
+  background-color: transparent !important;
+  border-color: #1e293b !important;
+  color: #e2e8f0 !important;
+}
+
+body.theme-dark .btn-outline-dark,
+[data-bs-theme="dark"] .btn-outline-dark {
+  color: #f8fafc !important;
+  border-color: #475569 !important;
+}
+
+body.theme-dark .btn-outline-dark:hover,
+[data-bs-theme="dark"] .btn-outline-dark:hover {
+  background-color: #334155 !important;
+  border-color: #64748b !important;
 }

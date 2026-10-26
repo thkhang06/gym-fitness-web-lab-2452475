@@ -5,6 +5,7 @@
  */
 require_once __DIR__ . '/../config/session.php';
 require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../config/preferences.php';
 
 $rawId = $_GET['id'] ?? null;
 $classId = filter_var($rawId, FILTER_VALIDATE_INT);
@@ -37,6 +38,9 @@ if ($classId === false || $classId === null) {
 
         if (!$fitnessClass) {
             $errorMessage = "The requested fitness class (#{$classId}) could not be found in our schedule.";
+        } else {
+            // Task 5.2: Track recently viewed class in persistent client cookie
+            trackRecentlyViewedClass((int)$fitnessClass['id'], $fitnessClass['title']);
         }
     } catch (PDOException $e) {
         error_log("Failed to query class details: " . $e->getMessage());

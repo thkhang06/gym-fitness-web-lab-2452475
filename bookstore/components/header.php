@@ -1,9 +1,29 @@
 <?php
 require_once __DIR__ . '/../config/session.php';
+require_once __DIR__ . '/../config/preferences.php';
+
 $isAuth = isLoggedIn();
 $currentUser = getCurrentUser();
 $isStaff = hasRole(['admin', 'trainer']);
+$activeTheme = getActiveTheme();
+
+// Calculate toggle destination
+$currentUri = $_SERVER['REQUEST_URI'] ?? '../public/index.php';
+$targetTheme = ($activeTheme === 'dark') ? 'light' : 'dark';
+$themeToggleUrl = "../pages/set_theme.php?theme=" . urlencode($targetTheme) . "&return=" . urlencode($currentUri);
 ?>
+<script>
+  // Instant client-side theme application to prevent FOUC
+  (function() {
+    var theme = "<?php echo $activeTheme; ?>";
+    if (theme === 'dark') {
+      document.documentElement.setAttribute('data-bs-theme', 'dark');
+      if (document.body) {
+        document.body.classList.add('theme-dark');
+      }
+    }
+  })();
+</script>
 <header>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
     <div class="container">
@@ -47,6 +67,19 @@ $isStaff = hasRole(['admin', 'trainer']);
         </ul>
 
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+          <!-- Theme Toggle (Task 5.2 Cookie: apex_theme) -->
+          <li class="nav-item me-lg-2 my-2 my-lg-0">
+            <a href="<?php echo htmlspecialchars($themeToggleUrl); ?>" 
+               class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1 px-2 py-1"
+               title="Switch to <?php echo ucfirst($targetTheme); ?> Gym Mode (Cookie-persisted for 30 days)">
+              <?php if ($activeTheme === 'dark'): ?>
+                <span class="text-warning">&#9728;</span> <span class="small">Light</span>
+              <?php else: ?>
+                <span class="text-info">&#9790;</span> <span class="small">Dark Mode</span>
+              <?php endif; ?>
+            </a>
+          </li>
+
           <?php if ($isAuth): ?>
             <li class="nav-item me-lg-3 my-2 my-lg-0 text-light small d-flex align-items-center gap-2">
               <span>Hi, <strong class="text-white"><?php echo htmlspecialchars($currentUser['full_name']); ?></strong></span>
