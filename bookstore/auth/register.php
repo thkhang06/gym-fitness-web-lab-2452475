@@ -21,6 +21,7 @@ $email = '';
 $role = 'member';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    requireCsrfToken(false);
     $fullName        = trim($_POST['full_name'] ?? '');
     $email           = trim($_POST['email'] ?? '');
     $password        = $_POST['password'] ?? '';
@@ -104,7 +105,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Create Athlete Account - TIGER FITNESS</title>
+  <?php
+  $seo = [
+      'title'       => 'Create Athlete Account - TIGER FITNESS',
+      'description' => 'Register for a Tiger Fitness athlete account to activate memberships, check class capacity, and book training sessions.',
+      'robots'      => 'noindex, follow',
+  ];
+  require __DIR__ . '/../components/seo_meta.php';
+  ?>
   <link rel="icon" type="image/svg+xml" href="../public/images/favicon.svg">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../public/css/style.css">
@@ -122,18 +130,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <img src="../public/images/tiger-logo.svg" alt="Tiger Fitness Mascot" width="54" height="54" style="filter: drop-shadow(0 0 10px rgba(255, 107, 0, 0.5));">
           </div>
           <span class="hero-badge mb-2">Join Tiger Fitness</span>
-          <h3 class="fw-bold font-headline text-uppercase text-white mb-1">Create Account</h3>
+          <h1 class="h3 fw-bold font-headline text-uppercase text-white mb-1">Create Account</h1>
           <p class="text-secondary small mb-0">Begin your high-performance training journey today</p>
         </div>
 
         <div class="card-body p-4 p-md-5">
           <?php if (!empty($errors['system'])): ?>
             <div class="alert alert-danger shadow-sm py-2 mb-4" role="alert">
-              <?php echo htmlspecialchars($errors['system']); ?>
+              <?php echo e($errors['system']); ?>
             </div>
           <?php endif; ?>
 
           <form action="register.php" method="POST" novalidate>
+            <?php echo csrfField(); ?>
             <!-- Full Name -->
             <div class="mb-3">
               <label for="full_name" class="form-label fw-semibold">Full Name <span class="text-danger">*</span></label>

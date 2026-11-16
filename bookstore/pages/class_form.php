@@ -1,14 +1,12 @@
 <?php
 /**
- * Fitness Class Create & Update Form (Lab 2 Tasks 3 & 6)
+ * Fitness Class Create & Update Form (Labs 2 & 3 - CRUD, RBAC & CSRF Hardening)
  * Server-side RBAC: Restricted exclusively to admin and trainer roles
- * Prepared Statement insertions and updates with comprehensive validation
  */
 require_once __DIR__ . '/../config/session.php';
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../config/preferences.php';
 
-// Enforce strict staff authorization (HTTP 403 Forbidden for members/guests)
 requireRole(['admin', 'trainer']);
 
 $currentUser = getCurrentUser();
@@ -16,7 +14,6 @@ $editId = filter_var($_POST['class_id'] ?? $_POST['id'] ?? $_GET['id'] ?? null, 
 $isEdit = !empty($editId);
 $errors = [];
 
-// Available standard preset images
 $presetImages = [
     'images/item1.jpg' => 'Item 1 - Heavy Barbell & Deadlift',
     'images/item2.jpg' => 'Item 2 - Battle Ropes HIIT',
@@ -26,7 +23,6 @@ $presetImages = [
     'images/item6.jpg' => 'Item 6 - Boxing & Heavy Bag',
 ];
 
-// Fetch categories from DB
 try {
     $catStmt = $pdo->query("SELECT id, name FROM categories ORDER BY name ASC");
     $categories = $catStmt->fetchAll();
@@ -35,18 +31,17 @@ try {
     $categories = [];
 }
 
-// Default form state
 $formData = [
     'title'         => '',
     'category_id'   => '',
     'trainer_name'  => $currentUser['full_name'] ?? '',
     'schedule_info' => '',
     'price'         => '',
+    'max_capacity'  => '15',
     'image_url'     => 'images/item1.jpg',
     'description'   => ''
 ];
 
-// If in Edit mode, load current class record
 if ($isEdit) {
     try {
         $stmt = $pdo->prepare("SELECT * FROM fitness_classes WHERE id = :id LIMIT 1");
@@ -59,13 +54,13 @@ if ($isEdit) {
             exit;
         }
 
-        // Populate initial data for sticky form
         $formData = [
             'title'         => $existingClass['title'],
             'category_id'   => (string)$existingClass['category_id'],
             'trainer_name'  => $existingClass['trainer_name'],
             'schedule_info' => $existingClass['schedule_info'],
             'price'         => (string)$existingClass['price'],
+            'max_capacity'  => (string)($existingClass['max_capacity'] ?? 15),
             'image_url'     => $existingClass['image_url'],
             'description'   => $existingClass['description']
         ];
@@ -77,24 +72,24 @@ if ($isEdit) {
     }
 }
 
-// Handle Form Submission (Create or Update)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    requireCsrfToken(false);
+
     $formData['title']         = trim($_POST['title'] ?? '');
     $formData['category_id']   = trim($_POST['category_id'] ?? '');
     $formData['trainer_name']  = trim($_POST['trainer_name'] ?? '');
     $formData['schedule_info'] = trim($_POST['schedule_info'] ?? '');
     $formData['price']         = trim($_POST['price'] ?? '');
+    $formData['max_capacity']  = trim($_POST['max_capacity'] ?? '15');
     $formData['image_url']     = trim($_POST['image_url'] ?? 'images/item1.jpg');
     $formData['description']   = trim($_POST['description'] ?? '');
 
-    // Validation 1: Title
-    if (empty($formData['title'])) {
+    if ($formData['title'] === '') {
         $errors['title'] = 'Program title is required.';
     } elseif (mb_strlen($formData['title']) < 3 || mb_strlen($formData['title']) > 150) {
         $errors['title'] = 'Title must be between 3 and 150 characters.';
     }
 
-    // Validation 2: Category
     $catIdVal = filter_var($formData['category_id'], FILTER_VALIDATE_INT);
     if ($catIdVal === false) {
         $errors['category_id'] = 'Please select a valid discipline category.';
@@ -111,37 +106,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // Validation 3: Trainer Name
-    if (empty($formData['trainer_name'])) {
+    if ($formData['trainer_name'] === '') {
         $errors['trainer_name'] = 'Lead trainer name is required.';
     } elseif (mb_strlen($formData['trainer_name']) < 2 || mb_strlen($formData['trainer_name']) > 100) {
         $errors['trainer_name'] = 'Trainer name must be between 2 and 100 characters.';
     }
 
-    // Validation 4: Schedule Info
-    if (empty($formData['schedule_info'])) {
-        $errors['schedule_info'] = 'Training schedule information is required (e.g. Mon, Wed • 07:00 AM).';
+    if ($formData['schedule_info'] === '') {
+        $errors['schedule_info'] = 'Training schedule information is required.';
     } elseif (mb_strlen($formData['schedule_info']) < 3 || mb_strlen($formData['schedule_info']) > 100) {
         $errors['schedule_info'] = 'Schedule info must be between 3 and 100 characters.';
     }
 
-    // Validation 5: Price
-    if ($formData['price'] === '' || !is_numeric($formData['price']) || (float)$formData['price'] < 0) {
-        $errors['price'] = 'Please provide a valid session price greater than or equal to 0.';
+    if ($formData['price'] === '' || !is_numeric($formData['price']) || (float)$formData['price'] < 0 || (float)$formData['price'] > 9999) {
+        $errors['price'] = 'Please provide a valid session price between $0 and $9999.';
     }
 
-    // Validation 6: Description
-    if (empty($formData['description'])) {
+    $maxCapVal = filter_var($formData['max_capacity'], FILTER_VALIDATE_INT);
+    if ($maxCapVal === false || $maxCapVal < 1 || $maxCapVal > 100) {
+        $errors['max_capacity'] = 'Class capacity must be a whole number between 1 and 100.';
+    }
+
+    if (!array_key_exists($formData['image_url'], $presetImages)) {
+        $formData['image_url'] = 'images/item1.jpg';
+    }
+
+    if ($formData['description'] === '') {
         $errors['description'] = 'Program description is required.';
     } elseif (mb_strlen($formData['description']) < 10) {
         $errors['description'] = 'Description must contain at least 10 characters.';
     }
 
-    // Execution when validation passes
     if (empty($errors)) {
         try {
             if ($isEdit) {
-                // UPDATE operation via Prepared Statement
                 $updateSql = "
                     UPDATE fitness_classes SET
                         category_id   = :category_id,
@@ -150,6 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         trainer_name  = :trainer_name,
                         schedule_info = :schedule_info,
                         price         = :price,
+                        max_capacity  = :max_capacity,
                         image_url     = :image_url
                     WHERE id = :id
                 ";
@@ -161,6 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'trainer_name'  => $formData['trainer_name'],
                     'schedule_info' => $formData['schedule_info'],
                     'price'         => number_format((float)$formData['price'], 2, '.', ''),
+                    'max_capacity'  => $maxCapVal,
                     'image_url'     => $formData['image_url'],
                     'id'            => $editId
                 ]);
@@ -169,12 +169,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 header("Location: classes.php");
                 exit;
             } else {
-                // CREATE operation via Prepared Statement
                 $insertSql = "
-                    INSERT INTO fitness_classes 
-                        (category_id, title, description, trainer_name, schedule_info, price, image_url, created_at)
-                    VALUES 
-                        (:category_id, :title, :description, :trainer_name, :schedule_info, :price, :image_url, NOW())
+                    INSERT INTO fitness_classes
+                        (category_id, title, description, trainer_name, schedule_info, price, max_capacity, image_url, created_at)
+                    VALUES
+                        (:category_id, :title, :description, :trainer_name, :schedule_info, :price, :max_capacity, :image_url, NOW())
                 ";
                 $insertStmt = $pdo->prepare($insertSql);
                 $insertStmt->execute([
@@ -184,6 +183,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'trainer_name'  => $formData['trainer_name'],
                     'schedule_info' => $formData['schedule_info'],
                     'price'         => number_format((float)$formData['price'], 2, '.', ''),
+                    'max_capacity'  => $maxCapVal,
                     'image_url'     => $formData['image_url']
                 ]);
 
@@ -193,61 +193,65 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         } catch (PDOException $e) {
             error_log("Class form save error: " . $e->getMessage());
-            $errors['system'] = "Database save failed: " . $e->getMessage();
+            $errors['system'] = "Unable to save class right now due to a database error. Please try again.";
         }
     }
 }
+
+$activeTheme = getActiveTheme();
+$seo = [
+    'title'       => ($isEdit ? 'Edit Fitness Class' : 'Create New Fitness Class') . ' - TIGER FITNESS',
+    'description' => 'Staff management form to create or update fitness class details and maximum capacity.',
+    'robots'      => 'noindex, nofollow',
+];
 ?>
-<?php $activeTheme = getActiveTheme(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?php echo $isEdit ? 'Edit Fitness Class' : 'Create New Fitness Class'; ?> - TIGER FITNESS</title>
+  <?php require __DIR__ . '/../components/seo_meta.php'; ?>
   <link rel="icon" type="image/svg+xml" href="../public/images/favicon.svg">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../public/css/style.css">
 </head>
-<body class="<?php echo ($activeTheme === 'dark') ? 'theme-dark' : ''; ?>" data-bs-theme="<?php echo $activeTheme; ?>">
+<body class="<?php echo ($activeTheme === 'dark') ? 'theme-dark' : ''; ?>" data-bs-theme="<?php echo e($activeTheme); ?>">
 
 <?php require_once __DIR__ . '/../components/header.php'; ?>
 
 <main class="container py-5">
   <div class="row justify-content-center">
     <div class="col-12 col-lg-8">
-      <!-- Breadcrumb -->
       <nav aria-label="breadcrumb" class="mb-4">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="../public/index.php" class="text-decoration-none">Home</a></li>
           <li class="breadcrumb-item"><a href="classes.php" class="text-decoration-none">Classes</a></li>
-          <li class="breadcrumb-item active text-white" aria-current="page"><?php echo $isEdit ? 'Edit Class #' . $editId : 'New Class'; ?></li>
+          <li class="breadcrumb-item active text-white" aria-current="page"><?php echo $isEdit ? 'Edit Class #' . (int)$editId : 'New Class'; ?></li>
         </ol>
       </nav>
 
       <div class="glass-panel overflow-hidden mb-5">
-        <div class="p-4 border-bottom border-secondary border-opacity-25" style="background: rgba(9, 13, 22, 0.6);">
+        <div class="p-4 border-bottom border-secondary border-opacity-25" style="background: rgba(9, 13, 22, 0.25);">
           <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
             <div>
-              <span class="hero-badge mb-2">Staff Portal (Task 3 & 6)</span>
-              <h3 class="fw-bold font-headline text-uppercase mb-1"><?php echo $isEdit ? 'Edit Fitness Class' : 'Create New Fitness Class'; ?></h3>
-              <p class="text-secondary small mb-0">Authorized as: <strong><?php echo htmlspecialchars($currentUser['full_name']); ?></strong> (<?php echo htmlspecialchars(strtoupper($currentUser['role'])); ?>)</p>
+              <span class="hero-badge mb-2">Staff Portal (RBAC + CSRF)</span>
+              <h1 class="h3 fw-bold font-headline text-uppercase mb-1"><?php echo $isEdit ? 'Edit Fitness Class' : 'Create New Fitness Class'; ?></h1>
+              <p class="text-secondary small mb-0">Authorized as: <strong><?php echo e($currentUser['full_name']); ?></strong> (<?php echo e(strtoupper($currentUser['role'])); ?>)</p>
             </div>
-            <a href="classes.php" class="btn btn-outline-apex btn-sm px-3">
-              &larr; Cancel
-            </a>
+            <a href="classes.php" class="btn btn-outline-apex btn-sm px-3">&larr; Cancel</a>
           </div>
         </div>
 
         <div class="card-body p-4 p-md-5">
           <?php if (!empty($errors['system'])): ?>
             <div class="alert alert-danger shadow-sm py-2 mb-4" role="alert">
-              <?php echo htmlspecialchars($errors['system']); ?>
+              <?php echo e($errors['system']); ?>
             </div>
           <?php endif; ?>
 
-          <form action="<?php echo $isEdit ? 'class_form.php?id=' . urlencode($editId) : 'class_form.php'; ?>" method="POST" novalidate>
-            <!-- Title -->
+          <form action="<?php echo $isEdit ? 'class_form.php?id=' . urlencode((string)$editId) : 'class_form.php'; ?>" method="POST" novalidate>
+            <?php echo csrfField(); ?>
+
             <div class="mb-4">
               <label for="title" class="form-label fw-semibold">Class Title <span class="text-danger">*</span></label>
               <input
@@ -256,16 +260,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 id="title"
                 name="title"
                 placeholder="e.g. Power Barbell Mastery"
-                value="<?php echo htmlspecialchars($formData['title']); ?>"
+                value="<?php echo e($formData['title']); ?>"
                 required>
               <?php if (isset($errors['title'])): ?>
-                <div class="invalid-feedback"><?php echo htmlspecialchars($errors['title']); ?></div>
+                <div class="invalid-feedback"><?php echo e($errors['title']); ?></div>
               <?php endif; ?>
             </div>
 
             <div class="row g-3 mb-4">
-              <!-- Category -->
-              <div class="col-12 col-md-6">
+              <div class="col-12 col-md-4">
                 <label for="category_id" class="form-label fw-semibold">Discipline Category <span class="text-danger">*</span></label>
                 <select
                   class="form-select <?php echo isset($errors['category_id']) ? 'is-invalid' : ''; ?>"
@@ -277,17 +280,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <option
                       value="<?php echo (int)$cat['id']; ?>"
                       <?php echo ($formData['category_id'] === (string)$cat['id']) ? 'selected' : ''; ?>>
-                      <?php echo htmlspecialchars($cat['name']); ?>
+                      <?php echo e($cat['name']); ?>
                     </option>
                   <?php endforeach; ?>
                 </select>
                 <?php if (isset($errors['category_id'])): ?>
-                  <div class="invalid-feedback"><?php echo htmlspecialchars($errors['category_id']); ?></div>
+                  <div class="invalid-feedback"><?php echo e($errors['category_id']); ?></div>
                 <?php endif; ?>
               </div>
 
-              <!-- Price -->
-              <div class="col-12 col-md-6">
+              <div class="col-12 col-md-4">
                 <label for="price" class="form-label fw-semibold">Session Price ($ USD) <span class="text-danger">*</span></label>
                 <div class="input-group">
                   <span class="input-group-text">$</span>
@@ -299,17 +301,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     id="price"
                     name="price"
                     placeholder="35.00"
-                    value="<?php echo htmlspecialchars($formData['price']); ?>"
+                    value="<?php echo e($formData['price']); ?>"
                     required>
                   <?php if (isset($errors['price'])): ?>
-                    <div class="invalid-feedback"><?php echo htmlspecialchars($errors['price']); ?></div>
+                    <div class="invalid-feedback"><?php echo e($errors['price']); ?></div>
                   <?php endif; ?>
                 </div>
+              </div>
+
+              <div class="col-12 col-md-4">
+                <label for="max_capacity" class="form-label fw-semibold">Max Capacity <span class="text-danger">*</span></label>
+                <input
+                  type="number"
+                  min="1"
+                  max="100"
+                  class="form-control <?php echo isset($errors['max_capacity']) ? 'is-invalid' : ''; ?>"
+                  id="max_capacity"
+                  name="max_capacity"
+                  value="<?php echo e($formData['max_capacity']); ?>"
+                  required>
+                <?php if (isset($errors['max_capacity'])): ?>
+                  <div class="invalid-feedback"><?php echo e($errors['max_capacity']); ?></div>
+                <?php endif; ?>
               </div>
             </div>
 
             <div class="row g-3 mb-4">
-              <!-- Lead Trainer -->
               <div class="col-12 col-md-6">
                 <label for="trainer_name" class="form-label fw-semibold">Lead Coach / Trainer <span class="text-danger">*</span></label>
                 <input
@@ -318,77 +335,70 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                   id="trainer_name"
                   name="trainer_name"
                   placeholder="e.g. Marcus Vance"
-                  value="<?php echo htmlspecialchars($formData['trainer_name']); ?>"
+                  value="<?php echo e($formData['trainer_name']); ?>"
                   required>
                 <?php if (isset($errors['trainer_name'])): ?>
-                  <div class="invalid-feedback"><?php echo htmlspecialchars($errors['trainer_name']); ?></div>
+                  <div class="invalid-feedback"><?php echo e($errors['trainer_name']); ?></div>
                 <?php endif; ?>
               </div>
 
-              <!-- Schedule Info -->
               <div class="col-12 col-md-6">
-                <label for="schedule_info" class="form-label fw-semibold">Schedule Time & Days <span class="text-danger">*</span></label>
+                <label for="schedule_info" class="form-label fw-semibold">Schedule Time &amp; Days <span class="text-danger">*</span></label>
                 <input
                   type="text"
                   class="form-control <?php echo isset($errors['schedule_info']) ? 'is-invalid' : ''; ?>"
                   id="schedule_info"
                   name="schedule_info"
                   placeholder="e.g. Mon, Wed, Fri • 06:00 AM - 07:30 AM"
-                  value="<?php echo htmlspecialchars($formData['schedule_info']); ?>"
+                  value="<?php echo e($formData['schedule_info']); ?>"
                   required>
                 <?php if (isset($errors['schedule_info'])): ?>
-                  <div class="invalid-feedback"><?php echo htmlspecialchars($errors['schedule_info']); ?></div>
+                  <div class="invalid-feedback"><?php echo e($errors['schedule_info']); ?></div>
                 <?php endif; ?>
               </div>
             </div>
 
-            <!-- Image Selection -->
             <div class="mb-4">
               <label for="image_url" class="form-label fw-semibold">Class Banner Image</label>
               <select class="form-select mb-2" id="image_url" name="image_url" onchange="previewSelectedImage(this.value)">
                 <?php foreach ($presetImages as $path => $label): ?>
-                  <option value="<?php echo htmlspecialchars($path); ?>" <?php echo ($formData['image_url'] === $path) ? 'selected' : ''; ?>>
-                    <?php echo htmlspecialchars($label); ?> (<?php echo htmlspecialchars($path); ?>)
+                  <option value="<?php echo e($path); ?>" <?php echo ($formData['image_url'] === $path) ? 'selected' : ''; ?>>
+                    <?php echo e($label); ?> (<?php echo e($path); ?>)
                   </option>
                 <?php endforeach; ?>
               </select>
-              <!-- Live Image Preview -->
-              <div class="d-flex align-items-center gap-3 p-3 bg-light rounded-3 border">
+              <div class="d-flex align-items-center gap-3 p-3 rounded-3 border">
                 <img
                   id="image_preview"
-                  src="../public/<?php echo htmlspecialchars($formData['image_url'] ?: 'images/item1.jpg'); ?>"
-                  alt="Preview"
+                  src="../public/<?php echo e($formData['image_url'] ?: 'images/item1.jpg'); ?>"
+                  alt="Class Banner Preview"
                   class="rounded object-fit-cover shadow-sm"
                   style="width: 120px; height: 80px;">
-                <div class="small text-muted">
+                <div class="small text-secondary">
                   Selected image preview. Stored in <code>public/images/</code>.
                 </div>
               </div>
             </div>
 
-            <!-- Description -->
             <div class="mb-4">
-              <label for="description" class="form-label fw-semibold">Detailed Description & Syllabus <span class="text-danger">*</span></label>
+              <label for="description" class="form-label fw-semibold">Detailed Description &amp; Syllabus <span class="text-danger">*</span></label>
               <textarea
                 class="form-control <?php echo isset($errors['description']) ? 'is-invalid' : ''; ?>"
                 id="description"
                 name="description"
                 rows="4"
-                placeholder="Comprehensive overview of training movements, targeted adaptations, and member guidelines..."
-                required><?php echo htmlspecialchars($formData['description']); ?></textarea>
+                placeholder="Comprehensive overview of training movements..."
+                required><?php echo e($formData['description']); ?></textarea>
               <?php if (isset($errors['description'])): ?>
-                <div class="invalid-feedback"><?php echo htmlspecialchars($errors['description']); ?></div>
+                <div class="invalid-feedback"><?php echo e($errors['description']); ?></div>
               <?php else: ?>
                 <div class="form-text small text-muted">At least 10 characters detailing what attendees will practice.</div>
               <?php endif; ?>
             </div>
 
-            <!-- Submit CTA -->
             <div class="d-flex justify-content-between align-items-center pt-3 border-top">
-              <a href="classes.php" class="btn btn-outline-secondary px-4">
-                Discard Changes
-              </a>
-              <button type="submit" class="btn btn-danger btn-lg px-5 fw-semibold shadow-sm">
+              <a href="classes.php" class="btn btn-outline-apex px-4">Discard Changes</a>
+              <button type="submit" class="btn btn-apex-crimson btn-lg px-5 fw-semibold shadow-sm">
                 <?php echo $isEdit ? 'Update Class' : 'Create Class'; ?>
               </button>
             </div>

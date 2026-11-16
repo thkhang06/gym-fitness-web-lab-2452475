@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /LAB1.3_CC01_2452475/bookstore/public/
+Allow: /LAB1.3_CC01_2452475/bookstore/pages/classes.php
+Allow: /LAB1.3_CC01_2452475/bookstore/pages/item_details.php
+Disallow: /LAB1.3_CC01_2452475/bookstore/config/
+Disallow: /LAB1.3_CC01_2452475/bookstore/database/
+Disallow: /LAB1.3_CC01_2452475/bookstore/api/
+
+Sitemap: /LAB1.3_CC01_2452475/bookstore/public/sitemap.xml

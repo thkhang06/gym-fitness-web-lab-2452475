@@ -1,8 +1,8 @@
 <?php
 /**
- * Apex Fitness & Performance Center - Homepage (Lab 2 Tasks 2 & 5.2)
- * High-Octane UI Overhaul Synthesized with Google Stitch MCP
+ * TIGER FITNESS Center - Homepage (Labs 1.3, 2 & 3)
  * Dynamic MySQL Integration via PDO Prepared Statements
+ * Includes SEO Meta, Semantic HTML5, Cookie Personalization & Google Maps Location (Task 6)
  */
 require_once __DIR__ . '/../config/session.php';
 require_once __DIR__ . '/../config/database.php';
@@ -14,13 +14,14 @@ $favCategory = getFavoriteCategory();
 
 try {
     $stmt = $pdo->query("
-        SELECT 
+        SELECT
             fc.id,
             fc.title,
             fc.description,
             fc.trainer_name,
             fc.schedule_info,
             fc.price,
+            fc.max_capacity,
             fc.image_url,
             c.name AS category_name
         FROM fitness_classes fc
@@ -32,211 +33,294 @@ try {
     error_log("Failed to fetch fitness classes: " . $e->getMessage());
     $classes = [];
 }
+
+$seo = [
+    'title'       => 'TIGER FITNESS - Strength, Conditioning & Athletic Training Center',
+    'description' => 'Train at Tiger Fitness Center in District 10, Ho Chi Minh City. Explore barbell mastery, HIIT conditioning, Olympic lifting, yoga mobility, and book classes online.',
+    'keywords'    => 'Tiger Fitness, Gym Ho Chi Minh City, strength training, HIIT workout, Olympic weightlifting, gym membership, class booking',
+];
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TIGER FITNESS - Transform Your Potential</title>
+  <?php require __DIR__ . '/../components/seo_meta.php'; ?>
   <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="<?php echo ($activeTheme === 'dark') ? 'theme-dark' : ''; ?>" data-bs-theme="<?php echo $activeTheme; ?>">
+<body class="<?php echo ($activeTheme === 'dark') ? 'theme-dark' : ''; ?>" data-bs-theme="<?php echo e($activeTheme); ?>">
 
 <?php require_once __DIR__ . '/../components/header.php'; ?>
 
-<!-- High-Octane Hero Section -->
-<section class="hero-section text-white">
-  <div class="container text-center py-4">
-    <div class="hero-badge mb-3 shadow-sm">
-      <img src="images/favicon.svg" alt="Tiger Icon" width="16" height="16">
-      <span class="live-beacon"></span>
-      <span>Tiger High-Performance Club</span>
-    </div>
-    
-    <h1 class="display-4 fw-bold mb-3 text-uppercase font-headline" style="letter-spacing: 0.05em; max-width: 980px; margin: 0 auto;">
-      Forge Your <span class="hero-gradient-text">Ultimate Strength</span> & Endurance
-    </h1>
-    
-    <p class="lead opacity-75 mb-4 mx-auto" style="max-width: 720px; font-size: 1.15rem;">
-      World-class barbell biomechanics, high-intensity functional conditioning, and dynamic mobility recovery protocols tailored for dedicated athletes.
-    </p>
-
-    <div class="d-flex justify-content-center gap-3 mb-5 flex-wrap">
-      <a href="#items" class="btn btn-apex-crimson btn-lg px-4 py-2 fw-semibold">
-        Explore Classes &darr;
-      </a>
-      <a href="#trainers" class="btn btn-outline-apex btn-lg px-4 py-2 fw-semibold">
-        Meet Coaches
-      </a>
-    </div>
-
-    <!-- Performance Metrics Bar (Stitch Telemetry Widget) -->
-    <div class="row g-3 justify-content-center max-w-4xl mx-auto pt-2" style="max-width: 900px;">
-      <div class="col-12 col-md-4">
-        <div class="stats-card text-center h-100">
-          <div class="stats-value mb-1" style="color: var(--tiger-orange);">1,200+</div>
-          <span class="small opacity-75 font-headline text-uppercase">Active Athletes</span>
-        </div>
+<main>
+  <!-- High-Octane Hero Section -->
+  <section class="hero-section text-white" aria-labelledby="hero-heading">
+    <div class="container text-center py-4">
+      <div class="hero-badge mb-3 shadow-sm">
+        <img src="images/favicon.svg" alt="Tiger Fitness Emblem" width="16" height="16">
+        <span class="live-beacon"></span>
+        <span>Tiger High-Performance Club</span>
       </div>
-      <div class="col-12 col-md-4">
-        <div class="stats-card text-center h-100">
-          <div class="stats-value text-warning mb-1">15+</div>
-          <span class="small opacity-75 font-headline text-uppercase">Elite Master Coaches</span>
-        </div>
-      </div>
-      <div class="col-12 col-md-4">
-        <div class="stats-card text-center h-100">
-          <div class="stats-value text-success mb-1">24+</div>
-          <span class="small opacity-75 font-headline text-uppercase">Weekly Programs</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- Item Catalog (Dynamic MySQL Database Integration) -->
-<section class="py-5" id="items">
-  <div class="container">
-    <!-- Personalized 'Welcome Back' Cookie Banner (Task 5.2) -->
-    <?php if ($recentClass || $favCategory): ?>
-      <div class="glass-panel p-3 mb-5 border-start border-4 shadow-sm d-flex align-items-center justify-content-between flex-wrap gap-3" style="border-color: var(--tiger-orange) !important;">
-        <div class="d-flex align-items-center gap-3">
-          <div class="p-2 rounded-circle d-flex align-items-center justify-content-center" style="background: rgba(255, 107, 0, 0.15); color: var(--tiger-orange);">
-            <span class="live-beacon"></span>
-          </div>
-          <div>
-            <div class="d-flex align-items-center gap-2">
-              <span class="badge rounded-pill px-2 py-0.5 small" style="background: var(--tiger-orange);">Welcome Back</span>
-              <strong class="font-headline text-uppercase small">Personalized Preference Active</strong>
-            </div>
-            <div class="small text-secondary mt-0.5">
-              <?php if ($recentClass): ?>
-                Recently viewed session: <strong class="text-white"><?php echo htmlspecialchars($recentClass['title']); ?></strong>
-              <?php elseif ($favCategory): ?>
-                Your preferred training discipline: <strong class="text-white"><?php echo htmlspecialchars($favCategory['name']); ?></strong>
-              <?php endif; ?>
-            </div>
-          </div>
-        </div>
-        <div>
-          <?php if ($recentClass): ?>
-            <a href="../pages/item_details.php?id=<?php echo urlencode($recentClass['id']); ?>" class="btn btn-sm btn-apex-crimson px-3 py-1.5">
-              Resume Class Details &rarr;
-            </a>
-          <?php elseif ($favCategory): ?>
-            <a href="../pages/classes.php?category_id=<?php echo urlencode($favCategory['id']); ?>" class="btn btn-sm btn-outline-apex px-3 py-1.5">
-              Filter By Discipline &rarr;
-            </a>
-          <?php endif; ?>
-        </div>
-      </div>
-    <?php endif; ?>
+      <h1 id="hero-heading" class="display-4 fw-bold mb-3 text-uppercase font-headline" style="letter-spacing: 0.05em; max-width: 980px; margin: 0 auto;">
+        Forge Your <span class="hero-gradient-text">Ultimate Strength</span> &amp; Endurance
+      </h1>
 
-    <div class="text-center mb-5">
-      <span class="hero-badge mb-2">Our Offerings</span>
-      <h2 class="display-5 fw-bold font-headline mt-1 text-uppercase">Featured Training Programs</h2>
-      <p class="text-secondary mx-auto" style="max-width: 600px;">
-        High-intensity coaching sessions engineered for neuromuscular adaptation, raw strength, and conditioning.
+      <p class="lead opacity-75 mb-4 mx-auto" style="max-width: 720px; font-size: 1.15rem;">
+        World-class barbell biomechanics, high-intensity functional conditioning, and dynamic mobility recovery protocols tailored for dedicated athletes.
       </p>
-    </div>
 
-    <?php if (empty($classes)): ?>
-      <div class="glass-panel text-center py-5 shadow-sm">
-        <h5 class="fw-bold">No fitness classes currently available</h5>
-        <p class="mb-0 text-secondary">Please check back soon or verify that the database seed data has been imported.</p>
-      </div>
-    <?php else: ?>
-      <div class="row g-4">
-        <?php foreach ($classes as $class): ?>
-          <div class="col-12 col-md-6 col-lg-4">
-            <div class="class-card h-100">
-              <div class="class-card-img-wrap">
-                <img
-                  src="<?php echo htmlspecialchars($class['image_url']); ?>"
-                  alt="<?php echo htmlspecialchars($class['title']); ?>">
-                <div class="class-card-overlay"></div>
-                <span class="class-discipline-badge">
-                  <?php echo htmlspecialchars($class['category_name']); ?>
-                </span>
-              </div>
-              <div class="card-body d-flex flex-column p-4">
-                <h5 class="card-title fw-bold font-headline mb-2" style="font-size: 1.25rem;">
-                  <?php echo htmlspecialchars($class['title']); ?>
-                </h5>
-                <p class="card-text text-secondary small flex-grow-1 mb-3" style="line-height: 1.6;">
-                  <?php echo htmlspecialchars($class['description']); ?>
-                </p>
-                
-                <div class="pt-3 border-top border-secondary border-opacity-25 mb-3">
-                  <div class="d-flex align-items-center justify-content-between small text-secondary mb-1.5">
-                    <span class="fw-semibold">Lead Coach:</span>
-                    <span class="text-white fw-medium"><?php echo htmlspecialchars($class['trainer_name']); ?></span>
-                  </div>
-                  <div class="d-flex align-items-center justify-content-between small text-secondary">
-                    <span class="fw-semibold">Schedule:</span>
-                    <span class="opacity-90"><?php echo htmlspecialchars($class['schedule_info']); ?></span>
-                  </div>
-                </div>
-
-                <div class="d-flex align-items-center justify-content-between pt-3 border-top border-secondary border-opacity-25">
-                  <div>
-                    <span class="small text-secondary d-block font-headline text-uppercase" style="font-size: 0.7rem;">Session Pass</span>
-                    <span class="class-price-tag">$<?php echo number_format((float)$class['price'], 2); ?></span>
-                  </div>
-                  <a href="../pages/item_details.php?id=<?php echo urlencode($class['id']); ?>"
-                     class="btn btn-sm btn-outline-apex px-3 py-2 fw-semibold">
-                    View Details &rarr;
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        <?php endforeach; ?>
-      </div>
-
-      <div class="text-center mt-5">
-        <a href="../pages/classes.php" class="btn btn-outline-apex btn-lg px-5 py-3 font-headline fw-semibold text-uppercase shadow-sm">
-          Browse Complete Class Directory & Filter &rarr;
+      <div class="d-flex justify-content-center gap-3 mb-5 flex-wrap">
+        <a href="#items" class="btn btn-apex-crimson btn-lg px-4 py-2 fw-semibold">
+          Explore Classes &darr;
+        </a>
+        <a href="../pages/bookings.php" class="btn btn-outline-apex text-white border-light border-opacity-25 btn-lg px-4 py-2 fw-semibold">
+          Memberships &amp; Booking &rarr;
+        </a>
+        <a href="#location" class="btn btn-outline-apex text-white border-light border-opacity-25 btn-lg px-4 py-2 fw-semibold">
+          Club Location
         </a>
       </div>
-    <?php endif; ?>
-  </div>
-</section>
 
-<!-- Additional Gym Highlights Section -->
-<section class="py-5 border-top border-secondary border-opacity-25" id="trainers" style="background: rgba(17, 24, 39, 0.4);">
-  <div class="container text-center py-3">
-    <div class="row g-4 justify-content-center">
-      <div class="col-12 col-md-4">
-        <div class="glass-panel p-4 h-100">
-          <div class="display-6 font-headline fw-bold text-danger mb-2">5,000+ sq ft</div>
-          <h6 class="font-headline text-uppercase fw-bold text-white mb-1">Elite Facility</h6>
-          <p class="text-secondary small mb-0">Full competition powerlifting platforms, turf sprint lanes & Eleiko calibrated plates.</p>
+      <!-- Performance Metrics Bar -->
+      <div class="row g-3 justify-content-center mx-auto pt-2" style="max-width: 900px;">
+        <div class="col-12 col-md-4">
+          <div class="stats-card text-center h-100">
+            <div class="stats-value mb-1" style="color: var(--tiger-orange);">1,200+</div>
+            <span class="small opacity-75 font-headline text-uppercase">Active Athletes</span>
+          </div>
         </div>
-      </div>
-      <div class="col-12 col-md-4">
-        <div class="glass-panel p-4 h-100">
-          <div class="display-6 font-headline fw-bold text-warning mb-2">100% Certified</div>
-          <h6 class="font-headline text-uppercase fw-bold text-white mb-1">Expert Mentorship</h6>
-          <p class="text-secondary small mb-0">CSCS, USAW, and Precision Nutrition accredited coaches guiding every movement.</p>
+        <div class="col-12 col-md-4">
+          <div class="stats-card text-center h-100">
+            <div class="stats-value text-warning mb-1">15+</div>
+            <span class="small opacity-75 font-headline text-uppercase">Elite Master Coaches</span>
+          </div>
         </div>
-      </div>
-      <div class="col-12 col-md-4">
-        <div class="glass-panel p-4 h-100">
-          <div class="display-6 font-headline fw-bold text-success mb-2">Zero Lock-In</div>
-          <h6 class="font-headline text-uppercase fw-bold text-white mb-1">Pure Flexibility</h6>
-          <p class="text-secondary small mb-0">Individual drop-in passes and open training packages without restrictive contracts.</p>
+        <div class="col-12 col-md-4">
+          <div class="stats-card text-center h-100">
+            <div class="stats-value text-success mb-1">24+</div>
+            <span class="small opacity-75 font-headline text-uppercase">Weekly Programs</span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+
+  <!-- Item Catalog (Dynamic MySQL Database Integration) -->
+  <section class="py-5" id="items" aria-labelledby="catalog-heading">
+    <div class="container">
+      <!-- Personalized 'Welcome Back' Cookie Banner (Task 5.2) -->
+      <?php if ($recentClass || $favCategory): ?>
+        <div class="glass-panel p-3 mb-5 border-start border-4 shadow-sm d-flex align-items-center justify-content-between flex-wrap gap-3" style="border-color: var(--tiger-orange) !important;">
+          <div class="d-flex align-items-center gap-3">
+            <div class="p-2 rounded-circle d-flex align-items-center justify-content-center" style="background: rgba(255, 107, 0, 0.15); color: var(--tiger-orange);">
+              <span class="live-beacon"></span>
+            </div>
+            <div>
+              <div class="d-flex align-items-center gap-2">
+                <span class="badge rounded-pill px-2 py-0.5 small" style="background: var(--tiger-orange);">Welcome Back</span>
+                <strong class="font-headline text-uppercase small">Personalized Preference Active</strong>
+              </div>
+              <div class="small text-secondary mt-0.5">
+                <?php if ($recentClass): ?>
+                  Recently viewed session: <strong class="text-white"><?php echo e($recentClass['title']); ?></strong>
+                <?php elseif ($favCategory): ?>
+                  Your preferred training discipline: <strong class="text-white"><?php echo e($favCategory['name']); ?></strong>
+                <?php endif; ?>
+              </div>
+            </div>
+          </div>
+          <div>
+            <?php if ($recentClass): ?>
+              <a href="../pages/item_details.php?id=<?php echo urlencode((string)$recentClass['id']); ?>" class="btn btn-sm btn-apex-crimson px-3 py-1.5">
+                Resume Class Details &rarr;
+              </a>
+            <?php elseif ($favCategory): ?>
+              <a href="../pages/classes.php?category_id=<?php echo urlencode((string)$favCategory['id']); ?>" class="btn btn-sm btn-outline-apex px-3 py-1.5">
+                Filter By Discipline &rarr;
+              </a>
+            <?php endif; ?>
+          </div>
+        </div>
+      <?php endif; ?>
+
+      <div class="text-center mb-5">
+        <span class="hero-badge mb-2">Our Offerings</span>
+        <h2 id="catalog-heading" class="display-5 fw-bold font-headline mt-1 text-uppercase">Featured Training Programs</h2>
+        <p class="text-secondary mx-auto" style="max-width: 600px;">
+          High-intensity coaching sessions engineered for neuromuscular adaptation, raw strength, and conditioning.
+        </p>
+      </div>
+
+      <?php if (empty($classes)): ?>
+        <div class="glass-panel text-center py-5 shadow-sm">
+          <h3 class="h5 fw-bold">No fitness classes currently available</h3>
+          <p class="mb-0 text-secondary">Please check back soon or verify that the database seed data has been imported.</p>
+        </div>
+      <?php else: ?>
+        <div class="row g-4">
+          <?php foreach ($classes as $class): ?>
+            <div class="col-12 col-md-6 col-lg-4">
+              <article class="class-card h-100">
+                <div class="class-card-img-wrap">
+                  <img
+                    src="<?php echo e($class['image_url']); ?>"
+                    alt="<?php echo e($class['title']); ?> - <?php echo e($class['category_name']); ?> class coached by <?php echo e($class['trainer_name']); ?>">
+                  <div class="class-card-overlay"></div>
+                  <span class="class-discipline-badge">
+                    <?php echo e($class['category_name']); ?>
+                  </span>
+                </div>
+                <div class="card-body d-flex flex-column p-4">
+                  <h3 class="h5 card-title fw-bold font-headline mb-2" style="font-size: 1.25rem;">
+                    <?php echo e($class['title']); ?>
+                  </h3>
+                  <p class="card-text text-secondary small flex-grow-1 mb-3" style="line-height: 1.6;">
+                    <?php echo e($class['description']); ?>
+                  </p>
+
+                  <div class="pt-3 border-top border-secondary border-opacity-25 mb-3">
+                    <div class="d-flex align-items-center justify-content-between small text-secondary mb-1.5">
+                      <span class="fw-semibold">Lead Coach:</span>
+                      <span class="text-white fw-medium"><?php echo e($class['trainer_name']); ?></span>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between small text-secondary mb-1.5">
+                      <span class="fw-semibold">Schedule:</span>
+                      <span class="opacity-90"><?php echo e($class['schedule_info']); ?></span>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between small text-secondary">
+                      <span class="fw-semibold">Capacity Limit:</span>
+                      <span class="text-white fw-medium"><?php echo (int)$class['max_capacity']; ?> athletes / session</span>
+                    </div>
+                  </div>
+
+                  <div class="d-flex align-items-center justify-content-between pt-3 border-top border-secondary border-opacity-25 gap-2">
+                    <div>
+                      <span class="small text-secondary d-block font-headline text-uppercase" style="font-size: 0.7rem;">Session Pass</span>
+                      <span class="class-price-tag">$<?php echo e(number_format((float)$class['price'], 2)); ?></span>
+                    </div>
+                    <div class="d-flex gap-2">
+                      <a href="../pages/item_details.php?id=<?php echo urlencode((string)$class['id']); ?>"
+                         class="btn btn-sm btn-outline-apex px-3 py-2 fw-semibold">
+                        Details
+                      </a>
+                      <a href="../pages/bookings.php?class_id=<?php echo urlencode((string)$class['id']); ?>"
+                         class="btn btn-sm btn-apex-crimson px-3 py-2 fw-semibold">
+                        Book
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </div>
+          <?php endforeach; ?>
+        </div>
+
+        <div class="text-center mt-5 d-flex justify-content-center gap-3 flex-wrap">
+          <a href="../pages/classes.php" class="btn btn-outline-apex btn-lg px-4 py-3 font-headline fw-semibold text-uppercase shadow-sm">
+            Live AJAX Search &amp; Filter &rarr;
+          </a>
+          <a href="../pages/bookings.php" class="btn btn-apex-crimson btn-lg px-4 py-3 font-headline fw-semibold text-uppercase shadow-sm">
+            Start Membership &amp; Class Booking &rarr;
+          </a>
+        </div>
+      <?php endif; ?>
+    </div>
+  </section>
+
+  <!-- Additional Gym Highlights Section -->
+  <section class="py-5 border-top border-secondary border-opacity-25" id="trainers" aria-labelledby="highlights-heading" style="background: rgba(17, 24, 39, 0.08);">
+    <div class="container text-center py-3">
+      <h2 id="highlights-heading" class="visually-hidden">Tiger Fitness Club Highlights</h2>
+      <div class="row g-4 justify-content-center">
+        <div class="col-12 col-md-4">
+          <div class="glass-panel p-4 h-100">
+            <div class="display-6 font-headline fw-bold text-tiger mb-2">5,000+ sq ft</div>
+            <h3 class="h6 font-headline text-uppercase fw-bold text-white mb-1">Elite Facility</h3>
+            <p class="text-secondary small mb-0">Full competition powerlifting platforms, turf sprint lanes &amp; Eleiko calibrated plates.</p>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="glass-panel p-4 h-100">
+            <div class="display-6 font-headline fw-bold text-warning mb-2">100% Certified</div>
+            <h3 class="h6 font-headline text-uppercase fw-bold text-white mb-1">Expert Mentorship</h3>
+            <p class="text-secondary small mb-0">CSCS, USAW, and Precision Nutrition accredited coaches guiding every movement.</p>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="glass-panel p-4 h-100">
+            <div class="display-6 font-headline fw-bold text-success mb-2">Zero Lock-In</div>
+            <h3 class="h6 font-headline text-uppercase fw-bold text-white mb-1">Pure Flexibility</h3>
+            <p class="text-secondary small mb-0">Flexible membership passes and real-time online class reservations with transparent capacity limits.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LAB 3 TASK 6: Location & External Map Integration -->
+  <section class="py-5 border-top border-secondary border-opacity-25" id="location" aria-labelledby="location-heading">
+    <div class="container">
+      <div class="row g-4 align-items-center">
+        <div class="col-12 col-lg-5">
+          <span class="hero-badge mb-2">Flagship Club Location</span>
+          <h2 id="location-heading" class="h2 fw-bold font-headline text-uppercase mb-3">Visit Tiger Fitness Center</h2>
+          <p class="text-secondary mb-4">
+            Conveniently located in District 10 near HCMUT campus with dedicated athlete parking, Olympic lifting racks, and recovery lounge.
+          </p>
+
+          <div class="glass-panel p-4 mb-3">
+            <ul class="list-unstyled mb-0 small d-flex flex-column gap-2">
+              <li>
+                <strong class="text-tiger text-uppercase font-headline">Address:</strong>
+                <span class="text-white ms-1">268 Ly Thuong Kiet, Ward 14, District 10, Ho Chi Minh City</span>
+              </li>
+              <li>
+                <strong class="text-tiger text-uppercase font-headline">Hours:</strong>
+                <span class="text-white ms-1">05:00 AM – 11:00 PM (Monday – Sunday)</span>
+              </li>
+              <li>
+                <strong class="text-tiger text-uppercase font-headline">Front Desk:</strong>
+                <span class="text-white ms-1">+84 (028) 3864 7256 &bull; contact@tigerfitness.local</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="d-flex flex-wrap gap-2">
+            <a
+              href="https://maps.google.com/?q=268+Ly+Thuong+Kiet+District+10+Ho+Chi+Minh+City"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-apex-crimson fw-semibold">
+              Open Directions in Google Maps &rarr;
+            </a>
+            <a href="../pages/bookings.php" class="btn btn-outline-apex fw-semibold">
+              Schedule a Visit / Class
+            </a>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-7">
+          <div class="glass-panel p-2 overflow-hidden shadow-lg">
+            <iframe
+              class="map-embed-frame"
+              title="Tiger Fitness Center District 10 Location Map"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              src="https://maps.google.com/maps?q=268%20Ly%20Thuong%20Kiet%2C%20District%2010%2C%20Ho%20Chi%20Minh%20City&amp;t=&amp;z=15&amp;ie=UTF8&amp;iwloc=&amp;output=embed">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
 
 <?php require_once __DIR__ . '/../components/footer.php'; ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/script.js"></script>
 </body>
 </html>

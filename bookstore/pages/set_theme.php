@@ -1,7 +1,7 @@
 <?php
 /**
- * Switch Interface Theme Endpoint (Lab 2 Task 5.2)
- * Sets the 'apex_theme' cookie for 30 days and redirects back to the referring page
+ * Switch Interface Theme Endpoint (Lab 2 Task 5.2 & Lab 3 Security Hardening)
+ * Sets the 'apex_theme' cookie for 30 days and redirects safely
  */
 require_once __DIR__ . '/../config/session.php';
 require_once __DIR__ . '/../config/preferences.php';
@@ -11,8 +11,7 @@ $return = trim($_GET['return'] ?? '');
 
 setThemePreference($theme);
 
-// Safely sanitize return target to prevent Open Redirect
-if (empty($return) || strpos($return, 'http') === 0 || strpos($return, '//') === 0) {
+if (!isSafeLocalRedirect($return)) {
     $return = '../public/index.php';
 }
 

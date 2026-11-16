@@ -28,6 +28,7 @@ $flashError   = getFlash('error');
 $flashInfo    = getFlash('info');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    requireCsrfToken(false);
     $email    = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
 
@@ -62,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 unset($_SESSION['redirect_after_login']);
 
                 // Ensure redirect stays inside local app
-                if (empty($redirectUrl) || strpos($redirectUrl, 'auth/') !== false) {
+                if (empty($redirectUrl) || !isSafeLocalRedirect($redirectUrl) || strpos($redirectUrl, 'auth/') !== false) {
                     $redirectUrl = '../pages/dashboard.php';
                 }
 
@@ -84,7 +85,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Athlete Login - TIGER FITNESS</title>
+  <?php
+  $seo = [
+      'title'       => 'Athlete Login - TIGER FITNESS',
+      'description' => 'Sign in to your Tiger Fitness account to manage memberships, class reservations, and personal athlete preferences.',
+      'robots'      => 'noindex, follow',
+  ];
+  require __DIR__ . '/../components/seo_meta.php';
+  ?>
   <link rel="icon" type="image/svg+xml" href="../public/images/favicon.svg">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../public/css/style.css">
@@ -102,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <img src="../public/images/tiger-logo.svg" alt="Tiger Fitness Mascot" width="54" height="54" style="filter: drop-shadow(0 0 10px rgba(255, 107, 0, 0.5));">
           </div>
           <span class="hero-badge mb-2">Athlete Portal</span>
-          <h3 class="fw-bold font-headline text-uppercase text-white mb-1">TIGER <span style="color: var(--tiger-orange);">FITNESS</span></h3>
+          <h1 class="h3 fw-bold font-headline text-uppercase text-white mb-1">TIGER <span style="color: var(--tiger-orange);">FITNESS</span></h1>
           <p class="text-secondary small mb-0">Log in to manage your training sessions</p>
         </div>
 
@@ -137,6 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
           <!-- Login Form -->
           <form action="login.php" method="POST" novalidate>
+            <?php echo csrfField(); ?>
             <div class="mb-3">
               <label for="email" class="form-label fw-semibold">Email Address</label>
               <input

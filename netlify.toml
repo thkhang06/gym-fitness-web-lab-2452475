@@ -13,6 +13,11 @@
   status = 200
 
 [[redirects]]
+  from = "/bookings"
+  to = "/bookings.html"
+  status = 200
+
+[[redirects]]
   from = "/dashboard"
   to = "/dashboard.html"
   status = 200

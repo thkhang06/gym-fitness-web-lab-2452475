@@ -1,6 +1,6 @@
 <?php
 /**
- * Clear All Cookies & Preferences Endpoint (Lab 2 Task 5.2)
+ * Clear All Cookies & Preferences Endpoint (Lab 2 Task 5.2 & Lab 3 Security Hardening)
  * Demonstrates unsetting cookies with past timestamps
  */
 require_once __DIR__ . '/../config/session.php';
@@ -10,7 +10,7 @@ clearAllPreferences();
 setFlash('success', 'All client preferences and tracking cookies have been cleared successfully.');
 
 $return = trim($_GET['return'] ?? 'dashboard.php');
-if (empty($return) || strpos($return, 'http') === 0) {
+if (!isSafeLocalRedirect($return)) {
     $return = 'dashboard.php';
 }
 

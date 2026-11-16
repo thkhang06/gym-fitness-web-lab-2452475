@@ -1,10 +1,8 @@
 /**
  * TIGER FITNESS - Netlify Client-Side Interactive Engine
- * Provides Theme Switching, Live Catalog Filtering & Demo Auth on static hosting
+ * Provides Theme Switching, Live Catalog Filtering & Static Demo Interactions
  */
-
 (function() {
-  // 1. Dark / Light Mode Switching via localStorage
   function applyTheme(theme) {
     document.documentElement.setAttribute('data-bs-theme', theme);
     if (document.body) {
@@ -16,9 +14,7 @@
     }
     localStorage.setItem('apex_theme', theme);
 
-    // Update toggle button text & icon if present
-    var toggleBtns = document.querySelectorAll('.theme-toggle-btn');
-    toggleBtns.forEach(function(btn) {
+    document.querySelectorAll('.theme-toggle-btn').forEach(function(btn) {
       if (theme === 'dark') {
         btn.innerHTML = '<span class="text-warning">&#9728;</span> <span class="small font-headline">LIGHT</span>';
         btn.setAttribute('title', 'Switch to Light Mode');
@@ -31,8 +27,7 @@
 
   window.toggleNetlifyTheme = function() {
     var current = localStorage.getItem('apex_theme') || 'dark';
-    var next = (current === 'dark') ? 'light' : 'dark';
-    applyTheme(next);
+    applyTheme(current === 'dark' ? 'light' : 'dark');
   };
 
   var savedTheme = localStorage.getItem('apex_theme') || 'dark';
@@ -41,9 +36,7 @@
   document.addEventListener('DOMContentLoaded', function() {
     applyTheme(savedTheme);
 
-    // Hook up any theme toggle links
-    var themeLinks = document.querySelectorAll('a[href*="set_theme.php"], .theme-toggle-btn');
-    themeLinks.forEach(function(el) {
+    document.querySelectorAll('a[href*="set_theme.php"], a[href*="toggleNetlifyTheme"], .theme-toggle-btn').forEach(function(el) {
       el.removeAttribute('href');
       el.style.cursor = 'pointer';
       el.classList.add('theme-toggle-btn');
@@ -53,17 +46,20 @@
       });
     });
 
-    // 2. Client-Side Catalog Search & Category Filter for classes.html
+    // Live Client-Side Filtering on classes.html
     var searchInput = document.querySelector('input[name="search"]');
     var categorySelect = document.querySelector('select[name="category_id"]');
+    var trainerSelect = document.querySelector('select[name="trainer"]');
     var classCards = document.querySelectorAll('.class-card-item');
+    var countEl = document.getElementById('classes-visible-count');
 
     function filterClasses() {
       if (!classCards.length) return;
       var query = (searchInput ? searchInput.value : '').toLowerCase().trim();
-      var selectedCat = (categorySelect ? categorySelect.value : '');
-
+      var selectedCat = categorySelect ? categorySelect.value : '';
+      var selectedTrainer = trainerSelect ? trainerSelect.value : '';
       var visibleCount = 0;
+
       classCards.forEach(function(item) {
         var title = (item.getAttribute('data-title') || '').toLowerCase();
         var cat = item.getAttribute('data-category') || '';
@@ -72,24 +68,23 @@
 
         var matchesQuery = !query || title.includes(query) || coach.includes(query) || desc.includes(query);
         var matchesCat = !selectedCat || cat === selectedCat;
+        var matchesTrainer = !selectedTrainer || coach === selectedTrainer.toLowerCase();
 
-        if (matchesQuery && matchesCat) {
+        if (matchesQuery && matchesCat && matchesTrainer) {
           item.style.display = '';
           visibleCount++;
         } else {
           item.style.display = 'none';
         }
       });
+
+      if (countEl) countEl.textContent = String(visibleCount);
     }
 
-    if (searchInput) {
-      searchInput.addEventListener('input', filterClasses);
-    }
-    if (categorySelect) {
-      categorySelect.addEventListener('change', filterClasses);
-    }
+    if (searchInput) searchInput.addEventListener('input', filterClasses);
+    if (categorySelect) categorySelect.addEventListener('change', filterClasses);
+    if (trainerSelect) trainerSelect.addEventListener('change', filterClasses);
 
-    // Check query params on load (e.g. ?category_id=2)
     var urlParams = new URLSearchParams(window.location.search);
     var catParam = urlParams.get('category_id');
     if (catParam && categorySelect) {
@@ -97,27 +92,34 @@
       filterClasses();
     }
 
-    // 3. Demo Login Simulation on login.html
-    var loginForm = document.querySelector('form[action*="login.php"], form[action*="login.html"]');
+    var filterForm = document.getElementById('ajax-class-filter-form');
+    if (filterForm) {
+      filterForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        filterClasses();
+      });
+    }
+
+    var loginForm = document.querySelector('form[action*="login"]');
     if (loginForm) {
       loginForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        var emailInput = document.getElementById('email');
-        var email = emailInput ? emailInput.value : 'admin@gymfitness.local';
-        localStorage.setItem('tiger_logged_in', 'true');
-        localStorage.setItem('tiger_user_email', email);
         window.location.href = 'dashboard.html';
       });
     }
 
-    // 4. Demo Class Form on class_form.html
     var classForm = document.querySelector('form[action*="class_form"]');
     if (classForm) {
       classForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        alert('Demo mode: Class saved successfully in Netlify preview!');
+        alert('Demo mode: Class saved in static preview!');
         window.location.href = 'classes.html';
       });
+    }
+
+    var capOutput = document.getElementById('live-capacity-output');
+    if (capOutput && capOutput.textContent.indexOf('Loading') !== -1) {
+      capOutput.innerHTML = '<div class="small text-secondary">Static preview: run via XAMPP PHP/MySQL for live transactional capacity checks.</div>';
     }
   });
 })();

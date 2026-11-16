@@ -9,11 +9,14 @@ Desktop.ini
 *.sublime-project
 *.sublime-workspace
 
-# Logs and Databases / Temporary Files
+# Logs, Archives & Temporary Files
 *.log
+*.zip
+*.bak
 error_log
 /tmp/
 /temp/
+/scratch/
 
 # Environment Configuration
 .env

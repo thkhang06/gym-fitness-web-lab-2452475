@@ -3,7 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Athlete Login - TIGER FITNESS</title>
+    <title>Create New Fitness Class - TIGER FITNESS</title>
+  <meta name="description" content="Staff management form to create or update fitness class details and maximum capacity.">
+  <meta name="keywords" content="Tiger Fitness, gym classes, strength training, HIIT conditioning, Olympic weightlifting, fitness class booking, personal training">
+  <meta name="author" content="Thai Khang - MSSV 2452475 (HCMUT)">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="class_form.html">
+
+  <!-- Open Graph / Social SEO Tags -->
+  <meta property="og:site_name" content="TIGER FITNESS Center">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Create New Fitness Class - TIGER FITNESS">
+  <meta property="og:description" content="Staff management form to create or update fitness class details and maximum capacity.">
+  <meta property="og:url" content="class_form.html">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"ExerciseGym","name":"TIGER FITNESS Center","description":"Staff management form to create or update fitness class details and maximum capacity.","url":"class_form.html","telephone":"+84-28-3864-7256","address":{"@type":"PostalAddress","streetAddress":"268 Ly Thuong Kiet, Ward 14, District 10","addressLocality":"Ho Chi Minh City","addressCountry":"VN"},"openingHours":"Mo-Su 05:00-23:00"}</script>
   <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
@@ -11,7 +26,6 @@
 <body class="" data-bs-theme="light">
 
 <script>
-  // Instant client-side theme application to prevent FOUC
   (function() {
     var theme = "light";
     document.documentElement.setAttribute('data-bs-theme', theme);
@@ -25,10 +39,10 @@
   })();
 </script>
 <header>
-  <nav class="navbar navbar-expand-lg glass-navbar sticky-top shadow-sm py-3">
+  <nav class="navbar navbar-expand-lg glass-navbar sticky-top shadow-sm py-3" aria-label="Main navigation">
     <div class="container">
       <a class="navbar-brand fw-bold text-uppercase d-flex align-items-center gap-2" href="index.html">
-        <img src="images/tiger-logo.svg" alt="Tiger Logo" width="36" height="36" style="filter: drop-shadow(0 0 6px rgba(255, 107, 0, 0.5));">
+        <img src="images/tiger-logo.svg" alt="Tiger Fitness 2D Emblem" width="36" height="36" style="filter: drop-shadow(0 0 6px rgba(255, 107, 0, 0.5));">
         <span class="font-headline" style="letter-spacing: 0.06em; font-size: 1.18rem;">TIGER <span style="color: var(--tiger-orange);">FITNESS</span></span>
         <span class="live-beacon ms-1 d-none d-sm-inline-block" title="Tiger Core Systems Online"></span>
       </a>
@@ -45,34 +59,47 @@
       <div class="collapse navbar-collapse" id="mainNavbar">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-lg-center">
           <li class="nav-item">
-            <a class="nav-link fw-semibold px-3" href="index.html">Home</a>
+            <a class="nav-link fw-semibold px-3 " href="index.html">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link fw-semibold px-3" href="classes.html">Training Classes</a>
+            <a class="nav-link fw-semibold px-3 " href="classes.html">Training Classes</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link fw-semibold px-3" href="index.html#trainers">Trainers</a>
+            <a class="nav-link fw-semibold px-3 " href="bookings.html">Membership &amp; Booking</a>
           </li>
-                            </ul>
+          <li class="nav-item">
+            <a class="nav-link fw-semibold px-3" href="index.html#location">Location</a>
+          </li>
+                      <li class="nav-item">
+              <a class="nav-link fw-semibold px-3 text-warning" href="dashboard.html">Dashboard</a>
+            </li>
+                                <li class="nav-item">
+              <a class="btn btn-sm btn-outline-apex ms-lg-2 my-2 my-lg-0 px-3 py-1" href="class_form.html">
+                + Add Class
+              </a>
+            </li>
+                  </ul>
 
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-2">
-          <!-- Theme Toggle (Task 5.2 Cookie: apex_theme) -->
+          <!-- Theme Toggle (Cookie: apex_theme, 30 days) -->
           <li class="nav-item">
-            <a href="javascript:void(0)" onclick="toggleNetlifyTheme()" 
+            <a href="javascript:void(0)" onclick="toggleNetlifyTheme()"
                class="btn btn-sm btn-outline-apex d-flex align-items-center gap-2 px-3 py-1"
                title="Switch to Dark Gym Mode (Cookie-persisted for 30 days)">
-                              <span class="text-info">&#9790;</span> <span class="small font-headline">DARK MODE</span>
+                              <span class="text-info" aria-hidden="true">&#9790;</span> <span class="small font-headline">DARK MODE</span>
                           </a>
           </li>
 
-                      <li class="nav-item">
-              <a class="btn btn-outline-apex btn-sm px-3" href="login.html">
-                Log In
-              </a>
+                      <li class="nav-item d-flex align-items-center gap-2 ms-lg-2">
+              <span class="small d-none d-xl-inline opacity-75">Athlete:</span>
+              <span class="vip-role-badge vip-role-admin shadow-sm">
+                <span>Marcus Vance</span>
+                <span class="opacity-75">[ADMIN]</span>
+              </span>
             </li>
-            <li class="nav-item">
-              <a class="btn btn-danger btn-sm px-3 shadow-sm" href="register.html">
-                Register
+            <li class="nav-item ms-lg-1">
+              <a class="btn btn-outline-apex btn-sm px-3" href="login.html">
+                Log Out
               </a>
             </li>
                   </ul>
@@ -83,94 +110,181 @@
 
 <main class="container py-5">
   <div class="row justify-content-center">
-    <div class="col-12 col-md-8 col-lg-5">
-      <div class="glass-panel overflow-hidden mb-4 shadow-lg">
-        <div class="p-4 text-center border-bottom border-secondary border-opacity-25" style="background: rgba(10, 11, 14, 0.7);">
-          <div class="mb-2">
-            <img src="images/tiger-logo.svg" alt="Tiger Fitness Mascot" width="54" height="54" style="filter: drop-shadow(0 0 10px rgba(255, 107, 0, 0.5));">
+    <div class="col-12 col-lg-8">
+      <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html" class="text-decoration-none">Home</a></li>
+          <li class="breadcrumb-item"><a href="classes.html" class="text-decoration-none">Classes</a></li>
+          <li class="breadcrumb-item active text-white" aria-current="page">New Class</li>
+        </ol>
+      </nav>
+
+      <div class="glass-panel overflow-hidden mb-5">
+        <div class="p-4 border-bottom border-secondary border-opacity-25" style="background: rgba(9, 13, 22, 0.25);">
+          <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <div>
+              <span class="hero-badge mb-2">Staff Portal (RBAC + CSRF)</span>
+              <h1 class="h3 fw-bold font-headline text-uppercase mb-1">Create New Fitness Class</h1>
+              <p class="text-secondary small mb-0">Authorized as: <strong>Marcus Vance</strong> (ADMIN)</p>
+            </div>
+            <a href="classes.html" class="btn btn-outline-apex btn-sm px-3">&larr; Cancel</a>
           </div>
-          <span class="hero-badge mb-2">Athlete Portal</span>
-          <h3 class="fw-bold font-headline text-uppercase text-white mb-1">TIGER <span style="color: var(--tiger-orange);">FITNESS</span></h3>
-          <p class="text-secondary small mb-0">Log in to manage your training sessions</p>
         </div>
 
         <div class="card-body p-4 p-md-5">
-          <!-- Flash Notifications -->
           
-                      <div class="alert alert-warning alert-dismissible fade show py-2 mb-4" role="alert">
-              You must be logged in to perform this administrative action.              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-          
-          
-          
-          <!-- Login Form -->
-          <form action="login.html" method="POST" novalidate>
-            <div class="mb-3">
-              <label for="email" class="form-label fw-semibold">Email Address</label>
+          <form action="class_form.html" method="POST" novalidate>
+            <input type="hidden" name="csrf_token" value="307f8060a1210377e7158e8ff5d37b88485de73ce7f2e19664bd777d1feea466">
+            <div class="mb-4">
+              <label for="title" class="form-label fw-semibold">Class Title <span class="text-danger">*</span></label>
               <input
-                type="email"
-                class="form-control"
-                id="email"
-                name="email"
-                placeholder="name@example.com"
+                type="text"
+                class="form-control "
+                id="title"
+                name="title"
+                placeholder="e.g. Power Barbell Mastery"
                 value=""
-                required
-                autofocus>
+                required>
+                          </div>
+
+            <div class="row g-3 mb-4">
+              <div class="col-12 col-md-4">
+                <label for="category_id" class="form-label fw-semibold">Discipline Category <span class="text-danger">*</span></label>
+                <select
+                  class="form-select "
+                  id="category_id"
+                  name="category_id"
+                  required>
+                  <option value="">Select Category...</option>
+                                      <option
+                      value="2"
+                      >
+                      Cardio &amp; Conditioning                    </option>
+                                      <option
+                      value="4"
+                      >
+                      Combat &amp; Martial Arts                    </option>
+                                      <option
+                      value="3"
+                      >
+                      Mobility &amp; Core                    </option>
+                                      <option
+                      value="1"
+                      >
+                      Strength &amp; Hypertrophy                    </option>
+                                  </select>
+                              </div>
+
+              <div class="col-12 col-md-4">
+                <label for="price" class="form-label fw-semibold">Session Price ($ USD) <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text">$</span>
+                  <input
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    class="form-control "
+                    id="price"
+                    name="price"
+                    placeholder="35.00"
+                    value=""
+                    required>
+                                  </div>
+              </div>
+
+              <div class="col-12 col-md-4">
+                <label for="max_capacity" class="form-label fw-semibold">Max Capacity <span class="text-danger">*</span></label>
+                <input
+                  type="number"
+                  min="1"
+                  max="100"
+                  class="form-control "
+                  id="max_capacity"
+                  name="max_capacity"
+                  value="15"
+                  required>
+                              </div>
+            </div>
+
+            <div class="row g-3 mb-4">
+              <div class="col-12 col-md-6">
+                <label for="trainer_name" class="form-label fw-semibold">Lead Coach / Trainer <span class="text-danger">*</span></label>
+                <input
+                  type="text"
+                  class="form-control "
+                  id="trainer_name"
+                  name="trainer_name"
+                  placeholder="e.g. Marcus Vance"
+                  value="Marcus Vance"
+                  required>
+                              </div>
+
+              <div class="col-12 col-md-6">
+                <label for="schedule_info" class="form-label fw-semibold">Schedule Time &amp; Days <span class="text-danger">*</span></label>
+                <input
+                  type="text"
+                  class="form-control "
+                  id="schedule_info"
+                  name="schedule_info"
+                  placeholder="e.g. Mon, Wed, Fri • 06:00 AM - 07:30 AM"
+                  value=""
+                  required>
+                              </div>
             </div>
 
             <div class="mb-4">
-              <div class="d-flex justify-content-between align-items-center mb-1">
-                <label for="password" class="form-label fw-semibold mb-0">Password</label>
-                <span class="text-muted small">Default: Password123!</span>
+              <label for="image_url" class="form-label fw-semibold">Class Banner Image</label>
+              <select class="form-select mb-2" id="image_url" name="image_url" onchange="previewSelectedImage(this.value)">
+                                  <option value="images/item1.jpg" selected>
+                    Item 1 - Heavy Barbell &amp; Deadlift (images/item1.jpg)
+                  </option>
+                                  <option value="images/item2.jpg" >
+                    Item 2 - Battle Ropes HIIT (images/item2.jpg)
+                  </option>
+                                  <option value="images/item3.jpg" >
+                    Item 3 - Olympic Weightlifting (images/item3.jpg)
+                  </option>
+                                  <option value="images/item4.jpg" >
+                    Item 4 - Turf Sled Push (images/item4.jpg)
+                  </option>
+                                  <option value="images/item5.jpg" >
+                    Item 5 - Yoga &amp; Mobility Flow (images/item5.jpg)
+                  </option>
+                                  <option value="images/item6.jpg" >
+                    Item 6 - Boxing &amp; Heavy Bag (images/item6.jpg)
+                  </option>
+                              </select>
+              <div class="d-flex align-items-center gap-3 p-3 rounded-3 border">
+                <img
+                  id="image_preview"
+                  src="images/item1.jpg"
+                  alt="Class Banner Preview"
+                  class="rounded object-fit-cover shadow-sm"
+                  style="width: 120px; height: 80px;">
+                <div class="small text-secondary">
+                  Selected image preview. Stored in <code>images/</code>.
+                </div>
               </div>
-              <input
-                type="password"
-                class="form-control"
-                id="password"
-                name="password"
-                placeholder="Enter your password"
-                required>
             </div>
 
-            <div class="d-grid mb-3">
-              <button type="submit" class="btn btn-apex-crimson btn-lg fw-semibold shadow-sm">
-                Log In
-              </button>
-            </div>
+            <div class="mb-4">
+              <label for="description" class="form-label fw-semibold">Detailed Description &amp; Syllabus <span class="text-danger">*</span></label>
+              <textarea
+                class="form-control "
+                id="description"
+                name="description"
+                rows="4"
+                placeholder="Comprehensive overview of training movements..."
+                required></textarea>
+                              <div class="form-text small text-muted">At least 10 characters detailing what attendees will practice.</div>
+                          </div>
 
-            <div class="text-center pt-2 border-top border-secondary border-opacity-25">
-              <span class="text-secondary small">Don't have an account yet?</span>
-              <a href="register.html" class="text-danger fw-semibold small text-decoration-none ms-1">Register now &rarr;</a>
+            <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+              <a href="classes.html" class="btn btn-outline-apex px-4">Discard Changes</a>
+              <button type="submit" class="btn btn-apex-crimson btn-lg px-5 fw-semibold shadow-sm">
+                Create Class              </button>
             </div>
           </form>
-        </div>
-      </div>
-
-      <!-- Quick Demo Credentials Card (Task Evaluation Helper) -->
-      <div class="glass-panel p-3">
-        <div class="d-flex align-items-center gap-2 mb-2">
-          <span class="hero-badge" style="padding: 2px 8px; font-size: 0.68rem;">Demo Helper</span>
-          <span class="fw-semibold small text-white">Quick-fill (Password: <code>Password123!</code>):</span>
-        </div>
-        <div class="d-flex flex-wrap gap-2">
-          <button
-            type="button"
-            class="btn btn-sm btn-outline-apex"
-            onclick="fillLogin('admin@gymfitness.local', 'Password123!')">
-            Admin Account
-          </button>
-          <button
-            type="button"
-            class="btn btn-sm btn-outline-apex"
-            onclick="fillLogin('trainer@gymfitness.local', 'Password123!')">
-            Trainer Account
-          </button>
-          <button
-            type="button"
-            class="btn btn-sm btn-outline-apex"
-            onclick="fillLogin('member@gymfitness.local', 'Password123!')">
-            Member Account
-          </button>
         </div>
       </div>
     </div>
@@ -179,55 +293,68 @@
 
 <footer class="apex-footer mt-auto">
   <div class="container py-4">
-    <div class="row g-4 align-items-center">
-      <div class="col-12 col-md-5">
+    <div class="row g-4 align-items-start">
+      <div class="col-12 col-md-4">
         <div class="d-flex align-items-center gap-2 mb-2">
-          <img src="images/tiger-logo.svg" alt="Tiger Logo" width="34" height="34" style="filter: drop-shadow(0 0 6px rgba(255, 107, 0, 0.4));">
+          <img src="images/tiger-logo.svg" alt="Tiger Fitness Brand Logo" width="34" height="34" style="filter: drop-shadow(0 0 6px rgba(255, 107, 0, 0.4));">
           <span class="font-headline fw-bold text-white fs-5" style="letter-spacing: 0.05em;">TIGER <span style="color: var(--tiger-orange);">FITNESS</span></span>
         </div>
-        <p class="small text-secondary mb-2" style="max-width: 380px;">
+        <p class="small text-secondary mb-2" style="max-width: 360px;">
           High-performance training facility engineered for barbell mastery, explosive metabolic conditioning, and athletic recovery.
+        </p>
+        <p class="small text-secondary mb-2">
+          268 Ly Thuong Kiet, District 10, Ho Chi Minh City &bull; Hotline: +84 (028) 3864 7256
         </p>
         <span class="badge bg-dark border border-secondary text-light px-3 py-1 small">
           Operating Hours: 05:00 AM – 11:00 PM (Mon - Sun)
         </span>
       </div>
 
-      <div class="col-6 col-md-3">
+      <div class="col-6 col-md-2">
         <h6 class="footer-title">Disciplines</h6>
         <ul class="list-unstyled small mb-0 d-flex flex-column gap-2">
-          <li><a href="classes.html?category_id=1">Strength & Hypertrophy</a></li>
-          <li><a href="classes.html?category_id=2">Cardio & Conditioning</a></li>
-          <li><a href="classes.html?category_id=3">Mobility & Core</a></li>
-          <li><a href="classes.html?category_id=4">Combat & Martial Arts</a></li>
+          <li><a href="classes.html?category_id=1">Strength &amp; Hypertrophy</a></li>
+          <li><a href="classes.html?category_id=2">Cardio &amp; Conditioning</a></li>
+          <li><a href="classes.html?category_id=3">Mobility &amp; Core</a></li>
+          <li><a href="classes.html?category_id=4">Combat &amp; Martial Arts</a></li>
         </ul>
       </div>
 
-      <div class="col-6 col-md-4 text-md-end">
+      <div class="col-6 col-md-2">
+        <h6 class="footer-title">Quick Links</h6>
+        <ul class="list-unstyled small mb-0 d-flex flex-column gap-2">
+          <li><a href="index.html">Homepage</a></li>
+          <li><a href="classes.html">Class Directory</a></li>
+          <li><a href="bookings.html">Book a Session</a></li>
+          <li><a href="index.html#location">Club Location Map</a></li>
+          <li><a href="sitemap.xml">XML Sitemap</a></li>
+        </ul>
+      </div>
+
+      <div class="col-12 col-md-4 text-md-end">
         <h6 class="footer-title">Academic Attribution</h6>
         <p class="small text-secondary mb-1">
-          Web Programming Lab 2 (Personal Topic T1)
+          Web Programming Labs 1.3, 2 &amp; 3 (Topic T1)
         </p>
         <p class="small text-secondary mb-2">
           Student: <strong class="text-white">Thái Khang</strong> | MSSV: <code class="text-warning">2452475</code> | Lớp: CC01
         </p>
         <span class="badge bg-success-subtle text-success border border-success small px-2 py-1">
-          Google Stitch MCP Integrated
+          AJAX + T1 Logic + Security + SEO
         </span>
       </div>
     </div>
 
     <div class="pt-4 mt-4 border-top border-secondary border-opacity-25 text-center text-secondary small">
-      &copy; 2026 TIGER FITNESS Center. All rights reserved. Built with PHP, MySQL & Google Stitch Design System.
+      &copy; 2026 TIGER FITNESS Center. All rights reserved. Built with PHP, MySQL, Bootstrap 5 &amp; Google Stitch Design System.
     </div>
   </div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-function fillLogin(email, password) {
-  document.getElementById('email').value = email;
-  document.getElementById('password').value = password;
+function previewSelectedImage(val) {
+  document.getElementById('image_preview').src = '../public/' + val;
 }
 </script>
 <script src="js/netlify-interactive.js"></script>

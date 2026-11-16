@@ -7,7 +7,6 @@ $currentUser = getCurrentUser();
 $isStaff = hasRole(['admin', 'trainer']);
 $activeTheme = getActiveTheme();
 
-// Role badge CSS mapping based on Stitch VIP tokens
 $roleClass = 'vip-role-member';
 if ($isAuth && isset($currentUser['role'])) {
     if ($currentUser['role'] === 'admin') {
@@ -17,15 +16,17 @@ if ($isAuth && isset($currentUser['role'])) {
     }
 }
 
-// Calculate toggle destination
+$currentScript = basename($_SERVER['SCRIPT_NAME'] ?? '');
 $currentUri = $_SERVER['REQUEST_URI'] ?? '../public/index.php';
+if (!isSafeLocalRedirect($currentUri)) {
+    $currentUri = '../public/index.php';
+}
 $targetTheme = ($activeTheme === 'dark') ? 'light' : 'dark';
 $themeToggleUrl = "../pages/set_theme.php?theme=" . urlencode($targetTheme) . "&return=" . urlencode($currentUri);
 ?>
 <script>
-  // Instant client-side theme application to prevent FOUC
   (function() {
-    var theme = "<?php echo $activeTheme; ?>";
+    var theme = "<?php echo e($activeTheme); ?>";
     document.documentElement.setAttribute('data-bs-theme', theme);
     if (document.body) {
       if (theme === 'dark') {
@@ -37,10 +38,10 @@ $themeToggleUrl = "../pages/set_theme.php?theme=" . urlencode($targetTheme) . "&
   })();
 </script>
 <header>
-  <nav class="navbar navbar-expand-lg glass-navbar sticky-top shadow-sm py-3">
+  <nav class="navbar navbar-expand-lg glass-navbar sticky-top shadow-sm py-3" aria-label="Main navigation">
     <div class="container">
       <a class="navbar-brand fw-bold text-uppercase d-flex align-items-center gap-2" href="../public/index.php">
-        <img src="../public/images/tiger-logo.svg" alt="Tiger Logo" width="36" height="36" style="filter: drop-shadow(0 0 6px rgba(255, 107, 0, 0.5));">
+        <img src="../public/images/tiger-logo.svg" alt="Tiger Fitness 2D Emblem" width="36" height="36" style="filter: drop-shadow(0 0 6px rgba(255, 107, 0, 0.5));">
         <span class="font-headline" style="letter-spacing: 0.06em; font-size: 1.18rem;">TIGER <span style="color: var(--tiger-orange);">FITNESS</span></span>
         <span class="live-beacon ms-1 d-none d-sm-inline-block" title="Tiger Core Systems Online"></span>
       </a>
@@ -57,17 +58,20 @@ $themeToggleUrl = "../pages/set_theme.php?theme=" . urlencode($targetTheme) . "&
       <div class="collapse navbar-collapse" id="mainNavbar">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-lg-center">
           <li class="nav-item">
-            <a class="nav-link fw-semibold px-3" href="../public/index.php">Home</a>
+            <a class="nav-link fw-semibold px-3 <?php echo $currentScript === 'index.php' ? 'active text-tiger' : ''; ?>" href="../public/index.php">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link fw-semibold px-3" href="../pages/classes.php">Training Classes</a>
+            <a class="nav-link fw-semibold px-3 <?php echo $currentScript === 'classes.php' ? 'active text-tiger' : ''; ?>" href="../pages/classes.php">Training Classes</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link fw-semibold px-3" href="../public/index.php#trainers">Trainers</a>
+            <a class="nav-link fw-semibold px-3 <?php echo $currentScript === 'bookings.php' ? 'active text-tiger' : ''; ?>" href="../pages/bookings.php">Membership &amp; Booking</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fw-semibold px-3" href="../public/index.php#location">Location</a>
           </li>
           <?php if ($isAuth): ?>
             <li class="nav-item">
-              <a class="nav-link fw-semibold px-3 text-warning" href="../pages/dashboard.php">Dashboard</a>
+              <a class="nav-link fw-semibold px-3 <?php echo $currentScript === 'dashboard.php' ? 'active text-warning' : 'text-warning'; ?>" href="../pages/dashboard.php">Dashboard</a>
             </li>
           <?php endif; ?>
           <?php if ($isStaff): ?>
@@ -80,15 +84,15 @@ $themeToggleUrl = "../pages/set_theme.php?theme=" . urlencode($targetTheme) . "&
         </ul>
 
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-2">
-          <!-- Theme Toggle (Task 5.2 Cookie: apex_theme) -->
+          <!-- Theme Toggle (Cookie: apex_theme, 30 days) -->
           <li class="nav-item">
-            <a href="<?php echo htmlspecialchars($themeToggleUrl); ?>" 
+            <a href="<?php echo e($themeToggleUrl); ?>"
                class="btn btn-sm btn-outline-apex d-flex align-items-center gap-2 px-3 py-1"
-               title="Switch to <?php echo ucfirst($targetTheme); ?> Gym Mode (Cookie-persisted for 30 days)">
+               title="Switch to <?php echo e(ucfirst($targetTheme)); ?> Gym Mode (Cookie-persisted for 30 days)">
               <?php if ($activeTheme === 'dark'): ?>
-                <span class="text-warning">&#9728;</span> <span class="small font-headline">LIGHT</span>
+                <span class="text-warning" aria-hidden="true">&#9728;</span> <span class="small font-headline">LIGHT</span>
               <?php else: ?>
-                <span class="text-info">&#9790;</span> <span class="small font-headline">DARK MODE</span>
+                <span class="text-info" aria-hidden="true">&#9790;</span> <span class="small font-headline">DARK MODE</span>
               <?php endif; ?>
             </a>
           </li>
@@ -96,9 +100,9 @@ $themeToggleUrl = "../pages/set_theme.php?theme=" . urlencode($targetTheme) . "&
           <?php if ($isAuth): ?>
             <li class="nav-item d-flex align-items-center gap-2 ms-lg-2">
               <span class="small d-none d-xl-inline opacity-75">Athlete:</span>
-              <span class="vip-role-badge <?php echo $roleClass; ?> shadow-sm">
-                <span><?php echo htmlspecialchars($currentUser['full_name']); ?></span>
-                <span class="opacity-75">[<?php echo htmlspecialchars(strtoupper($currentUser['role'])); ?>]</span>
+              <span class="vip-role-badge <?php echo e($roleClass); ?> shadow-sm">
+                <span><?php echo e($currentUser['full_name']); ?></span>
+                <span class="opacity-75">[<?php echo e(strtoupper($currentUser['role'])); ?>]</span>
               </span>
             </li>
             <li class="nav-item ms-lg-1">
