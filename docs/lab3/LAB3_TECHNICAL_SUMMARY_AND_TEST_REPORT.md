@@ -72,8 +72,29 @@ Implemented centrally in `bookstore/config/booking_service.php` and exposed via 
 
 ---
 
-## 5. Integration & End-to-End Test Report (Lab 3 Task 7)
+## 5. Integration Issues Encountered and Resolved
 
+1. **CSRF Token Synchronization Across HTML Forms, JSON AJAX & Static Exporter (`build_netlify.php`):**
+   - *Issue:* Enforcing `requireCsrfToken()` on `auth/login.php` and state-changing APIs caused automated scripts (including `build_netlify.php`) that posted directly without a prior GET or shared cookie jar to be rejected, and separate `curl_init()` handles failed to carry the regenerated `PHPSESSID` unless `CURLOPT_COOKIEFILE` was enabled alongside `curl_share_init()`.
+   - *Resolution:* Added `<meta name="csrf-token">` in `components/seo_meta.php` for client-side `fetch()` requests (`X-CSRF-Token`), and updated `build_netlify.php` to fetch the login CSRF token first and share an in-memory `CURL_LOCK_DATA_COOKIE` handle with `CURLOPT_COOKIEFILE => ''`.
+2. **Preventing Overbooking Under Concurrent Requests:**
+   - *Issue:* Checking `COUNT(*) < max_capacity` outside a database transaction risks race conditions if two athletes submit bookings simultaneously for the last remaining spot.
+   - *Resolution:* Wrapped `createClassBooking()` in `config/booking_service.php` inside `$pdo->beginTransaction()` with `SELECT id, title, max_capacity FROM fitness_classes WHERE id = :id FOR UPDATE` row locking before counting confirmed bookings and inserting.
+3. **Light Mode Contrast Regression on Legacy Dark-Theme Cards:**
+   - *Issue:* Several Lab 2 components used hardcoded Bootstrap `.text-white` utility classes inside `.glass-panel`, `.bento-card`, and tables, reducing readability when switching `apex_theme` to Light Mode.
+   - *Resolution:* Scoped adaptive Light Mode contrast overrides (`body:not(.theme-dark) main .glass-panel .text-white`, `.bento-card .text-white`, `.class-card .text-white`, etc.) in `bookstore/public/css/style.css` while preserving Dark Gym Mode styling.
+4. **Removal of Legacy Unauthenticated Testing Helper (`auto_auth.php`):**
+   - *Issue:* During the Lab 3 Task 4 security audit, an untracked Lab 2 screenshot helper (`bookstore/pages/auto_auth.php`) was discovered in the web-accessible `pages/` directory allowing unauthenticated role switching.
+   - *Resolution:* Moved it out of the web root into `_submissions_archive/Lab2_Submission/auto_auth.php.bak` and added verification test `T7.5` confirming HTTP 404.
+5. **Local XAMPP Port 80 Conflict with Host VMware NAT Service:**
+   - *Issue:* On the local Windows environment, port `80` was bound by `vmnat` (VMware NAT), preventing direct `http://localhost:80` testing of local Apache.
+   - *Resolution:* Verified the PHP/MySQL application against MariaDB on port `3306` and PHP's local web server on `127.0.0.1:8080`, and added `--base-url` parameterization to both `build_netlify.php` and `tests/test_lab3_e2e.php`.
+
+---
+
+## 6. Integration & End-to-End Test Report (Lab 3 Task 7)
+
+### 6.1 Automated HTTP & Database E2E Suite (27 / 27 Passed)
 All 27 automated end-to-end test cases in `tests/test_lab3_e2e.php` were executed against PHP 8.2.12 + MariaDB/MySQL (`gym_fitness_db`) on `http://127.0.0.1:8080/LAB1.3_CC01_2452475/bookstore` after final edits, passing **27/27 (0 failed)**.
 
 | Test ID | Area | Expected Result | Actual Observed Result | Status |
@@ -106,6 +127,13 @@ All 27 automated end-to-end test cases in `tests/test_lab3_e2e.php` were execute
 | `T8.3` | Admin CRUD Delete | Admin deletes Class ID=7 via POST + CSRF | Deleted with success flash | **PASS** |
 | `T8.4` | Logout Session Invalidation | After logout, `dashboard.php` redirects to login | HTTP 302 -> `login.php` | **PASS** |
 
+### 6.2 Live Chrome Browser Visual & Interactive Verification
+Verified via headless Google Chrome DevTools Protocol across 10 captured states (`3_Screenshots/01_...` through `10_...`):
+- **Zero Errors:** `0` console errors and `0` uncaught runtime page errors across all tested flows.
+- **AJAX Without Full Page Reload:** Verified `window.__noReloadToken === 'STAYED_ON_PAGE'` remained intact while `classes-visible-count` dynamically updated from `6` to `1` upon typing `"Olympic"` into `#search`.
+- **Live Capacity & T1 Workflow UI:** Verified Class 3 live capacity bar updated from `4/5 (80%)` to `5/5 (100%)` upon AJAX booking, and subsequent booking attempt by `member4@gymfitness.local` displayed the blocked error alert cleanly.
+- **Responsive Design & Theme Contrast:** Verified desktop (`1440x900`) and mobile (`375x812`, `scrollWidth <= clientWidth` = zero horizontal overflow) in both Dark Gym Mode and Light Athletic Mode, as well as live Google Maps tile rendering at `#location`.
+
 ### Remaining Limitations
-- Automated browser UI driving via Chrome DevTools could not connect in this session because Google Chrome remote debugging (`chrome://inspect/#remote-debugging`) was not active; interactive client DOM updates and responsive viewports should be visually inspected in a local browser.
 - On the static Netlify mirror (`netlify_dist/`), server-side PHP/MySQL transactions (`booking_action.php`, `class_capacity.php`) are represented as static previews, whereas full live transactional behavior runs on XAMPP Apache/PHP/MySQL.
+- Local XAMPP Apache requires freeing port `80` (if VMware `vmnat` is active) or configuring an alternate port such as `8080` to serve `http://localhost/...`.
